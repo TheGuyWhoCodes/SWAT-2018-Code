@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,8 +25,7 @@ import org.usfirst.frc.team1806.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
+	
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
 	Command m_autonomousCommand;
