@@ -4,8 +4,11 @@ import java.awt.Robot;
 import java.util.HashSet;
 
 import org.usfirst.frc.team1806.robot.RobotMap;
+import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -20,16 +23,13 @@ import edu.wpi.first.wpilibj.SPI;
  */
 public class DriveTrainSubsystem extends Subsystem{
 
-	//Initialize all of the drive motors
-	private TalonSRX leftB;
-	private TalonSRX rightB;
-	private TalonSRX leftA;
-	private TalonSRX leftC;
-	private TalonSRX rightA;
-	private TalonSRX rightC;
+	private static DriveTrainSubsystem mDriveTrainSubsystem = new DriveTrainSubsystem();
 	
+	//Initialize all of the drive motors
+	private TalonSRX leftB, rightB, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
 	private AHRS navx;
+	
 	// This HashSet is used for PDP usage in our modified Talon code
 	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
 		int[] PDPValues = {13,14,15};
@@ -43,7 +43,23 @@ public class DriveTrainSubsystem extends Subsystem{
 		add(PDPValues[1]);
 		add(PDPValues[2]);
 	}};
-	
+	public static DriveTrainSubsystem getInstance() {
+		return mDriveTrainSubsystem;
+	}
+	public enum DriveStates{
+		DRIVING, // Ya old normal dirivng
+		CREEP, // Creep for percise movement
+		VISION, // Vision tracking? //TODO do vision tracking lmao
+		TURN_TO_THETA, // Turn using PID
+		DRIVE_TO_POSITION // Drive to Position using SRX PID
+	}
+	public enum WantedDriveState{
+		DRIVING,
+		CREEP,
+		VISION,
+		TURN_TO_THETA,
+		DRIVE_TO_POSITION
+	}
 	public DriveTrainSubsystem() {
 		//init the all of the motor controllers
 		leftB = new TalonSRX(RobotMap.leftB);
@@ -82,14 +98,35 @@ public class DriveTrainSubsystem extends Subsystem{
 	}
 	@Override
 	public void zeroSensors() {
-		// TODO Auto-generated method stub
-		
+   	 leftB.set(ControlMode.Position, 0);
+   	 navx.zeroYaw();		
 	}
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private Loop mLoop = new Loop() {
+		
+		@Override
+		public void onStop(double timestamp) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onStart(double timestamp) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onLoop(double timestamp) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 	
 	//////
 	public void leftDrive(double output) {
@@ -102,47 +139,57 @@ public class DriveTrainSubsystem extends Subsystem{
 		leftDrive(power + turn); //verify signs
 		rightDrive(power - turn);
 	}
-    public void resetYaw(){
+    public synchronized void resetYaw(){
     	navx.zeroYaw();
      }
     
-     public void resetNavx(){
+     public synchronized void resetNavx(){
     	navx.reset();
      }
     
-     public boolean isNavxConnected(){
+     public synchronized boolean isNavxConnected(){
     	return navx.isConnected();
      }
 
     
-     public double getTrueAngle(){
+     public synchronized double getTrueAngle(){
     	return navx.getAngle();
      }
     
     
-     public double getYaw(){
+     public synchronized double getYaw(){
     	return navx.getYaw();
      }
     
-     public double getPitch(){
+     public synchronized double getPitch(){
     	return navx.getPitch();
      }
     
-     public double getRoll(){
+     public synchronized double getRoll(){
     	return navx.getRoll();
      }
     
-     public double getRotationalSpeed(){
+     public synchronized double getRotationalSpeed(){
     	return navx.getRate();
      }
     
-     public double getQuaternion(){
+     public synchronized double getQuaternion(){
     	return navx.getQuaternionZ() * 180;
      }
     
-     public double getTilt(){
+     public synchronized double getTilt(){
     	return Math.sqrt(Math.pow(navx.getPitch(), 2) + Math.pow(navx.getRoll(), 2));
      }
-
+     public void setBrakeMode() {
+    	 //set for auto
+    	 leftB.setNeutralMode(NeutralMode.Brake);
+    	 rightB.setNeutralMode(NeutralMode.Brake);
+     }
+     public void setCoastMode() {
+    	 // set for driving
+    	 leftB.setNeutralMode(NeutralMode.Coast);
+    	 rightB.setNeutralMode(NeutralMode.Coast);
+     }
+     
 }
 
