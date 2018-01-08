@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class RobotMap {
 	/* This is all of the CAN ports for the DriveTrain*/
-	public static int leftB = 0;
-	public static int rightB = 1;
+	public static int masterLeft = 0;
+	public static int masterRight = 1;
 	public static int leftA = 2;
 	public static int leftC = 3;
 	public static int rightA = 4;

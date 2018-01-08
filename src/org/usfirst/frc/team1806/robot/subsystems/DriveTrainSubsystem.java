@@ -3,6 +3,8 @@ package org.usfirst.frc.team1806.robot.subsystems;
 import java.awt.Robot;
 import java.util.HashSet;
 
+import org.omg.CORBA.PRIVATE_MEMBER;
+import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -26,7 +28,7 @@ public class DriveTrainSubsystem extends Subsystem{
 	private static DriveTrainSubsystem mDriveTrainSubsystem = new DriveTrainSubsystem();
 	
 	//Initialize all of the drive motors
-	private TalonSRX leftB, rightB, leftA, leftC, rightA, rightC;
+	private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
 	private AHRS navx;
 	
@@ -60,30 +62,36 @@ public class DriveTrainSubsystem extends Subsystem{
 		TURN_TO_THETA,
 		DRIVE_TO_POSITION
 	}
+	// State Control
+	private DriveStates mDriveStates;
+	
+	private boolean mIsHighGear = false;
+	private boolean mIsBrakeMode = false;
 	public DriveTrainSubsystem() {
 		//init the all of the motor controllers
-		leftB = new TalonSRX(RobotMap.leftB);
-		rightB = new TalonSRX(RobotMap.rightB);
+		masterLeft = new TalonSRX(RobotMap.masterLeft);
+		masterRight = new TalonSRX(RobotMap.masterRight);
 		leftA = new TalonSRX(RobotMap.leftA);
 		leftC = new TalonSRX(RobotMap.leftC);
 		rightA = new TalonSRX(RobotMap.rightA);
 		rightC = new TalonSRX(RobotMap.rightC);
 		
 		//Follow for right side 
-		rightA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.rightB);
-		rightC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.rightB);
+		rightA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterRight);
+		rightC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterRight);
 		// Follow for left side
-		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.leftB);
-		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.leftB);
+		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
+		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		//Invert the left side
 		leftA.setInverted(true);
-		leftB.setInverted(true);
+		masterLeft.setInverted(true);
 		leftC.setInverted(true);
 		
 		// init solenoids
 		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
 		//init navx
 		navx = new AHRS(SPI.Port.kMXP);
+
 	}
 
 	@Override
@@ -98,7 +106,7 @@ public class DriveTrainSubsystem extends Subsystem{
 	}
 	@Override
 	public void zeroSensors() {
-   	 leftB.set(ControlMode.Position, 0);
+   	 masterLeft.set(ControlMode.Position, 0);
    	 navx.zeroYaw();		
 	}
 	@Override
@@ -130,10 +138,10 @@ public class DriveTrainSubsystem extends Subsystem{
 	
 	//////
 	public void leftDrive(double output) {
-		leftB.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
+		masterLeft.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
 	}
 	public void rightDrive(double output) {
-		rightB.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
+		masterRight.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
 	}
 	public void arcadeDrive(double power, double turn){
 		leftDrive(power + turn); //verify signs
@@ -182,14 +190,51 @@ public class DriveTrainSubsystem extends Subsystem{
      }
      public void setBrakeMode() {
     	 //set for auto
-    	 leftB.setNeutralMode(NeutralMode.Brake);
-    	 rightB.setNeutralMode(NeutralMode.Brake);
+    	 masterLeft.setNeutralMode(NeutralMode.Brake);
+    	 masterRight.setNeutralMode(NeutralMode.Brake);
      }
      public void setCoastMode() {
     	 // set for driving
-    	 leftB.setNeutralMode(NeutralMode.Coast);
-    	 rightB.setNeutralMode(NeutralMode.Coast);
+    	 masterLeft.setNeutralMode(NeutralMode.Coast);
+    	 masterRight.setNeutralMode(NeutralMode.Coast);
      }
-     
+     private static double rotationsToInches(double rotations) {
+         return rotations * (Constants.kDriveWheelDiameterInches * Math.PI);
+     }
+     private static double rpmToInchesPerSecond(double rpm) {
+         return rotationsToInches(rpm) / 60;
+     }
+
+     private static double inchesToRotations(double inches) {
+         return inches / (Constants.kDriveWheelDiameterInches * Math.PI);
+     }
+
+     private static double inchesPerSecondToRpm(double inches_per_second) {
+         return inchesToRotations(inches_per_second) * 60;
+     }
+
+     public double getLeftDistanceInches() {
+         return rotationsToInches(masterLeft.getSelectedSensorPosition(0));
+     }
+
+     public double getRightDistanceInches() {
+         return rotationsToInches(masterRight.getSelectedSensorPosition(0));
+     }
+
+     public double getLeftVelocityInchesPerSec() {
+         return rpmToInchesPerSecond(masterLeft.getSelectedSensorPosition(0));
+     }
+
+     public double getRightVelocityInchesPerSec() {
+         return rpmToInchesPerSecond(masterRight.getSelectedSensorPosition(0));
+     }
+     public boolean isPositionControl(DriveStates state) {
+    	if(state == DriveStates.DRIVE_TO_POSITION || 
+    			state == DriveStates.TURN_TO_THETA) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+     }
 }
 
