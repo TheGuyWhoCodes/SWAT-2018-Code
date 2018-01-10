@@ -14,7 +14,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.Arrays;
+
+import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
+import org.usfirst.frc.team1806.robot.util.DriveSignal;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,12 +31,14 @@ import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
  */
 public class Robot extends TimedRobot {
 	
-	private DriveTrainSubsystem mDriveTrainSubsystem = DriveTrainSubsystem.getInstance();
+	private DriveTrainSubsystem mDrive = DriveTrainSubsystem.getInstance();
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
-
+	private final SubsystemManager mSubsystemManager = new SubsystemManager(
+			Arrays.asList(DriveTrainSubsystem.getInstance()));
+    private Looper mEnabledLooper = new Looper();
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,6 +46,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+        mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 		powerDistributionPanel = new PowerDistributionPanel();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -46,7 +55,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-
+		mEnabledLooper.stop();
 	}
 
 	@Override
@@ -57,6 +66,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+        mEnabledLooper.start();
 		m_autonomousCommand = m_chooser.getSelected();
 
 		if (m_autonomousCommand != null) {
@@ -74,10 +84,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+        mEnabledLooper.start();
+        mDrive.setOpenLoop(DriveSignal.NEUTRAL);
+        mDrive.setNeutralMode(false);
 	}
 
 

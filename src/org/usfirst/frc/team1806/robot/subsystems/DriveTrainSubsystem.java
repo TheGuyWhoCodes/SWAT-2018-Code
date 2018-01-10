@@ -8,6 +8,7 @@ import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
+import org.usfirst.frc.team1806.robot.util.DriveSignal;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -83,9 +84,9 @@ public class DriveTrainSubsystem extends Subsystem{
 		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		//Invert the left side
-		leftA.setInverted(true);
-		masterLeft.setInverted(true);
-		leftC.setInverted(true);
+		rightA.setInverted(true);
+		masterRight.setInverted(true);
+		rightC.setInverted(true);
 		
 		// init solenoids
 		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
@@ -111,7 +112,7 @@ public class DriveTrainSubsystem extends Subsystem{
 	}
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
-		// TODO Auto-generated method stub
+		enabledLooper.register(mLoop);
 		
 	}
 	
@@ -125,8 +126,11 @@ public class DriveTrainSubsystem extends Subsystem{
 		
 		@Override
 		public void onStart(double timestamp) {
-			// TODO Auto-generated method stub
-			
+			synchronized (DriveTrainSubsystem.this) {
+				setOpenLoop(DriveSignal.NEUTRAL);
+				setNeutralMode(false);
+				navx.reset();
+			}
 		}
 		
 		@Override
@@ -235,6 +239,31 @@ public class DriveTrainSubsystem extends Subsystem{
     	} else {
     		return false;
     	}
+     }
+     public synchronized void setOpenLoop(DriveSignal signal) {
+         if (mDriveStates != DriveStates.DRIVING) {
+             mDriveStates = DriveStates.DRIVING;
+             setNeutralMode(false);
+         }
+
+         masterRight.set(ControlMode.PercentOutput, signal.getRight());
+         masterLeft.set(ControlMode.PercentOutput, signal.getLeft());
+     }
+     
+     
+     /**
+      * Sets the neutral mode for the drive train.
+     * @param brake if 1, the drive train will go into brake mode, 0 will put it into coast mode
+     */
+    public synchronized void setNeutralMode(boolean brake) {
+             mIsBrakeMode = brake;
+             NeutralMode currentMode = brake?NeutralMode.Brake:NeutralMode.Coast;
+             masterRight.setNeutralMode(currentMode);
+             rightA.setNeutralMode(currentMode);
+             rightC.setNeutralMode(currentMode);
+             masterLeft.setNeutralMode(currentMode);
+             leftA.setNeutralMode(currentMode);
+             leftC.setNeutralMode(currentMode);
      }
 }
 
