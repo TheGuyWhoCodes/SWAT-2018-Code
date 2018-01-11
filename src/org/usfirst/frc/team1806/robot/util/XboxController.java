@@ -61,7 +61,11 @@ public class XboxController extends Joystick {
 	}
 
 	public double getLeftJoyY() {
-			return -getRawAxis(1);
+			if(Math.abs(getRawAxis(1)) < .2) {
+				return 0;
+			} else {
+				return -getRawAxis(1);
+			}
 	}
 
 	public boolean getButtonA() {

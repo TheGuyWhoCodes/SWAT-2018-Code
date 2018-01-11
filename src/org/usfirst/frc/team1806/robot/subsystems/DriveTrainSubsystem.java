@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -120,7 +121,7 @@ public class DriveTrainSubsystem extends Subsystem{
 		
 		@Override
 		public void onStop(double timestamp) {
-			// TODO Auto-generated method stub
+	        setOpenLoop(DriveSignal.NEUTRAL);
 			
 		}
 		
@@ -265,5 +266,26 @@ public class DriveTrainSubsystem extends Subsystem{
              leftA.setNeutralMode(currentMode);
              leftC.setNeutralMode(currentMode);
      }
+    public synchronized void setCreepMode(DriveSignal signal) {
+    	if(mDriveStates != DriveStates.CREEP) {
+    		mDriveStates = DriveStates.CREEP;
+    	}
+    	masterLeft.set(ControlMode.PercentOutput, signal.getLeft() / 3);
+    	masterRight.set(ControlMode.PercentOutput, signal.getRight() / 3);
+    }
+    public boolean isHighGear() {
+        return mIsHighGear;
+    }
+
+    public synchronized void setHighGear(boolean wantsHighGear) {
+        if (wantsHighGear != mIsHighGear) {
+            mIsHighGear = wantsHighGear;
+            shifter.set(wantsHighGear ? Value.kForward : Value.kReverse);
+        }
+    }
+    public boolean isCreeping() {
+    	return mDriveStates == DriveStates.CREEP;
+    }
+
 }
 

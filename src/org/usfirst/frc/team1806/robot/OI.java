@@ -7,36 +7,56 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
+import org.usfirst.frc.team1806.robot.util.CheesyDriveHelper;
+import org.usfirst.frc.team1806.robot.util.Latch;
+import org.usfirst.frc.team1806.robot.util.XboxController;
+
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+	private DriveTrainSubsystem mDriveTrainSubsystem = DriveTrainSubsystem.getInstance();
+    private CheesyDriveHelper mCheesyDriveHelper = new CheesyDriveHelper();
+	private XboxController dc = new XboxController(0);
+	private XboxController oc = new XboxController(1);
+	
+	private Latch shiftingLatch = new Latch();
+	public void runCommands(){
+		synchronized (mDriveTrainSubsystem) {
+			if(dc.getButtonRB()) {
+				mDriveTrainSubsystem.setCreepMode(mCheesyDriveHelper.cheesyDrive(
+						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));		
+			}
+			else {
+				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
+						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
+			}
+			if(shiftingLatch.update(dc.getButtonLB())) {
+				mDriveTrainSubsystem.setHighGear(shiftingLatch.returnStatus());
+			}
+		}
+	}
+	
+	public void setDriverRumble(double value){
+		dc.setRumble(RumbleType.kLeftRumble, value);
+		dc.setRumble(RumbleType.kRightRumble, value);
+		//joelyoloyilyiyi
+	}
+	public void setOperatorRumble(){
+		dc.setRumble(RumbleType.kLeftRumble, 1);
+		dc.setRumble(RumbleType.kRightRumble, 1);
+	}
+	public void stopRumble(){
+		dc.setRumble(RumbleType.kLeftRumble, 0);
+		dc.setRumble(RumbleType.kRightRumble, 0);
+		
+		oc.setRumble(RumbleType.kLeftRumble, 0);
+		oc.setRumble(RumbleType.kRightRumble, 0);
+	}
 }
