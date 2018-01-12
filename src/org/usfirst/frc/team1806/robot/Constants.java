@@ -37,12 +37,33 @@ public class Constants {
     public static double kTrackReportComparatorStablityWeight = 1.0;
     public static double kTrackReportComparatorAgeWeight = 1.0;
 
-    // Pose of the camera frame w.r.t. the robot frame
-    public static double kCameraXOffset = -3.3211;
-    public static double kCameraYOffset = 0.0;
-    public static double kCameraZOffset = 20.9;
-    public static double kCameraPitchAngleDegrees = 29.56; // Measured on 4/26
-    public static double kCameraYawAngleDegrees = 0.0;
-    public static double kCameraDeadband = 0.0;
+
+    // PID gains for drive velocity loop (HIGH GEAR)
+    // Units: setpoint, error, and output are in inches per second.
+    public static double kDriveHighGearVelocityKp = 1.2;
+    public static double kDriveHighGearVelocityKi = 0.0;
+    public static double kDriveHighGearVelocityKd = 6.0;
+    public static double kDriveHighGearVelocityKf = .15;
+    public static int kDriveHighGearVelocityIZone = 0;
+    public static double kDriveHighGearVelocityRampRate = 240.0;
+    public static double kDriveHighGearNominalOutput = 0.5;
+    public static double kDriveHighGearMaxSetpoint = 17.0 * 12.0; // 17 fps
+
+    // PID gains for drive velocity loop (LOW GEAR)
+    // Units: setpoint, error, and output are in inches per second.
+    public static double kDriveLowGearPositionKp = 1.0;
+    public static double kDriveLowGearPositionKi = 0.002;
+    public static double kDriveLowGearPositionKd = 100.0;
+    public static double kDriveLowGearPositionKf = .45;
+    public static int kDriveLowGearPositionIZone = 700;
+    public static double kDriveLowGearPositionRampRate = 240.0; // V/s
+    public static double kDriveLowGearNominalOutput = 0.5; // V
+    public static double kDriveLowGearMaxVelocity = 6.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 6 fps
+                                                                                                               // in RPM
+    public static double kDriveLowGearMaxAccel = 18.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 18 fps/s
+                                                                                                             // in RPM/s
+
+    public static double kDriveVoltageCompensationRampRate = 0.0;
+
 
 }

@@ -37,9 +37,7 @@ public class OI {
 				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
 			}
-			if(shiftingLatch.update(dc.getButtonLB())) {
-				mDriveTrainSubsystem.setHighGear(shiftingLatch.returnStatus());
-			}
+			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
 		}
 	}
 	

@@ -10,6 +10,7 @@ package org.usfirst.frc.team1806.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,10 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Arrays;
 
+import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
+import org.usfirst.frc.team1806.robot.util.CrashTracker;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
+import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,6 +36,8 @@ import org.usfirst.frc.team1806.robot.util.DriveSignal;
 public class Robot extends TimedRobot {
 	
 	private DriveTrainSubsystem mDrive = DriveTrainSubsystem.getInstance();
+    private RobotState mRobotState = RobotState.getInstance();
+    private AutoModeExecuter mAutoModeExecuter = null;
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
 	Command m_autonomousCommand;
@@ -66,12 +72,21 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-        mEnabledLooper.start();
-		m_autonomousCommand = m_chooser.getSelected();
-
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		try {
+	        CrashTracker.logAutoInit();
+            System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
+            if (mAutoModeExecuter != null) {
+                mAutoModeExecuter.stop(); 
+            }
+            zeroAllSensors();
+            mAutoModeExecuter = new AutoModeExecuter();
+            mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
+            mAutoModeExecuter.start();
+		} catch (Throwable t) {
+            CrashTracker.logThrowableCrash(t);
+            throw t;
 		}
+
 	}
 
 	/**
@@ -100,5 +115,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
+	}
+	public void zeroAllSensors() {
+        mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+
 	}
 }

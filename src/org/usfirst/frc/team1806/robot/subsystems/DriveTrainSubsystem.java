@@ -5,10 +5,17 @@ import java.util.HashSet;
 
 import org.omg.CORBA.PRIVATE_MEMBER;
 import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Kinematics;
 import org.usfirst.frc.team1806.robot.RobotMap;
+import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
+import org.usfirst.frc.team1806.robot.path.Path;
+import org.usfirst.frc.team1806.robot.path.PathFollower;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
+import org.usfirst.frc.team1806.robot.util.Lookahead;
+import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
+import org.usfirst.frc.team1806.robot.util.Twist2d;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -28,12 +35,13 @@ import edu.wpi.first.wpilibj.SPI;
 public class DriveTrainSubsystem extends Subsystem{
 
 	private static DriveTrainSubsystem mDriveTrainSubsystem = new DriveTrainSubsystem();
-	
+    private static final int kLowGearPositionControlSlot = 0;
+    private static final int kHighGearVelocityControlSlot = 1;
 	//Initialize all of the drive motors
 	private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
 	private AHRS navx;
-	
+    private PathFollower mPathFollower;
 	// This HashSet is used for PDP usage in our modified Talon code
 	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
 		int[] PDPValues = {13,14,15};
@@ -55,7 +63,9 @@ public class DriveTrainSubsystem extends Subsystem{
 		CREEP, // Creep for percise movement
 		VISION, // Vision tracking? //TODO do vision tracking lmao
 		TURN_TO_THETA, // Turn using PID
-		DRIVE_TO_POSITION // Drive to Position using SRX PID
+		DRIVE_TO_POSITION, // Drive to Position using SRX PID
+		PATH_FOLLOWING,
+		VELOCITY_SETPOINT
 	}
 	public enum WantedDriveState{
 		DRIVING,
@@ -66,7 +76,8 @@ public class DriveTrainSubsystem extends Subsystem{
 	}
 	// State Control
 	private DriveStates mDriveStates;
-	
+	private RobotState mRobotState = RobotState.getInstance();
+	private Path mCurrentPath = null;
 	private boolean mIsHighGear = false;
 	private boolean mIsBrakeMode = false;
 	public DriveTrainSubsystem() {
@@ -286,6 +297,95 @@ public class DriveTrainSubsystem extends Subsystem{
     public boolean isCreeping() {
     	return mDriveStates == DriveStates.CREEP;
     }
+    public synchronized void setWantDrivePath(Path path, boolean reversed) {
+        if (mCurrentPath != path || mDriveStates != DriveStates.PATH_FOLLOWING) {
+            configureTalonsForSpeedControl();
+            RobotState.getInstance().resetDistanceDriven();
+            mPathFollower = new PathFollower(path, reversed,
+                    new PathFollower.Parameters(
+                            new Lookahead(Constants.kMinLookAhead, Constants.kMaxLookAhead,
+                                    Constants.kMinLookAheadSpeed, Constants.kMaxLookAheadSpeed),
+                            Constants.kInertiaSteeringGain, Constants.kPathFollowingProfileKp,
+                            Constants.kPathFollowingProfileKi, Constants.kPathFollowingProfileKv,
+                            Constants.kPathFollowingProfileKffv, Constants.kPathFollowingProfileKffa,
+                            Constants.kPathFollowingMaxVel, Constants.kPathFollowingMaxAccel,
+                            Constants.kPathFollowingGoalPosTolerance, Constants.kPathFollowingGoalVelTolerance,
+                            Constants.kPathStopSteeringDistance));
+            mDriveStates = DriveStates.PATH_FOLLOWING;
+            mCurrentPath = path;
+        } else {
+            setVelocitySetpoint(0, 0);
+        }
+    }
+    public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+        configureTalonsForSpeedControl();
+        mDriveStates = DriveStates.VELOCITY_SETPOINT;
+        updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
+    }
+    /**
+     * Configures talons for position control
+     */
+    private void configureTalonsForPositionControl() {
+        if (!usesTalonPositionControl(mDriveStates)) {
+            // We entered a position control state.
+            masterLeft.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
+            masterLeft.setNominalClosedLoopVoltage(12.0);
+            masterLeft.setProfile(kLowGearPositionControlSlot);
+            masterLeft.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
+                    -Constants.kDriveLowGearNominalOutput);
+            mRightMaster.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
+            mRightMaster.setNominalClosedLoopVoltage(12.0);
+            mRightMaster.setProfile(kLowGearPositionControlSlot);
+            mRightMaster.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
+                    -Constants.kDriveLowGearNominalOutput);
+            setBrakeMode();
+        }
+    }
+    private void configureTalonsForSpeedControl() {
+        if (!usesTalonVelocityControl(mDriveStates)) {
+            // We entered a velocity control state.
+            masterLeft.changeControlMode(CANTalon.TalonControlMode.Speed);
+            masterLeft.setProfile(kHighGearVelocityControlSlot);
+            masterRight.changeControlMode(CANTalon.TalonControlMode.Speed);
+            masterRight.setProfile(kHighGearVelocityControlSlot);
+            setBrakeMode();
+            //TOOD fix this plz, fix brake/ coast mode thing
+        }
+    }
+    protected static boolean usesTalonVelocityControl(DriveStates state) {
+        if (state == DriveStates.VELOCITY_SETPOINT || state == DriveStates.PATH_FOLLOWING) {
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * Called periodically when the robot is in path following mode. Updates the path follower with the robots latest
+     * pose, distance driven, and velocity, the updates the wheel velocity setpoints.
+     */
+    private void updatePathFollower(double timestamp) {
+        RigidTransform2d robot_pose = mRobotState.getLatestFieldToVehicle().getValue();
+        Twist2d command = mPathFollower.update(timestamp, robot_pose,
+                RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+        if (!mPathFollower.isFinished()) {
+            Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
+            updateVelocitySetpoint(setpoint.left, setpoint.right);
+        } else {
+            updateVelocitySetpoint(0, 0);
+        }
+    }
+    private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+        if (usesTalonVelocityControl(mDriveStates)) {
+            final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
+            final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
+                    ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
+            masterLeft.set(inchesPerSecondToRpm(left_inches_per_sec * scale));
+            masterRight.set(inchesPerSecondToRpm(right_inches_per_sec * scale));
+        } else {
+            System.out.println("Hit a bad velocity control state");
+            masterLeft.set(ControlMode.PercentOutput, 0);
+            masterRight.set(ControlMode.PercentOutput, 0);
+        }
+    }
 }
 
