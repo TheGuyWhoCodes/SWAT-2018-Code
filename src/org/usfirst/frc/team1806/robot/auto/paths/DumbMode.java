@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1806.robot.auto.modes;
+package org.usfirst.frc.team1806.robot.auto.paths;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;

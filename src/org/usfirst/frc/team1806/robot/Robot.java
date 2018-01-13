@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
             }
             zeroAllSensors();
             mAutoModeExecuter = new AutoModeExecuter();
-            mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
+//            mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
             mAutoModeExecuter.start();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
@@ -111,6 +111,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		m_oi.runCommands();
 	}
 
 	@Override

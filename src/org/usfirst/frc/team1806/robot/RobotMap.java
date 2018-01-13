@@ -12,14 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class RobotMap {
 	/* This is all of the CAN ports for the DriveTrain*/
-	public static int masterLeft = 0;
+	public static int masterLeft = 4;
 	public static int masterRight = 1;
-	public static int leftA = 2;
-	public static int leftC = 3;
-	public static int rightA = 4;
-	public static int rightC = 5;
+	public static int leftA = 3;
+	public static int leftC = 5;
+	public static int rightA = 0;
+	public static int rightC = 2;
 	
 	// These are all of the solenoids for the robot
-	public static int shiftLow = 0;
-	public static int shiftHigh = 1;
+	public static int shiftLow = 7;
+	public static int shiftHigh = 6;
 }

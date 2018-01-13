@@ -27,6 +27,7 @@ public class OI {
 	private XboxController oc = new XboxController(1);
 	
 	private Latch shiftingLatch = new Latch();
+
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
 			if(dc.getButtonRB()) {

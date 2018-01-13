@@ -14,7 +14,9 @@ import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.path.PathFollower;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
 import org.usfirst.frc.team1806.robot.util.Lookahead;
+import org.usfirst.frc.team1806.robot.util.NavX;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
+import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Twist2d;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -40,7 +42,7 @@ public class DriveTrainSubsystem extends Subsystem{
 	//Initialize all of the drive motors
 	private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
-	private AHRS navx;
+	private NavX navx;
     private PathFollower mPathFollower;
 	// This HashSet is used for PDP usage in our modified Talon code
 	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
@@ -84,6 +86,7 @@ public class DriveTrainSubsystem extends Subsystem{
 		//init the all of the motor controllers
 		masterLeft = new TalonSRX(RobotMap.masterLeft);
 		masterRight = new TalonSRX(RobotMap.masterRight);
+				
 		leftA = new TalonSRX(RobotMap.leftA);
 		leftC = new TalonSRX(RobotMap.leftC);
 		rightA = new TalonSRX(RobotMap.rightA);
@@ -96,14 +99,14 @@ public class DriveTrainSubsystem extends Subsystem{
 		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		//Invert the left side
-		rightA.setInverted(true);
-		masterRight.setInverted(true);
-		rightC.setInverted(true);
+		leftA.setInverted(true);
+		masterLeft.setInverted(true);
+		leftC.setInverted(true);
 		
 		// init solenoids
 		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
 		//init navx
-		navx = new AHRS(SPI.Port.kMXP);
+		navx = new NavX(SPI.Port.kMXP);
 
 	}
 
@@ -153,6 +156,10 @@ public class DriveTrainSubsystem extends Subsystem{
 	};
 	
 	//////
+    public synchronized void setGyroAngle(Rotation2d angle) {
+        navx.reset();
+        navx.setAngleAdjustment(angle);
+    }
 	public void leftDrive(double output) {
 		masterLeft.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
 	}
@@ -171,39 +178,7 @@ public class DriveTrainSubsystem extends Subsystem{
     	navx.reset();
      }
     
-     public synchronized boolean isNavxConnected(){
-    	return navx.isConnected();
-     }
 
-    
-     public synchronized double getTrueAngle(){
-    	return navx.getAngle();
-     }
-    
-    
-     public synchronized double getYaw(){
-    	return navx.getYaw();
-     }
-    
-     public synchronized double getPitch(){
-    	return navx.getPitch();
-     }
-    
-     public synchronized double getRoll(){
-    	return navx.getRoll();
-     }
-    
-     public synchronized double getRotationalSpeed(){
-    	return navx.getRate();
-     }
-    
-     public synchronized double getQuaternion(){
-    	return navx.getQuaternionZ() * 180;
-     }
-    
-     public synchronized double getTilt(){
-    	return Math.sqrt(Math.pow(navx.getPitch(), 2) + Math.pow(navx.getRoll(), 2));
-     }
      public void setBrakeMode() {
     	 //set for auto
     	 masterLeft.setNeutralMode(NeutralMode.Brake);
@@ -323,31 +298,39 @@ public class DriveTrainSubsystem extends Subsystem{
         updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
     }
     /**
+     * Check if the drive talons are configured for position control
+     */
+    protected static boolean usesTalonPositionControl(DriveStates state) {
+        if (state == DriveStates.DRIVE_TO_POSITION ||
+                state == DriveStates.TURN_TO_THETA) {
+            return true;
+        }
+        return false;
+    }
+    /**
      * Configures talons for position control
      */
-    private void configureTalonsForPositionControl() {
-        if (!usesTalonPositionControl(mDriveStates)) {
-            // We entered a position control state.
-            masterLeft.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
-            masterLeft.setNominalClosedLoopVoltage(12.0);
-            masterLeft.setProfile(kLowGearPositionControlSlot);
-            masterLeft.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
-                    -Constants.kDriveLowGearNominalOutput);
-            mRightMaster.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
-            mRightMaster.setNominalClosedLoopVoltage(12.0);
-            mRightMaster.setProfile(kLowGearPositionControlSlot);
-            mRightMaster.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
-                    -Constants.kDriveLowGearNominalOutput);
-            setBrakeMode();
-        }
-    }
+//    private void configureTalonsForPositionControl() {
+//        if (!usesTalonPositionControl(mDriveStates)) {
+//            // We entered a position control state.
+//            masterLeft.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
+//            masterLeft.setNominalClosedLoopVoltage(12.0);
+//            masterLeft.setProfile(kLowGearPositionControlSlot);
+//            masterLeft.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
+//                    -Constants.kDriveLowGearNominalOutput);
+//            mRightMaster.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
+//            mRightMaster.setNominalClosedLoopVoltage(12.0);
+//            mRightMaster.setProfile(kLowGearPositionControlSlot);
+//            mRightMaster.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
+//                    -Constants.kDriveLowGearNominalOutput);
+//            setBrakeMode();
+//        }
+//    } //TODO Fix plz
     private void configureTalonsForSpeedControl() {
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
-            masterLeft.changeControlMode(CANTalon.TalonControlMode.Speed);
-            masterLeft.setProfile(kHighGearVelocityControlSlot);
-            masterRight.changeControlMode(CANTalon.TalonControlMode.Speed);
-            masterRight.setProfile(kHighGearVelocityControlSlot);
+            masterLeft.selectProfileSlot(kHighGearVelocityControlSlot, 0);
+            masterRight.selectProfileSlot(kHighGearVelocityControlSlot, 0);
             setBrakeMode();
             //TOOD fix this plz, fix brake/ coast mode thing
         }
@@ -379,8 +362,8 @@ public class DriveTrainSubsystem extends Subsystem{
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
             final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
                     ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-            masterLeft.set(inchesPerSecondToRpm(left_inches_per_sec * scale));
-            masterRight.set(inchesPerSecondToRpm(right_inches_per_sec * scale));
+            masterLeft.set(ControlMode.Velocity, inchesPerSecondToRpm(left_inches_per_sec * scale));
+            masterRight.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
         } else {
             System.out.println("Hit a bad velocity control state");
             masterLeft.set(ControlMode.PercentOutput, 0);

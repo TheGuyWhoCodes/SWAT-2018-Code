@@ -29,6 +29,8 @@ public class CheesyDriveHelper {
     private static final double kQuickStopDeadband = 0.2;
     private static final double kQuickStopWeight = 0.1;
     private static final double kQuickStopScalar = 5.0;
+    
+    private static final double kTurnabilityZeroThrottle = 0.15;
 
     private double mOldWheel = 0.0;
     private double mQuickStopAccumlator = 0.0;
@@ -108,7 +110,13 @@ public class CheesyDriveHelper {
             angularPower = wheel;
         } else {
             overPower = 0.0;
-            angularPower = Math.abs(throttle) * wheel * sensitivity - mQuickStopAccumlator;
+            if(Math.abs(throttle)< kThrottleDeadband) {
+            	angularPower = wheel * sensitivity - mQuickStopAccumlator;
+            }
+            else {
+            	angularPower = throttle * wheel * sensitivity - mQuickStopAccumlator;
+            }
+            
             if (mQuickStopAccumlator > 1) {
                 mQuickStopAccumlator -= 1;
             } else if (mQuickStopAccumlator < -1) {

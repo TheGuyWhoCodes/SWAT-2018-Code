@@ -20,8 +20,6 @@ public class RobotState {
 
     private static final int kObservationBufferSize = 100;
 
-    private static final RigidTransform2d kVehicleToCamera = new RigidTransform2d(
-            new Translation2d(Constants.kCameraXOffset, Constants.kCameraYOffset), new Rotation2d());
 
     // FPGATimestamp -> RigidTransform2d or Rotation2d
     private InterpolatingTreeMap<InterpolatingDouble, RigidTransform2d> field_to_vehicle_;
@@ -66,10 +64,6 @@ public class RobotState {
     public synchronized RigidTransform2d getPredictedFieldToVehicle(double lookahead_time) {
         return getLatestFieldToVehicle().getValue()
                 .transformBy(RigidTransform2d.exp(vehicle_velocity_predicted_.scaled(lookahead_time)));
-    }
-
-    public synchronized RigidTransform2d getFieldToCamera(double timestamp) {
-        return getFieldToVehicle(timestamp).transformBy(kVehicleToCamera);
     }
 
 

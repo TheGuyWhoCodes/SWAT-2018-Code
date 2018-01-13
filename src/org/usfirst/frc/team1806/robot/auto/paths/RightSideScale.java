@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1806.robot.auto.modes;
+package org.usfirst.frc.team1806.robot.auto.paths;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,8 @@ public class RightSideScale implements PathContainer {
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
         sWaypoints.add(new Waypoint(16,160,0,0)); //start point
+        sWaypoints.add(new Waypoint(25,160,5,0)); //start point
+
         sWaypoints.add(new Waypoint(100,50,30,60)); //first
         sWaypoints.add(new Waypoint(160,50,0,70)); //second
         sWaypoints.add(new Waypoint(270,70,0,60)); //third
