@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		allPeriodic();
 	}
 
 
@@ -94,6 +95,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		allPeriodic();
 		Scheduler.getInstance().run();
 	}
 
@@ -112,6 +114,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		m_oi.runCommands();
+		allPeriodic();
 	}
 
 	@Override
@@ -119,6 +122,11 @@ public class Robot extends TimedRobot {
 	}
 	public void zeroAllSensors() {
         mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
-
+	}
+	public synchronized void allPeriodic() {
+		mSubsystemManager.outputToSmartDashboard();
+		mRobotState.outputToSmartDashboard();
+		mEnabledLooper.outputToSmartDashboard();
+		
 	}
 }

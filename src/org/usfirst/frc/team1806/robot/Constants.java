@@ -3,7 +3,7 @@ package org.usfirst.frc.team1806.robot;
 public class Constants {
     public static double kLooperDt = 0.005;
     public static double kDriveWheelDiameterInches = 4;
-    public static double kTrackWidthInches = 31;
+    public static double kTrackWidthInches = 22.5;
     public static double kTrackScrubFactor = .924;
     
     ///Motion
@@ -47,7 +47,7 @@ public class Constants {
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = 240.0;
     public static double kDriveHighGearNominalOutput = 0.5;
-    public static double kDriveHighGearMaxSetpoint = 17.0 * 12.0; // 17 fps
+    public static double kDriveHighGearMaxSetpoint = 12.0 * 12.0; // 17 fps
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in inches per second.
@@ -58,12 +58,15 @@ public class Constants {
     public static int kDriveLowGearPositionIZone = 700;
     public static double kDriveLowGearPositionRampRate = 240.0; // V/s
     public static double kDriveLowGearNominalOutput = 0.5; // V
-    public static double kDriveLowGearMaxVelocity = 6.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 6 fps
-                                                                                                               // in RPM
-    public static double kDriveLowGearMaxAccel = 18.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 18 fps/s
+    public static int kDriveLowGearMaxVelocity = 4096 * 6;
+    public static double kDriveLowGearMaxAccel = 12.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 18 fps/s
                                                                                                              // in RPM/s
 
     public static double kDriveVoltageCompensationRampRate = 0.0;
+    
+    //
+    public static double kDriveInchesPerCount = 3.5* Math.PI /4096; //TODO Make reflect actual robot
+    public static int kDriveTrainPIDSetTimeout = 10; 
 
 
 }

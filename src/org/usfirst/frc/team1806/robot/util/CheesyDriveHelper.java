@@ -113,7 +113,7 @@ public class CheesyDriveHelper {
             if(Math.abs(throttle)< kThrottleDeadband) {
             	angularPower = wheel * sensitivity - mQuickStopAccumlator;
             }
-            else {
+            else{
             	angularPower = throttle * wheel * sensitivity - mQuickStopAccumlator;
             }
             
@@ -143,6 +143,8 @@ public class CheesyDriveHelper {
             leftPwm += overPower * (-1.0 - rightPwm);
             rightPwm = -1.0;
         }
+        System.out.println(rightPwm);
+        System.out.println(leftPwm);
         return new DriveSignal(leftPwm, rightPwm);
     }
 

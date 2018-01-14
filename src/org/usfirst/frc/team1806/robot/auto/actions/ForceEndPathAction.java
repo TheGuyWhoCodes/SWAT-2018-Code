@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto.actions;
 
+import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+
 /**
  * Forces the current path the robot is driving on to end early
  * 
@@ -11,6 +13,6 @@ public class ForceEndPathAction extends RunOnceAction {
 
     @Override
     public synchronized void runOnce() {
-        Drive.getInstance().forceDoneWithPath();
+        DriveTrainSubsystem.getInstance().forceDoneWithPath();
     }
 }

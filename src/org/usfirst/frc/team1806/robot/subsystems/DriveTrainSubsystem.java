@@ -20,6 +20,7 @@ import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Twist2d;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -28,6 +29,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
@@ -44,6 +46,8 @@ public class DriveTrainSubsystem extends Subsystem{
 	private DoubleSolenoid shifter;
 	private NavX navx;
     private PathFollower mPathFollower;
+    private Rotation2d mTargetHeading = new Rotation2d();
+    private boolean mIsOnTarget = false;
 	// This HashSet is used for PDP usage in our modified Talon code
 	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
 		int[] PDPValues = {13,14,15};
@@ -98,6 +102,12 @@ public class DriveTrainSubsystem extends Subsystem{
 		// Follow for left side
 		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
 		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
+		
+		//Set Encoders for each side of the talon
+		masterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		
 		//Invert the left side
 		leftA.setInverted(true);
 		masterLeft.setInverted(true);
@@ -107,13 +117,14 @@ public class DriveTrainSubsystem extends Subsystem{
 		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
 		//init navx
 		navx = new NavX(SPI.Port.kMXP);
-
+		
+		reloadGains();
 	}
 
 	@Override
 	public void outputToSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber("blah", Math.PI);
+		SmartDashboard.putNumber("encoder", leftA.getSelectedSensorPosition(0));
 	}
 	@Override
 	public void stop() {
@@ -189,35 +200,28 @@ public class DriveTrainSubsystem extends Subsystem{
     	 masterLeft.setNeutralMode(NeutralMode.Coast);
     	 masterRight.setNeutralMode(NeutralMode.Coast);
      }
-     private static double rotationsToInches(double rotations) {
-         return rotations * (Constants.kDriveWheelDiameterInches * Math.PI);
-     }
-     private static double rpmToInchesPerSecond(double rpm) {
-         return rotationsToInches(rpm) / 60;
-     }
-
      private static double inchesToRotations(double inches) {
          return inches / (Constants.kDriveWheelDiameterInches * Math.PI);
      }
 
-     private static double inchesPerSecondToRpm(double inches_per_second) {
-         return inchesToRotations(inches_per_second) * 60;
+     private static double inchesPerSecondToCountsPerSecond(double inches_per_second) {
+         return inches_per_second / Constants.kDriveInchesPerCount;
      }
 
      public double getLeftDistanceInches() {
-         return rotationsToInches(masterLeft.getSelectedSensorPosition(0));
+         return masterLeft.getSelectedSensorPosition(0) * Constants.kDriveInchesPerCount;
      }
 
      public double getRightDistanceInches() {
-         return rotationsToInches(masterRight.getSelectedSensorPosition(0));
+         return masterRight.getSelectedSensorPosition(0) * Constants.kDriveInchesPerCount;
      }
 
      public double getLeftVelocityInchesPerSec() {
-         return rpmToInchesPerSecond(masterLeft.getSelectedSensorPosition(0));
+         return masterLeft.getSelectedSensorPosition(0) * Constants.kDriveInchesPerCount;
      }
 
      public double getRightVelocityInchesPerSec() {
-         return rpmToInchesPerSecond(masterRight.getSelectedSensorPosition(0));
+         return masterRight.getSelectedSensorPosition(0)* Constants.kDriveInchesPerCount;
      }
      public boolean isPositionControl(DriveStates state) {
     	if(state == DriveStates.DRIVE_TO_POSITION || 
@@ -307,29 +311,44 @@ public class DriveTrainSubsystem extends Subsystem{
         }
         return false;
     }
+    private void configureTalonsForPositionControl() {
+        if (!usesTalonPositionControl(mDriveStates)) {
+            // We entered a position control state.
+            masterRight.selectProfileSlot(kLowGearPositionControlSlot, 0);
+            masterLeft.selectProfileSlot(kLowGearPositionControlSlot, 0);
+            setBrakeMode();
+        }
+    }
+
     /**
-     * Configures talons for position control
+     * Configures the drivebase to turn to a desired heading
      */
-//    private void configureTalonsForPositionControl() {
-//        if (!usesTalonPositionControl(mDriveStates)) {
-//            // We entered a position control state.
-//            masterLeft.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
-//            masterLeft.setNominalClosedLoopVoltage(12.0);
-//            masterLeft.setProfile(kLowGearPositionControlSlot);
-//            masterLeft.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
-//                    -Constants.kDriveLowGearNominalOutput);
-//            mRightMaster.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
-//            mRightMaster.setNominalClosedLoopVoltage(12.0);
-//            mRightMaster.setProfile(kLowGearPositionControlSlot);
-//            mRightMaster.configNominalOutputVoltage(Constants.kDriveLowGearNominalOutput,
-//                    -Constants.kDriveLowGearNominalOutput);
-//            setBrakeMode();
-//        }
-//    } //TODO Fix plz
+    public synchronized void setWantTurnToHeading(Rotation2d heading) {
+        if (mDriveStates != DriveStates.TURN_TO_THETA) {
+            mDriveStates = DriveStates.TURN_TO_THETA;
+            updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
+        }
+        if (Math.abs(heading.inverse().rotateBy(mTargetHeading).getDegrees()) > 1E-3) {
+            mTargetHeading = heading;
+            mIsOnTarget = false;
+        }
+        setHighGear(false);
+    }
+    private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
+        if (usesTalonPositionControl(mDriveStates)) {
+            masterLeft.set(ControlMode.MotionMagic, inchesToRotations(left_position_inches));
+            masterRight.set(ControlMode.MotionMagic, inchesToRotations(right_position_inches));
+        } else {
+            System.out.println("Hit a bad position control state");
+            masterLeft.set(ControlMode.PercentOutput,0);
+            masterRight.set(ControlMode.PercentOutput, 0);
+        }
+    }
     private void configureTalonsForSpeedControl() {
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
             masterLeft.selectProfileSlot(kHighGearVelocityControlSlot, 0);
+            
             masterRight.selectProfileSlot(kHighGearVelocityControlSlot, 0);
             setBrakeMode();
             //TOOD fix this plz, fix brake/ coast mode thing
@@ -362,13 +381,38 @@ public class DriveTrainSubsystem extends Subsystem{
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
             final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
                     ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-            masterLeft.set(ControlMode.Velocity, inchesPerSecondToRpm(left_inches_per_sec * scale));
-            masterRight.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
+            masterLeft.set(ControlMode.Velocity, inchesPerSecondToCountsPerSecond(left_inches_per_sec * scale));
+            masterRight.set(ControlMode.Velocity, inchesPerSecondToCountsPerSecond(right_inches_per_sec * scale));
         } else {
             System.out.println("Hit a bad velocity control state");
             masterLeft.set(ControlMode.PercentOutput, 0);
             masterRight.set(ControlMode.PercentOutput, 0);
         }
+    }
+    public synchronized void forceDoneWithPath() {
+        if (mDriveStates == DriveStates.PATH_FOLLOWING && mPathFollower != null) {
+            mPathFollower.forceFinish();
+        } else {
+            System.out.println("Robot is not in path following mode");
+        }
+    }
+    
+    public synchronized boolean isDoneWithPath() {
+        if (mDriveStates == DriveStates.PATH_FOLLOWING && mPathFollower != null) {
+            return mPathFollower.isFinished();
+        } else {
+            System.out.println("Robot is not in path following mode");
+            return true;
+        }
+    }
+    
+    public synchronized void reloadGains() {
+    	
+    			masterLeft.config_kP(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKp, Constants.kDriveTrainPIDSetTimeout);
+    			masterLeft.config_kI(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKi, Constants.kDriveTrainPIDSetTimeout);
+    			masterLeft.config_kD(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKd, Constants.kDriveTrainPIDSetTimeout);
+    			masterLeft.config_kF(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKf, Constants.kDriveTrainPIDSetTimeout);
+    			masterLeft.configMotionCruiseVelocity(kLowGearPositionControlSlot, Constants.kDriveLowGearMaxVelocity);
     }
 }
 

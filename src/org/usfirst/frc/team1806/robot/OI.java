@@ -30,11 +30,10 @@ public class OI {
 
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
-			if(dc.getButtonRB()) {
+			if(dc.getRightTrigger() > .2) {
 				mDriveTrainSubsystem.setCreepMode(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));		
-			}
-			else {
+			}else {
 				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
 			}

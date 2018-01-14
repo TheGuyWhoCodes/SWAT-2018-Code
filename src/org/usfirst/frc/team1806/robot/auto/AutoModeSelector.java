@@ -3,6 +3,7 @@ package org.usfirst.frc.team1806.robot.auto;
 import java.util.function.Supplier;
 
 import org.json.simple.JSONArray;
+import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
@@ -33,7 +34,7 @@ public class AutoModeSelector {
             () -> new DumbMode());
     private static final AutoModeCreator[] mAllModes = {
 //            new AutoModeCreator("RightSideScale", () -> new RightSideScale()),
-//            new AutoModeCreator("LeftSideSCale", () -> new LeftSideScale()),
+            new AutoModeCreator("LeftSideSCale", () -> new LeftSideScaleAuto()),
     };
 
     public static void initAutoModeSelector() {
