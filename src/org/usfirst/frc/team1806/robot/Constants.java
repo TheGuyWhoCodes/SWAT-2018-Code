@@ -6,6 +6,10 @@ public class Constants {
     public static double kTrackWidthInches = 22.5;
     public static double kTrackScrubFactor = .924;
     
+    public static double kDriveInchesPerCount = 3.5* Math.PI /4096; //TODO Make reflect actual robot
+    public static int kDriveTrainPIDSetTimeout = 10; 
+
+    
     ///Motion
     
     public static double kMinLookAhead = 12.0; // inches
@@ -58,15 +62,11 @@ public class Constants {
     public static int kDriveLowGearPositionIZone = 700;
     public static double kDriveLowGearPositionRampRate = 240.0; // V/s
     public static double kDriveLowGearNominalOutput = 0.5; // V
-    public static int kDriveLowGearMaxVelocity = 4096 * 6;
-    public static double kDriveLowGearMaxAccel = 12.0 * 12.0 * 60.0 / (Math.PI * kDriveWheelDiameterInches); // 18 fps/s
-                                                                                                             // in RPM/s
+    public static int kDriveLowGearMaxVelocity = (int) (6/ kDriveInchesPerCount); // TODO: make reflect actual robot observed values
+    public static int kDriveLowGearMaxAccel = 123456; // TODO: make reflect actual robot observed values
 
     public static double kDriveVoltageCompensationRampRate = 0.0;
     
-    //
-    public static double kDriveInchesPerCount = 3.5* Math.PI /4096; //TODO Make reflect actual robot
-    public static int kDriveTrainPIDSetTimeout = 10; 
 
 
 }

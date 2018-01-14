@@ -22,6 +22,7 @@ import org.usfirst.frc.team1806.robot.util.Twist2d;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -406,13 +407,42 @@ public class DriveTrainSubsystem extends Subsystem{
         }
     }
     
+
+    
+    
+    
+    public synchronized void reloadLowGearPositionGains() {
+    	reloadLowGearPositionGainsForController(masterLeft);
+    	reloadLowGearPositionGainsForController(masterRight);
+    }
+    
+    public synchronized void reloadLowGearPositionGainsForController(BaseMotorController motorController) {
+		motorController.config_kP(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKp, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kI(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKi, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kD(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKd, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kF(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKf, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_IntegralZone(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionIZone, Constants.kDriveTrainPIDSetTimeout);
+		motorController.configMotionCruiseVelocity(kLowGearPositionControlSlot, Constants.kDriveLowGearMaxVelocity);
+		motorController.configMotionAcceleration(Constants.kDriveLowGearMaxAccel, Constants.kDriveTrainPIDSetTimeout);
+		motorController.configClosedloopRamp(Constants.kDriveLowGearPositionRampRate, Constants.kDriveTrainPIDSetTimeout);
+    }
+    public synchronized void reloadHighGearVelocityGains() {
+    	reloadHighGearPositionGainsForController(masterLeft);
+    	reloadHighGearPositionGainsForController(masterRight);
+    }
+    
+    public synchronized void reloadHighGearPositionGainsForController(BaseMotorController motorController) {
+		motorController.config_kP(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityKp, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kI(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityKi, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kD(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityKd, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kF(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityKf, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_IntegralZone(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityIZone, Constants.kDriveTrainPIDSetTimeout);
+		motorController.configClosedloopRamp(Constants.kDriveHighGearVelocityRampRate, Constants.kDriveTrainPIDSetTimeout);
+    }
+    
     public synchronized void reloadGains() {
-    	
-    			masterLeft.config_kP(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKp, Constants.kDriveTrainPIDSetTimeout);
-    			masterLeft.config_kI(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKi, Constants.kDriveTrainPIDSetTimeout);
-    			masterLeft.config_kD(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKd, Constants.kDriveTrainPIDSetTimeout);
-    			masterLeft.config_kF(kLowGearPositionControlSlot, Constants.kDriveLowGearPositionKf, Constants.kDriveTrainPIDSetTimeout);
-    			masterLeft.configMotionCruiseVelocity(kLowGearPositionControlSlot, Constants.kDriveLowGearMaxVelocity);
+    	reloadLowGearPositionGains();
+    	reloadHighGearVelocityGains();
     }
 }
 
