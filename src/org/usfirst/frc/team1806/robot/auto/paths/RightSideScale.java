@@ -16,8 +16,8 @@ public class RightSideScale implements PathContainer {
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
         sWaypoints.add(new Waypoint(16,165,0,0));
-        sWaypoints.add(new Waypoint(55,165,25,30));
-        sWaypoints.add(new Waypoint(105,60,25,40));
+        sWaypoints.add(new Waypoint(55,165,25,80));
+        sWaypoints.add(new Waypoint(105,60,25,80));
         sWaypoints.add(new Waypoint(280,70,0,80));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
