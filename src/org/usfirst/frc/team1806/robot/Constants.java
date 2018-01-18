@@ -40,12 +40,12 @@ public class Constants {
     // Units: setpoint, error, and output are in inches per second.
     public static double kDriveHighGearVelocityKp = .06 ; // 1.2/1500;
     public static double kDriveHighGearVelocityKi = 0.00002; //0.0;
-    public static double kDriveHighGearVelocityKd = .25; //0.0001; //6.0/1500;
+    public static double kDriveHighGearVelocityKd = .3; //0.0001; //6.0/1500;
     public static double kDriveHighGearVelocityKf = 1/17000; //.0025;
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = .5;
     public static double kDriveHighGearNominalOutput = 0.5;
-    public static double kDriveHighGearMaxSetpoint = 144;
+    public static double kDriveHighGearMaxSetpoint = 14 * 12;
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in inches per second.

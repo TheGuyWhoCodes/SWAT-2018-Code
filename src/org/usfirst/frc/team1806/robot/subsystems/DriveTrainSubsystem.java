@@ -43,8 +43,7 @@ public class DriveTrainSubsystem extends Subsystem{
     private static final int kLowGearPositionControlSlot = 0;
     private static final int kHighGearVelocityControlSlot = 1;
 	//Initialize all of the drive motors
-//TODO Switch
-    public TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
+    private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
 	private NavX navx;
     private PathFollower mPathFollower;
@@ -57,7 +56,7 @@ public class DriveTrainSubsystem extends Subsystem{
     private int leftLastVel = 0;
     private int rightLastVel = 0;
     private long leftMaxAccel = 0;
-    private long rightMaxAccel =0;
+    private long rightMaxAccel = 0;
     private int leftHighGearMaxVel = 0;
     private int rightHighGearMaxVel = 0;
     private double currentTimeStamp;
@@ -273,6 +272,13 @@ public class DriveTrainSubsystem extends Subsystem{
 	public void arcadeDrive(double power, double turn){
 		leftDrive(power + turn); //verify signs
 		rightDrive(power - turn);
+	}
+	public void stopDrive() {
+		if(mDriveStates != DriveStates.DRIVING) {
+			mDriveStates = DriveStates.DRIVING;
+		}
+		masterLeft.set(ControlMode.PercentOutput, 0);
+		masterRight.set(ControlMode.PercentOutput, 0);
 	}
     public synchronized void resetYaw(){
     	navx.zeroYaw();
