@@ -88,6 +88,17 @@ public class RobotState {
     public synchronized Twist2d getMeasuredVelocity() {
         return vehicle_velocity_measured_;
     }
+    public synchronized void addFieldToVehicleObservation(double timestamp, RigidTransform2d observation) {
+        field_to_vehicle_.put(new InterpolatingDouble(timestamp), observation);
+    }
+
+    public synchronized void addObservations(double timestamp, Twist2d measured_velocity,
+            Twist2d predicted_velocity) {
+        addFieldToVehicleObservation(timestamp,
+                Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), measured_velocity));
+        vehicle_velocity_measured_ = measured_velocity;
+        vehicle_velocity_predicted_ = predicted_velocity;
+    }
 
     public void outputToSmartDashboard() {
         RigidTransform2d odometry = getLatestFieldToVehicle().getValue();

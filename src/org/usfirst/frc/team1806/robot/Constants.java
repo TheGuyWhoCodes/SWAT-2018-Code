@@ -2,12 +2,13 @@ package org.usfirst.frc.team1806.robot;
 
 public class Constants {
     public static double kLooperDt = 0.005;
-    public static double kDriveWheelDiameterInches = 4;
-    public static double kTrackWidthInches = 22.5;
-    public static double kTrackScrubFactor = .924;
+    public static double kDriveWheelDiameterInches = 3.5;
+    public static double kTrackWidthInches = 32;
+    public static double kTrackScrubFactor = .978;
     
-    public static double kDriveInchesPerCount = 3.5* Math.PI /4096; //TODO Make reflect actual robot
-    public static int kDriveTrainPIDSetTimeout = 10; 
+    public static double kDriveInchesPerCount = 3.573839636812121e-4; 
+    public static int kDriveTrainPIDSetTimeout = 15; 
+    public static double kCountsPerInch = 2798.111;
 
     
     ///Motion
@@ -22,10 +23,10 @@ public class Constants {
     public static double kInertiaSteeringGain = 0.0; // angular velocity command is multiplied by this gain *
                                                      // our speed
                                                      // in inches per sec
-    public static double kSegmentCompletionTolerance = 0.1; // inches
-    public static double kPathFollowingMaxAccel = 120.0; // inches per second^2
+    public static double kSegmentCompletionTolerance = 0.25; // inches
+    public static double kPathFollowingMaxAccel = 60.0; // inches per second^2
     public static double kPathFollowingMaxVel = 120.0; // inches per second
-    public static double kPathFollowingProfileKp = 5.00;
+    public static double kPathFollowingProfileKp = 1.00;
     public static double kPathFollowingProfileKi = 0.03;
     public static double kPathFollowingProfileKv = 0.02;
     public static double kPathFollowingProfileKffv = 1.0;
@@ -34,24 +35,17 @@ public class Constants {
     public static double kPathFollowingGoalVelTolerance = 12.0;
     public static double kPathStopSteeringDistance = 9.0;
 
-    // Goal tracker constants
-    public static double kMaxGoalTrackAge = 1.0;
-    public static double kMaxTrackerDistance = 18.0;
-    public static double kCameraFrameRate = 30.0;
-    public static double kTrackReportComparatorStablityWeight = 1.0;
-    public static double kTrackReportComparatorAgeWeight = 1.0;
-
 
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in inches per second.
-    public static double kDriveHighGearVelocityKp = 1.2;
-    public static double kDriveHighGearVelocityKi = 0.0;
-    public static double kDriveHighGearVelocityKd = 6.0;
-    public static double kDriveHighGearVelocityKf = .15;
+    public static double kDriveHighGearVelocityKp = .06 ; // 1.2/1500;
+    public static double kDriveHighGearVelocityKi = 0.00001; //0.0;
+    public static double kDriveHighGearVelocityKd = .25; //0.0001; //6.0/1500;
+    public static double kDriveHighGearVelocityKf = 1/17000; //.0025;
     public static int kDriveHighGearVelocityIZone = 0;
-    public static double kDriveHighGearVelocityRampRate = 240.0;
+    public static double kDriveHighGearVelocityRampRate = .5;
     public static double kDriveHighGearNominalOutput = 0.5;
-    public static double kDriveHighGearMaxSetpoint = 12.0 * 12.0; // 17 fps
+    public static double kDriveHighGearMaxSetpoint = 144;
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in inches per second.
@@ -64,9 +58,5 @@ public class Constants {
     public static double kDriveLowGearNominalOutput = 0.5; // V
     public static int kDriveLowGearMaxVelocity = (int) (6/ kDriveInchesPerCount); // TODO: make reflect actual robot observed values
     public static int kDriveLowGearMaxAccel = 123456; // TODO: make reflect actual robot observed values
-
-    public static double kDriveVoltageCompensationRampRate = 0.0;
-    
-
 
 }

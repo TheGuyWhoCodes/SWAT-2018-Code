@@ -19,7 +19,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
+import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
+import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
+import org.usfirst.frc.team1806.robot.auto.modes.RightSideScaleAuto;
 import org.usfirst.frc.team1806.robot.loop.Looper;
+import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.util.CrashTracker;
@@ -40,7 +44,6 @@ public class Robot extends TimedRobot {
     private AutoModeExecuter mAutoModeExecuter = null;
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
-	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
 			Arrays.asList(DriveTrainSubsystem.getInstance()));
@@ -52,10 +55,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		zeroAllSensors();
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 		powerDistributionPanel = new PowerDistributionPanel();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		AutoModeSelector.initAutoModeSelector();
+        mAutoModeExecuter = null;
+        mAutoModeExecuter = new AutoModeExecuter();
+        mAutoModeExecuter.setAutoMode(new RightSideScaleAuto());
+        mEnabledLooper.register(RobotStateEstimator.getInstance());
 	}
 
 
@@ -66,7 +75,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
 		allPeriodic();
 	}
 
@@ -79,9 +87,11 @@ public class Robot extends TimedRobot {
             if (mAutoModeExecuter != null) {
                 mAutoModeExecuter.stop(); 
             }
+            mDrive.setHighGear(true);
+            mDrive.setBrakeMode();
             zeroAllSensors();
-            mAutoModeExecuter = new AutoModeExecuter();
-//            mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
+            mEnabledLooper.start();
+
             mAutoModeExecuter.start();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
@@ -101,9 +111,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}
         mEnabledLooper.start();
         mDrive.setOpenLoop(DriveSignal.NEUTRAL);
         mDrive.setNeutralMode(false);
@@ -121,7 +128,10 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 	}
 	public void zeroAllSensors() {
+		System.out.println("Zeroing all Sensors..");
         mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+        mSubsystemManager.zeroSensors();
+        System.out.print("All Sensors zeroed!");
 	}
 	public synchronized void allPeriodic() {
 		mSubsystemManager.outputToSmartDashboard();

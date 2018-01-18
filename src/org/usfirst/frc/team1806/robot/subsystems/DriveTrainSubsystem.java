@@ -43,12 +43,27 @@ public class DriveTrainSubsystem extends Subsystem{
     private static final int kLowGearPositionControlSlot = 0;
     private static final int kHighGearVelocityControlSlot = 1;
 	//Initialize all of the drive motors
-	private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
+//TODO Switch
+    public TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
 	private DoubleSolenoid shifter;
 	private NavX navx;
     private PathFollower mPathFollower;
     private Rotation2d mTargetHeading = new Rotation2d();
     private boolean mIsOnTarget = false;
+    
+    //TODO:Remove these
+    private int leftLowGearMaxVel = 0;
+    private int rightLowGearMaxVel = 0; 
+    private int leftLastVel = 0;
+    private int rightLastVel = 0;
+    private long leftMaxAccel = 0;
+    private long rightMaxAccel =0;
+    private int leftHighGearMaxVel = 0;
+    private int rightHighGearMaxVel = 0;
+    private double currentTimeStamp;
+    private double lastTimeStamp;
+    
+    
 	// This HashSet is used for PDP usage in our modified Talon code
 	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
 		int[] PDPValues = {13,14,15};
@@ -72,7 +87,8 @@ public class DriveTrainSubsystem extends Subsystem{
 		TURN_TO_THETA, // Turn using PID
 		DRIVE_TO_POSITION, // Drive to Position using SRX PID
 		PATH_FOLLOWING,
-		VELOCITY_SETPOINT
+		VELOCITY_SETPOINT,
+		NOTHING // Used on init
 	}
 	public enum WantedDriveState{
 		DRIVING,
@@ -120,13 +136,59 @@ public class DriveTrainSubsystem extends Subsystem{
 		navx = new NavX(SPI.Port.kMXP);
 		
 		reloadGains();
+		mDriveStates = DriveStates.NOTHING;
 	}
 
 	@Override
 	public void outputToSmartDashboard() {
-		SmartDashboard.putNumber("blah", Math.PI);
-		SmartDashboard.putNumber("encoder", leftA.getSelectedSensorPosition(0));
+		SmartDashboard.putBoolean("HighGear?", isHighGear());
+		SmartDashboard.putNumber("driveLeftPosition", getLeftDistanceInches());
+		SmartDashboard.putNumber("driveRightPosition", getRightDistanceInches());
+		SmartDashboard.putNumber("driveLeftVelocity", getLeftVelocityInchesPerSec());
+		SmartDashboard.putNumber("driveRightVelocity", getRightVelocityInchesPerSec());
+		if(!isHighGear()) {
+			if(masterLeft.getSelectedSensorVelocity(0) > leftLowGearMaxVel) {
+				leftLowGearMaxVel = masterLeft.getSelectedSensorVelocity(0);
+			}
+			if(masterRight.getSelectedSensorVelocity(0) > rightLowGearMaxVel) {
+				rightLowGearMaxVel = masterRight.getSelectedSensorVelocity(0);
+			}
+			double dt = (currentTimeStamp - lastTimeStamp);
+			long currentLeftAccel = Math.round((Math.abs(masterLeft.getSelectedSensorVelocity(0)) - Math.abs(leftLastVel)) / dt);
+			long currentRightAccel = Math.round((Math.abs(masterRight.getSelectedSensorVelocity(0)) - Math.abs(rightLastVel)) / dt);
+			
+			if(currentLeftAccel > leftMaxAccel) {
+				leftMaxAccel = currentLeftAccel;
+			}
+			
+			if(currentRightAccel > rightMaxAccel) {
+				rightMaxAccel = currentRightAccel;
+			}
+		}
+		else {
+			if(masterLeft.getSelectedSensorVelocity(0) > leftHighGearMaxVel) {
+				leftHighGearMaxVel = masterLeft.getSelectedSensorVelocity(0);
+			}
+			if(masterRight.getSelectedSensorVelocity(0) > rightHighGearMaxVel) {
+				rightHighGearMaxVel = masterRight.getSelectedSensorVelocity(0);
+			}
+		}
+		
+		leftLastVel = masterLeft.getSelectedSensorVelocity(0);
+		rightLastVel = masterRight.getSelectedSensorVelocity(0);	
+		SmartDashboard.putNumber("leftMaxAccel", leftMaxAccel);
+		SmartDashboard.putNumber("rightMaxAccel", rightMaxAccel);
+		SmartDashboard.putNumber("leftLowGearMaxVel", leftLowGearMaxVel);
+		SmartDashboard.putNumber("rightLowGearMaxVel", rightLowGearMaxVel);
+		SmartDashboard.putNumber("leftHighGearMaxVel", leftHighGearMaxVel);
+		SmartDashboard.putNumber("rightHighGearMaxVel", rightHighGearMaxVel);
+		SmartDashboard.putString("Drive State", returnDriveState());
+		SmartDashboard.putNumber("NavX", getGyroAngle().getDegrees());
+
+        
+
 	}
+	
 	@Override
 	public void stop() {
 		// TODO Auto-generated method stub
@@ -134,8 +196,11 @@ public class DriveTrainSubsystem extends Subsystem{
 	}
 	@Override
 	public void zeroSensors() {
-   	 masterLeft.set(ControlMode.Position, 0);
+		System.out.println("Zeroing drivetrain sensors...");
+   	 masterLeft.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
+   	 masterRight.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
    	 navx.zeroYaw();		
+   	 System.out.println("Drivetrain sensors zeroed!");
 	}
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
@@ -163,7 +228,34 @@ public class DriveTrainSubsystem extends Subsystem{
 		@Override
 		public void onLoop(double timestamp) {
 			// TODO Auto-generated method stub
-			
+			lastTimeStamp = currentTimeStamp;
+			currentTimeStamp = timestamp;
+			synchronized (DriveTrainSubsystem.this) {
+				switch (mDriveStates) {
+				case CREEP:
+					return;
+				case DRIVE_TO_POSITION:
+					return;
+				case DRIVING:
+					return;
+				case NOTHING:
+					return;
+				case PATH_FOLLOWING:
+					if(mPathFollower != null) {
+						updatePathFollower(timestamp);
+					}
+				case TURN_TO_THETA:
+					return;
+				case VELOCITY_SETPOINT:
+					return;
+				case VISION:
+					return;
+				default:
+					return;
+					
+				}
+			}
+
 		}
 	};
 	
@@ -189,7 +281,9 @@ public class DriveTrainSubsystem extends Subsystem{
      public synchronized void resetNavx(){
     	navx.reset();
      }
-    
+    public String returnDriveState() {
+    	return mDriveStates.toString();
+    }
 
      public void setBrakeMode() {
     	 //set for auto
@@ -201,12 +295,12 @@ public class DriveTrainSubsystem extends Subsystem{
     	 masterLeft.setNeutralMode(NeutralMode.Coast);
     	 masterRight.setNeutralMode(NeutralMode.Coast);
      }
-     private static double inchesToRotations(double inches) {
-         return inches / (Constants.kDriveWheelDiameterInches * Math.PI);
+     private static double inchesToCounts(double inches) {
+         return inches / Constants.kDriveInchesPerCount;
      }
 
-     private static double inchesPerSecondToCountsPerSecond(double inches_per_second) {
-         return inches_per_second / Constants.kDriveInchesPerCount;
+     private static double inchesPerSecondToCountsPerTenthOfSecond(double inches_per_second) {
+         return (inches_per_second / Constants.kDriveInchesPerCount) / 10; //TODO check times
      }
 
      public double getLeftDistanceInches() {
@@ -218,11 +312,11 @@ public class DriveTrainSubsystem extends Subsystem{
      }
 
      public double getLeftVelocityInchesPerSec() {
-         return masterLeft.getSelectedSensorPosition(0) * Constants.kDriveInchesPerCount;
+         return masterLeft.getSelectedSensorVelocity(0) * Constants.kDriveInchesPerCount * 10;
      }
 
      public double getRightVelocityInchesPerSec() {
-         return masterRight.getSelectedSensorPosition(0)* Constants.kDriveInchesPerCount;
+         return masterRight.getSelectedSensorVelocity(0) * Constants.kDriveInchesPerCount * 10;
      }
      public boolean isPositionControl(DriveStates state) {
     	if(state == DriveStates.DRIVE_TO_POSITION || 
@@ -260,6 +354,7 @@ public class DriveTrainSubsystem extends Subsystem{
     public synchronized void setCreepMode(DriveSignal signal) {
     	if(mDriveStates != DriveStates.CREEP) {
     		mDriveStates = DriveStates.CREEP;
+    		System.out.println("CREEPE");
     	}
     	masterLeft.set(ControlMode.PercentOutput, signal.getLeft() / 3);
     	masterRight.set(ControlMode.PercentOutput, signal.getRight() / 3);
@@ -279,6 +374,7 @@ public class DriveTrainSubsystem extends Subsystem{
     }
     public synchronized void setWantDrivePath(Path path, boolean reversed) {
         if (mCurrentPath != path || mDriveStates != DriveStates.PATH_FOLLOWING) {
+        	System.out.println("Setting Path_Following");
             configureTalonsForSpeedControl();
             RobotState.getInstance().resetDistanceDriven();
             mPathFollower = new PathFollower(path, reversed,
@@ -294,6 +390,7 @@ public class DriveTrainSubsystem extends Subsystem{
             mDriveStates = DriveStates.PATH_FOLLOWING;
             mCurrentPath = path;
         } else {
+        	System.out.println("setting velocity to 0");
             setVelocitySetpoint(0, 0);
         }
     }
@@ -337,8 +434,8 @@ public class DriveTrainSubsystem extends Subsystem{
     }
     private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
         if (usesTalonPositionControl(mDriveStates)) {
-            masterLeft.set(ControlMode.MotionMagic, inchesToRotations(left_position_inches));
-            masterRight.set(ControlMode.MotionMagic, inchesToRotations(right_position_inches));
+            masterLeft.set(ControlMode.MotionMagic, inchesToCounts(left_position_inches));
+            masterRight.set(ControlMode.MotionMagic, inchesToCounts(right_position_inches));
         } else {
             System.out.println("Hit a bad position control state");
             masterLeft.set(ControlMode.PercentOutput,0);
@@ -349,7 +446,6 @@ public class DriveTrainSubsystem extends Subsystem{
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
             masterLeft.selectProfileSlot(kHighGearVelocityControlSlot, 0);
-            
             masterRight.selectProfileSlot(kHighGearVelocityControlSlot, 0);
             setBrakeMode();
             //TOOD fix this plz, fix brake/ coast mode thing
@@ -377,13 +473,28 @@ public class DriveTrainSubsystem extends Subsystem{
             updateVelocitySetpoint(0, 0);
         }
     }
+    private static double inchesPerSecondToRpm(double inches_per_second) {
+        return inchesToRotations(inches_per_second) * 60;
+    }
+    private static double inchesToRotations(double inches) {
+        return inches / (Constants.kDriveWheelDiameterInches * Math.PI);
+    }
+
     private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
         if (usesTalonVelocityControl(mDriveStates)) {
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
             final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
                     ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-            masterLeft.set(ControlMode.Velocity, inchesPerSecondToCountsPerSecond(left_inches_per_sec * scale));
-            masterRight.set(ControlMode.Velocity, inchesPerSecondToCountsPerSecond(right_inches_per_sec * scale));
+            masterLeft.set(ControlMode.Velocity, inchesPerSecondToCountsPerTenthOfSecond(left_inches_per_sec * scale));
+            masterRight.set(ControlMode.Velocity, inchesPerSecondToCountsPerTenthOfSecond(right_inches_per_sec * scale));
+            
+           /* System.out.println("Left Side Velocity : "+ left_inches_per_sec+ "  " + 
+            		"Right Side Veloctiy: "+ right_inches_per_sec);*/
+      		
+            SmartDashboard.putNumber("Left Side", inchesPerSecondToCountsPerTenthOfSecond(left_inches_per_sec * scale));
+            SmartDashboard.putNumber("Right Side: ", inchesPerSecondToCountsPerTenthOfSecond(right_inches_per_sec * scale));
+            SmartDashboard.putNumber("Left Side Velocity", masterLeft.getSelectedSensorVelocity(0));
+            SmartDashboard.putNumber("Right Side Velocity", masterRight.getSelectedSensorVelocity(0));
         } else {
             System.out.println("Hit a bad velocity control state");
             masterLeft.set(ControlMode.PercentOutput, 0);
@@ -397,7 +508,7 @@ public class DriveTrainSubsystem extends Subsystem{
             System.out.println("Robot is not in path following mode");
         }
     }
-    
+
     public synchronized boolean isDoneWithPath() {
         if (mDriveStates == DriveStates.PATH_FOLLOWING && mPathFollower != null) {
             return mPathFollower.isFinished();
@@ -409,7 +520,9 @@ public class DriveTrainSubsystem extends Subsystem{
     
 
     
-    
+    public synchronized Rotation2d getGyroAngle() {
+        return navx.getYaw();
+    }
     
     public synchronized void reloadLowGearPositionGains() {
     	reloadLowGearPositionGainsForController(masterLeft);
@@ -425,6 +538,7 @@ public class DriveTrainSubsystem extends Subsystem{
 		motorController.configMotionCruiseVelocity(kLowGearPositionControlSlot, Constants.kDriveLowGearMaxVelocity);
 		motorController.configMotionAcceleration(Constants.kDriveLowGearMaxAccel, Constants.kDriveTrainPIDSetTimeout);
 		motorController.configClosedloopRamp(Constants.kDriveLowGearPositionRampRate, Constants.kDriveTrainPIDSetTimeout);
+
     }
     public synchronized void reloadHighGearVelocityGains() {
     	reloadHighGearPositionGainsForController(masterLeft);

@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.json.simple.JSONArray;
 import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
+import org.usfirst.frc.team1806.robot.auto.modes.RightSideScaleAuto;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
@@ -33,7 +34,7 @@ public class AutoModeSelector {
             "stand still mode",
             () -> new DumbMode());
     private static final AutoModeCreator[] mAllModes = {
-//            new AutoModeCreator("RightSideScale", () -> new RightSideScale()),
+            new AutoModeCreator("RightSideScale", () -> new RightSideScaleAuto()),
             new AutoModeCreator("LeftSideSCale", () -> new LeftSideScaleAuto()),
     };
 

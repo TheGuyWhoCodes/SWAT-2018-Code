@@ -9,8 +9,8 @@ package org.usfirst.frc.team1806.robot.util;
  */
 public class CheesyDriveHelper {
 
-    private static final double kThrottleDeadband = 0.02;
-    private static final double kWheelDeadband = 0.02;
+    private static final double kThrottleDeadband = 0.04;
+    private static final double kWheelDeadband = 0.04;
 
     // These factor determine how fast the wheel traverses the "non linear" sine curve.
     private static final double kHighWheelNonLinearity = 0.65;
@@ -46,6 +46,9 @@ public class CheesyDriveHelper {
         mOldWheel = wheel;
 
         double wheelNonLinearity;
+        if(throttle < 0 && Math.abs(wheel) > 0) {
+        	wheel = -wheel;
+        }
         if (isHighGear) {
             wheelNonLinearity = kHighWheelNonLinearity;
             final double denominator = Math.sin(Math.PI / 2.0 * wheelNonLinearity);
@@ -69,6 +72,7 @@ public class CheesyDriveHelper {
 
         // Negative inertia!
         double negInertiaScalar;
+        
         if (isHighGear) {
             negInertiaScalar = kHighNegInertiaScalar;
             sensitivity = kHighSensitivity;
@@ -143,8 +147,7 @@ public class CheesyDriveHelper {
             leftPwm += overPower * (-1.0 - rightPwm);
             rightPwm = -1.0;
         }
-        System.out.println(rightPwm);
-        System.out.println(leftPwm);
+
         return new DriveSignal(leftPwm, rightPwm);
     }
 
