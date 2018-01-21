@@ -39,4 +39,6 @@ public interface FieldProfile2018 {
 	public double getBlueWallToRightScale();
 	
 	public double getBlueCenterToRightScaleOuterEdge();
+
+	public double getRedWallToRightScaleOuterEdge();
 }

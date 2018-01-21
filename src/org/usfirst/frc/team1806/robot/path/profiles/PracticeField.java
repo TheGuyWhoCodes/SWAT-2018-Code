@@ -45,9 +45,65 @@ public class PracticeField implements FieldProfile2018 {
 	}
 
 	@Override
+	public double getRedCenterToRightScaleOuterEdge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueWallToLeftSwitch() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueCenterToLeftSwitchOuterEdge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueWallToRightSwitch() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueCenterToRightSwitchOuterEdge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueWallToLeftScale() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueCenterToLeftScaleOuterEdge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueWallToRightScale() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBlueCenterToRightScaleOuterEdge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public double getRedWallToRightScaleOuterEdge() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }

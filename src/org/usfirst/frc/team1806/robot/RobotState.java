@@ -29,7 +29,6 @@ public class RobotState {
     private Rotation2d camera_pitch_correction_;
     private Rotation2d camera_yaw_correction_;
     private double differential_height_;
-
     private RobotState() {
         reset(0, new RigidTransform2d());
     }

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1806.robot;
 
+import org.usfirst.frc.team1806.robot.util.Translation2d;
+
 public class Constants {
     public static double kLooperDt = 0.005;
     public static double kDriveWheelDiameterInches = 3.5;
@@ -7,9 +9,12 @@ public class Constants {
     public static double kTrackScrubFactor = .978;
     
     public static double kDriveInchesPerCount = 3.573839636812121e-4; 
-    public static int kDriveTrainPIDSetTimeout = 15; 
+    public static int kDriveTrainPIDSetTimeout = 30; 
     public static double kCountsPerInch = 2798.111;
 
+    // Block Locations
+    
+    public static Translation2d kRightBlockLocation = new Translation2d(200, 100);
     
     ///Motion
     
@@ -45,18 +50,18 @@ public class Constants {
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = .5;
     public static double kDriveHighGearNominalOutput = 0.5;
-    public static double kDriveHighGearMaxSetpoint = 14 * 12;
+    public static double kDriveHighGearMaxSetpoint = 14 * 12; //FPS
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in inches per second.
-    public static double kDriveLowGearPositionKp = 1.0;
-    public static double kDriveLowGearPositionKi = 0.002;
-    public static double kDriveLowGearPositionKd = 100.0;
-    public static double kDriveLowGearPositionKf = .45;
+    public static double kDriveLowGearPositionKp = .17;
+    public static double kDriveLowGearPositionKi = 0.006;
+    public static double kDriveLowGearPositionKd = 57.0;
+    public static double kDriveLowGearPositionKf = 1/2000;
     public static int kDriveLowGearPositionIZone = 700;
     public static double kDriveLowGearPositionRampRate = 240.0; // V/s
     public static double kDriveLowGearNominalOutput = 0.5; // V
-    public static int kDriveLowGearMaxVelocity = (int) (6/ kDriveInchesPerCount); // TODO: make reflect actual robot observed values
-    public static int kDriveLowGearMaxAccel = 123456; // TODO: make reflect actual robot observed values
+    public static int kDriveLowGearMaxVelocity = 20146; // Counts
+    public static int kDriveLowGearMaxAccel = 20146; // Counts
 
 }

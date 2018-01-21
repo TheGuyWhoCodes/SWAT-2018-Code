@@ -20,6 +20,6 @@ public class RobotMap {
 	public static int rightC = 2;
 	
 	// These are all of the solenoids for the robot
-	public static int shiftLow = 7;
-	public static int shiftHigh = 6;
+	public static int shiftLow = 6;
+	public static int shiftHigh = 7;
 }

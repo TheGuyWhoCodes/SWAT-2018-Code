@@ -74,6 +74,10 @@ public class Translation2d implements Interpolable<Translation2d> {
     public Translation2d translateBy(Translation2d other) {
         return new Translation2d(x_ + other.x_, y_ + other.y_);
     }
+    
+    public Translation2d subtract(Translation2d other) {
+    	return new Translation2d(x_ - other.x(), y_ - other.y());
+    }
 
     /**
      * We can also rotate Translation2d's. See: https://en.wikipedia.org/wiki/Rotation_matrix
@@ -138,4 +142,6 @@ public class Translation2d implements Interpolable<Translation2d> {
     public static double cross(Translation2d a, Translation2d b) {
         return a.x_ * b.y_ - a.y_ * b.x_;
     }
+    
+
 }

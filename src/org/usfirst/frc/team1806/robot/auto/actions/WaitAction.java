@@ -26,7 +26,7 @@ public class WaitAction implements Action {
 
     @Override
     public void done() {
-
+    	System.out.println("Wait is done!");
     }
 
     @Override
