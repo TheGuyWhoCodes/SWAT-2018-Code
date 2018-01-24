@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj.SPI;
  * The DrivetrainSubsystem deals with all of the drivetrain
  * code used on the robot.
  */
-public class DriveTrainSubsystem extends Subsystem{
+public class DriveTrainSubsystem implements Subsystem{
 
 	public enum DriveStates{
 		DRIVING, // Ya old normal dirivng
@@ -604,6 +604,11 @@ public class DriveTrainSubsystem extends Subsystem{
    	 masterRight.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
    	 navx.zeroYaw();		
    	 System.out.println("Drivetrain sensors zeroed!");
+	}
+	@Override
+	public void writeToLog() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

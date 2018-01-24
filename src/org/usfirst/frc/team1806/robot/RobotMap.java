@@ -19,7 +19,19 @@ public class RobotMap {
 	public static int rightA = 0;
 	public static int rightC = 2;
 	
+	public static int cubeMaster = 6;
+	public static int cubeSlave = 7;
+	
 	// These are all of the solenoids for the robot
 	public static int shiftLow = 6;
 	public static int shiftHigh = 7;
+	public static int leftIntakeHigh = 0;
+	public static int leftIntakeLow = 1;
+	public static int rightIntakeHigh = 2;
+	public static int rightIntakeLow = 3;
+	
+	
+	//DIOs
+	public static int cubeBottomLimit = 0;
+	public static int cubeTopLimit = 1;
 }

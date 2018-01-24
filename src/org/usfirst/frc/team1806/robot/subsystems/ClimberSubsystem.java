@@ -2,7 +2,7 @@ package org.usfirst.frc.team1806.robot.subsystems;
 
 import org.usfirst.frc.team1806.robot.loop.Looper;
 
-public class ClimberSubsystem extends Subsystem {
+public class ClimberSubsystem implements Subsystem {
 
 	@Override
 	public void outputToSmartDashboard() {
@@ -24,6 +24,12 @@ public class ClimberSubsystem extends Subsystem {
 
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeToLog() {
 		// TODO Auto-generated method stub
 		
 	}

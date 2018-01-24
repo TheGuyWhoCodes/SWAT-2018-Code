@@ -25,6 +25,7 @@ import org.usfirst.frc.team1806.robot.auto.modes.RightSideScaleAuto;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team1806.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.util.CrashTracker;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
@@ -40,13 +41,14 @@ import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 public class Robot extends TimedRobot {
 	
 	private DriveTrainSubsystem mDrive = DriveTrainSubsystem.getInstance();
+	private LiftSubsystem mCubeLift = LiftSubsystem.getInstance();
     private RobotState mRobotState = RobotState.getInstance();
     private AutoModeExecuter mAutoModeExecuter = null;
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
-			Arrays.asList(DriveTrainSubsystem.getInstance()));
+			Arrays.asList(DriveTrainSubsystem.getInstance(), LiftSubsystem.getInstance()));
     private Looper mEnabledLooper = new Looper();
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -60,7 +62,7 @@ public class Robot extends TimedRobot {
 		powerDistributionPanel = new PowerDistributionPanel();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		AutoModeSelector.initAutoModeSelector();
+//		AutoModeSelector.initAutoModeSelector();
         mAutoModeExecuter = null;
         mAutoModeExecuter = new AutoModeExecuter();
         mAutoModeExecuter.setAutoMode(new RightSideScaleAuto());
@@ -71,6 +73,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		mEnabledLooper.stop();
+        if(mAutoModeExecuter != null) {
+            mAutoModeExecuter.stop();
+        }
 	}
 
 	@Override
@@ -89,10 +94,12 @@ public class Robot extends TimedRobot {
             }
             mDrive.setHighGear(true);
             mDrive.setBrakeMode();
+            
             zeroAllSensors();
             mEnabledLooper.start();
 
             mAutoModeExecuter.start();
+            mCubeLift.zeroOnBottom();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
             throw t;
@@ -112,6 +119,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
         mEnabledLooper.start();
+        if(mAutoModeExecuter != null) {
+            mAutoModeExecuter.stop();
+        }
         mDrive.setOpenLoop(DriveSignal.NEUTRAL);
         mDrive.setNeutralMode(false);
 	}

@@ -2,9 +2,8 @@ package org.usfirst.frc.team1806.robot.subsystems;
 
 import org.usfirst.frc.team1806.robot.loop.Looper;
 
-public abstract class Subsystem {
-    public void writeToLog() {
-    };
+public interface Subsystem {
+    public void writeToLog();
 
     public abstract void outputToSmartDashboard();
 
