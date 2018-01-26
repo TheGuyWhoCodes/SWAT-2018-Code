@@ -91,4 +91,6 @@ public class Constants {
     public static int kPositionControlPIDSlot = 0;
     public static int kEncoderCountsPerInch = 0;
     public static double kCubeMoveToLimitSwitchSpeed = .2;
+    public static int kCubePositionTolerance = 100;
+    public static int kCubeVelocityTolerance = 50;
 }

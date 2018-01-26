@@ -15,6 +15,8 @@ import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
+import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart1;
+import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart2;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart2;
 import org.usfirst.frc.team1806.robot.path.Path;
@@ -31,9 +33,17 @@ public class RightSideScaleAuto  extends AutoModeBase{
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
 		if(gameData.charAt(1) == 'L') {
+			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new DrivePathAction(safeSide));
+			runAction(new SpitOutTime("Finished Left Side"));
+			runAction(new TurnTowardsPoint(new Translation2d(190,210)));
+			runAction(new SpitOutTime("Finished Turn"));
+			runAction(new DrivePathAction(new LeftSideScalePart1()));
+			runAction(new SpitOutTime("Grabbed Cube"));
+			runAction(new DrivePathAction(new LeftSideScalePart2()));
+			runAction(new TurnTowardsPoint(new Translation2d(600, 185)));
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));

@@ -5,7 +5,7 @@ public interface LiftInterface extends Subsystem {
 	 * This method will make the master talon go to the setpoint you give it
 	 * @param setpoint the height you want the lift at
 	 */
-	public void goToSetpoint(double setpoint);
+	public void goToSetpoint(int setpoint);
 	
 	/**
 	 * This will make the Lift go down till it knows there is a signal from the limit switch

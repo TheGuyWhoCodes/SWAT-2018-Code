@@ -18,6 +18,7 @@ public class LiftSubsystem implements LiftInterface {
 		POSITION_CONTROL,
 		RESET_TO_BOTTOM,
 		RESET_TO_TOP,
+		HOLD_POSITION,
 		MANUAL_CONTROL,
 		IDLE
 	}
@@ -28,7 +29,7 @@ public class LiftSubsystem implements LiftInterface {
 	private static LiftSubsystem mLiftSubsystem = new LiftSubsystem();
 	private boolean isBrakeMode = false;
 	private boolean mIsOnTarget = false;
-	
+	private int mLiftWantedPosition = 0;
 	private CubeLiftStates mCubeLiftStates;
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
@@ -36,8 +37,10 @@ public class LiftSubsystem implements LiftInterface {
 		
 		cubeSlave.follow(cubeMaster);
 		
+		cubeMaster.configContinuousCurrentLimit(130, 10);
 		bottomLimit = new DigitalInput(RobotMap.cubeBottomLimit);
 		topLimit = new DigitalInput(RobotMap.cubeTopLimit);
+		mCubeLiftStates = CubeLiftStates.IDLE;
 	}
 	public static LiftSubsystem getInstance() {
 		return mLiftSubsystem;
@@ -107,9 +110,8 @@ public class LiftSubsystem implements LiftInterface {
 	}
 
 	@Override
-	public void goToSetpoint(double setpoint) {
-		// TODO Auto-generated method stub
-		
+	public void goToSetpoint(int setpoint) {
+		mLiftWantedPosition = setpoint;
 	}
 
 	@Override
@@ -178,5 +180,14 @@ public class LiftSubsystem implements LiftInterface {
 	
 	public void updateResetToTop() {
 		
+	}
+	/**
+	 * 
+	 * @return
+	 * Returns whether or not the lift is ready to be held at position for a cube to be deposited
+	 */
+	public boolean isAtPosition() {
+		return Math.abs(mLiftWantedPosition - cubeMaster.getSelectedSensorPosition(0)) < Constants.kCubePositionTolerance &&
+				Math.abs(cubeMaster.getSelectedSensorVelocity(0)) < Constants.kCubeVelocityTolerance;
 	}
 }

@@ -13,6 +13,8 @@ import org.usfirst.frc.team1806.robot.util.CheesyDriveHelper;
 import org.usfirst.frc.team1806.robot.util.Latch;
 import org.usfirst.frc.team1806.robot.util.XboxController;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -38,6 +40,18 @@ public class OI {
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
 			}
 			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
+			if(Math.abs(oc.getLeftJoyY()) > .2) {
+				System.out.println("OH BOY");
+				Robot.meme1.set(oc.getLeftJoyY());
+				Robot.meme2.set(oc.getLeftJoyY());
+			}
+			else if(oc.getButtonA()) {
+				Robot.meme1.set(-.02);
+				Robot.meme2.set(-.02);
+			} else {
+				Robot.meme1.set(0);
+				Robot.meme2.set(0);
+			}
 		}
 	}
 	

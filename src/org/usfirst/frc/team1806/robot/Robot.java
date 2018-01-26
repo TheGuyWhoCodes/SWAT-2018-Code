@@ -9,6 +9,7 @@ package org.usfirst.frc.team1806.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -31,6 +32,8 @@ import org.usfirst.frc.team1806.robot.util.CrashTracker;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -41,6 +44,7 @@ import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 public class Robot extends TimedRobot {
 	
 	private DriveTrainSubsystem mDrive = DriveTrainSubsystem.getInstance();
+	public static Talon meme1, meme2;
 	private LiftSubsystem mCubeLift = LiftSubsystem.getInstance();
     private RobotState mRobotState = RobotState.getInstance();
     private AutoModeExecuter mAutoModeExecuter = null;
@@ -57,6 +61,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		meme1 = new Talon(0);
+		meme2 = new Talon(1);
 		zeroAllSensors();
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 		powerDistributionPanel = new PowerDistributionPanel();
@@ -67,6 +73,7 @@ public class Robot extends TimedRobot {
         mAutoModeExecuter = new AutoModeExecuter();
         mAutoModeExecuter.setAutoMode(new RightSideScaleAuto());
         mEnabledLooper.register(RobotStateEstimator.getInstance());
+        mDrive.setCoastMode();
 	}
 
 
@@ -81,6 +88,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		allPeriodic();
+		meme1.set(0);
+		meme2.set(0);
 	}
 
 

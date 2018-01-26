@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * floating around.
  */
 public class RobotMap {
-	/* This is all of the CAN ports for the DriveTrain*/
+    ///////////// CAN ports 
+	
+	//Drive train CAN
 	public static int masterLeft = 4;
 	public static int masterRight = 1;
 	public static int leftA = 3;
@@ -19,19 +21,31 @@ public class RobotMap {
 	public static int rightA = 0;
 	public static int rightC = 2;
 	
+	//Cube Elevator CANs
 	public static int cubeMaster = 6;
 	public static int cubeSlave = 7;
 	
-	// These are all of the solenoids for the robot
+	// Climber CAN Ports
+	public static int upMotor = 8;
+	public static int downLeft = 9;
+	public static int downRight = 10;
+	
+	//Intake CAN Ports
+	
+	public static int leftInnerIntake = 11;
+	public static int rightInnerIntake = 12;
+	public static int leftOuterIntake = 13;
+	public static int rightOuterIntake = 14;
+	
+	////////// These are all of the solenoids for the robot
+	
+	//Shifting
 	public static int shiftLow = 6;
 	public static int shiftHigh = 7;
-	public static int leftIntakeHigh = 0;
-	public static int leftIntakeLow = 1;
-	public static int rightIntakeHigh = 2;
-	public static int rightIntakeLow = 3;
 	
 	
-	//DIOs
+	///////////// DIOs
+	//Lift limit switch
 	public static int cubeBottomLimit = 0;
 	public static int cubeTopLimit = 1;
 }

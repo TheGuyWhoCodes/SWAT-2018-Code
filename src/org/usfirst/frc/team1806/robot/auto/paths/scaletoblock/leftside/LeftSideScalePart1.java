@@ -1,32 +1,30 @@
-package org.usfirst.frc.team1806.robot.auto.paths;
+package org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
+import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.path.Path;
-import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
-import org.usfirst.frc.team1806.robot.path.PathContainer;
 import org.usfirst.frc.team1806.robot.path.PathBuilder;
+import org.usfirst.frc.team1806.robot.path.PathContainer;
+import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
+import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
-public class LeftSideSafe implements PathContainer {
+public class LeftSideScalePart1 implements PathContainer {
     
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(16,264,0,0));
-        sWaypoints.add(new Waypoint(30,264,0,120));
-        sWaypoints.add(new Waypoint(190,264,10,90));
-        sWaypoints.add(new Waypoint(227,265,10,90));
-        sWaypoints.add(new Waypoint(275,245,0,80));
+        sWaypoints.add(new Waypoint(275,245,0,69));
+        sWaypoints.add(new Waypoint(240,227,0,69));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(16, 264), Rotation2d.fromDegrees(0)); 
+        return new RigidTransform2d(new Translation2d(275, 245), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees())); 
     }
 
     @Override
