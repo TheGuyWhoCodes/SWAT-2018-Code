@@ -26,7 +26,7 @@ import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
-public class RightSideScaleAuto  extends AutoModeBase{
+public class LeftSideElimScale  extends AutoModeBase{
 
 		@Override
 		protected void routine() throws AutoModeEndedException {
@@ -43,7 +43,7 @@ public class RightSideScaleAuto  extends AutoModeBase{
 			runAction(new DrivePathAction(new LeftSideScalePart1()));
 			runAction(new SpitOutTime("Grabbed Cube"));
 			runAction(new DrivePathAction(new LeftSideScalePart2()));
-			runAction(new TurnTowardsPoint(new Translation2d(600, 185)));
+			runAction(new TurnTowardsPoint(new Translation2d(600, 155)));
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));

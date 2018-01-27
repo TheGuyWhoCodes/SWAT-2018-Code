@@ -1,22 +1,34 @@
 package org.usfirst.frc.team1806.robot.subsystems.superstructure;
 
+import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.Subsystem;
 
+/**
+ * The Cube Eater superstructure is the subsystem that allows us to manipulate both
+ * our inner intake and outter intake, states are tracked in here. There will be multiple instances of 
+ * the intakes in other classes bc we need to access them and manipulate it elsewhere
+ * 
+ * @see SnackManipulatorSuperStructure
+ * @author SWAT
+ */
 public class CubeEaterSuperStructure implements Subsystem{
-	
     static CubeEaterSuperStructure mInstance = null;
-    private final IntakeSubsystem mOuterIntake = new IntakeSubsystem(.5, RobotMap.rightOuterIntake, RobotMap.leftOuterIntake);
-    private final IntakeSubsystem mInnerIntake = new IntakeSubsystem(.5, RobotMap.rightInnerIntake, RobotMap.leftInnerIntake);
+    private final IntakeSubsystem mOuterIntake;
+    private final IntakeSubsystem mInnerIntake;
     public static CubeEaterSuperStructure getInstance() {
         if (mInstance == null) {
             mInstance = new CubeEaterSuperStructure();
         }
         return mInstance;
     }
+    public CubeEaterSuperStructure() {
+		mOuterIntake = new IntakeSubsystem(Constants.kOuterIntakeSpeed, RobotMap.rightOuterIntake, RobotMap.leftOuterIntake);
+		mInnerIntake = new IntakeSubsystem(Constants.kInnerIntakeSpeed, RobotMap.rightInnerIntake, RobotMap.leftInnerIntake);
+	}
     public enum IntakeStates {
     	IDLE, //  On startup
     	INTAKE, // Intaking
@@ -58,35 +70,7 @@ public class CubeEaterSuperStructure implements Subsystem{
 		// TODO Auto-generated method stub
 		
 	}
-	private Loop mLoop = new Loop() {
-		@Override
-		public void onStart(double timestamp) {
-			synchronized (CubeEaterSuperStructure.this) {
-				
-			}			
-		}
-        private double mWantStateChangeStartTime;
-		@Override
-		public void onStop(double timestamp) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void onLoop(double timestamp) {
-			synchronized (CubeEaterSuperStructure.this) {
-				switch(mIntakeStates) {
-				case IDLE:
-					return;
-				case INTAKE:
-					return;
-				case OUTTAKE:
-					return;
-				default:
-					break;
-				}
-			}
-		}
-	};
+
 	public void stopAllIntake() {
 		mIntakeStates = IntakeStates.IDLE;
 		mInnerIntake.stopAllMotors();

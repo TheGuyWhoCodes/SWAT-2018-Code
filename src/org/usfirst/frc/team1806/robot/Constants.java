@@ -41,17 +41,6 @@ public class Constants {
     public static double kPathStopSteeringDistance = 9.0;
 
 
-//    // PID gains for drive velocity loop (HIGH GEAR)
-//    // Units: setpoint, error, and output are in counts per tenth of a second
-//    public static double kDriveHighGearVelocityKp = .085 ; // 1.2/1500;
-//    public static double kDriveHighGearVelocityKi = 0.00001; //0.0;
-//    public static double kDriveHighGearVelocityKd = .3; //0.0001; //6.0/1500;
-//    public static double kDriveHighGearVelocityKf = 1/17000; //.0025;
-//    public static int kDriveHighGearVelocityIZone = 0;
-//    public static double kDriveHighGearVelocityRampRate = .5;
-//    public static double kDriveHighGearNominalOutput = 0.5;
-//    public static double kDriveHighGearMaxSetpoint = 14 * 12; //FPS
-
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in counts per tenth of a second
     public static double kDriveHighGearVelocityKp = 0.016 ; // 1.2/1500;
@@ -93,4 +82,8 @@ public class Constants {
     public static double kCubeMoveToLimitSwitchSpeed = .2;
     public static int kCubePositionTolerance = 100;
     public static int kCubeVelocityTolerance = 50;
+    
+    // Intaking Constants
+    public static double kOuterIntakeSpeed = .5;
+    public static double kInnerIntakeSpeed = .5;
 }

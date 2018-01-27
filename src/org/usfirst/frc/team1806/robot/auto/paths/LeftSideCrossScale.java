@@ -17,10 +17,10 @@ public class LeftSideCrossScale implements PathContainer {
         sWaypoints.add(new Waypoint(16,264,0,0));
         sWaypoints.add(new Waypoint(30,264,0,70));
         sWaypoints.add(new Waypoint(190,264,0,120));
-        sWaypoints.add(new Waypoint(240,264,30,120));
-        sWaypoints.add(new Waypoint(240,215,0,60));
-        sWaypoints.add(new Waypoint(240,100,0,120));
-        sWaypoints.add(new Waypoint(240,45,20,60));
+        sWaypoints.add(new Waypoint(235,264,30,120));
+        sWaypoints.add(new Waypoint(235,215,0,60));
+        sWaypoints.add(new Waypoint(235,100,0,120));
+        sWaypoints.add(new Waypoint(235,45,20,60));
         sWaypoints.add(new Waypoint(280,40,0,45));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }

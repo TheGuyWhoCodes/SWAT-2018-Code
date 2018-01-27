@@ -16,7 +16,7 @@ public class CheesyDriveHelper {
     private static final double kHighWheelNonLinearity = 0.65;
     private static final double kLowWheelNonLinearity = 0.5;
 
-    private static final double kHighNegInertiaScalar = 4.0;
+    private static final double kHighNegInertiaScalar = 2.0;
 
     private static final double kLowNegInertiaThreshold = 0.65;
     private static final double kLowNegInertiaTurnScalar = 3.5;

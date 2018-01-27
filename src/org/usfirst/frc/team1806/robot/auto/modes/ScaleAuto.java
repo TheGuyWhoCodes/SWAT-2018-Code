@@ -8,7 +8,7 @@ import org.usfirst.frc.team1806.robot.auto.actions.WaitAction;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideScale;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 
-public class LeftSideScaleAuto extends AutoModeBase{
+public class ScaleAuto extends AutoModeBase{
 
 	@Override
 	protected void routine() throws AutoModeEndedException {

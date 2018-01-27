@@ -4,6 +4,7 @@ import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
+import org.usfirst.frc.team1806.robot.subsystems.superstructure.CubeEaterSuperStructure.IntakeStates;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -22,8 +23,12 @@ public class LiftSubsystem implements LiftInterface {
 		MANUAL_CONTROL,
 		IDLE
 	}
-	
-	
+	public enum CubePosition{
+		SWITCH,
+		SCALE,
+		DROP_OFF,
+		BOTTOM
+	}
 	private TalonSRX cubeMaster, cubeSlave; //gotta have the power
 	private DigitalInput bottomLimit, topLimit;
 	private static LiftSubsystem mLiftSubsystem = new LiftSubsystem();
@@ -31,16 +36,18 @@ public class LiftSubsystem implements LiftInterface {
 	private boolean mIsOnTarget = false;
 	private int mLiftWantedPosition = 0;
 	private CubeLiftStates mCubeLiftStates;
+	private CubePosition mCubePosition;
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
 		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
 		
 		cubeSlave.follow(cubeMaster);
-		
-		cubeMaster.configContinuousCurrentLimit(130, 10);
+		//TODO Bring back config 
+		//cubeMaster.configContinuousCurrentLimit(130, 10);
 		bottomLimit = new DigitalInput(RobotMap.cubeBottomLimit);
 		topLimit = new DigitalInput(RobotMap.cubeTopLimit);
 		mCubeLiftStates = CubeLiftStates.IDLE;
+		mCubePosition = CubePosition.BOTTOM;
 	}
 	public static LiftSubsystem getInstance() {
 		return mLiftSubsystem;
@@ -189,5 +196,16 @@ public class LiftSubsystem implements LiftInterface {
 	public boolean isAtPosition() {
 		return Math.abs(mLiftWantedPosition - cubeMaster.getSelectedSensorPosition(0)) < Constants.kCubePositionTolerance &&
 				Math.abs(cubeMaster.getSelectedSensorVelocity(0)) < Constants.kCubeVelocityTolerance;
+	}
+	/**
+	 * 
+	 * @return
+	 * returns current state of cube 
+	 */
+	public CubeLiftStates returnLiftStates() {
+		return mCubeLiftStates;
+	}
+	public CubePosition returnCubePosition() {
+		return mCubePosition;
 	}
 }

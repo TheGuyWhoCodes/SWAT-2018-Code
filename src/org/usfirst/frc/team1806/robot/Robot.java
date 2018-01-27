@@ -21,8 +21,9 @@ import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
-import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
-import org.usfirst.frc.team1806.robot.auto.modes.RightSideScaleAuto;
+import org.usfirst.frc.team1806.robot.auto.modes.ScaleAuto;
+import org.usfirst.frc.team1806.robot.auto.modes.LeftSideElimScale;
+import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
@@ -54,6 +55,12 @@ public class Robot extends TimedRobot {
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
 			Arrays.asList(DriveTrainSubsystem.getInstance(), LiftSubsystem.getInstance()));
     private Looper mEnabledLooper = new Looper();
+    /*
+     * LLL
+     * RRR
+     * LRL
+     * RLR
+     */
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -61,8 +68,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		meme1 = new Talon(0);
-		meme2 = new Talon(1);
 		zeroAllSensors();
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 		powerDistributionPanel = new PowerDistributionPanel();
@@ -71,7 +76,7 @@ public class Robot extends TimedRobot {
 //		AutoModeSelector.initAutoModeSelector();
         mAutoModeExecuter = null;
         mAutoModeExecuter = new AutoModeExecuter();
-        mAutoModeExecuter.setAutoMode(new RightSideScaleAuto());
+        mAutoModeExecuter.setAutoMode(new QualMode());
         mEnabledLooper.register(RobotStateEstimator.getInstance());
         mDrive.setCoastMode();
 	}
@@ -88,8 +93,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		allPeriodic();
-		meme1.set(0);
-		meme2.set(0);
 	}
 
 

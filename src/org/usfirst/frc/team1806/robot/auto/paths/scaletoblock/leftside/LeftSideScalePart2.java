@@ -17,7 +17,7 @@ public class LeftSideScalePart2 implements PathContainer {
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
         sWaypoints.add(new Waypoint(240,227,0,69));
-        sWaypoints.add(new Waypoint(275,240,0,69));
+        sWaypoints.add(new Waypoint(275,235,0,69));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
     

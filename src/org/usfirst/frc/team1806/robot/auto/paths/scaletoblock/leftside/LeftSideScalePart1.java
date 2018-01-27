@@ -16,15 +16,15 @@ public class LeftSideScalePart1 implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(275,245,0,69));
-        sWaypoints.add(new Waypoint(240,227,0,69));
+        sWaypoints.add(new Waypoint(275,242,0,69));
+        sWaypoints.add(new Waypoint(240,215,0,69));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(275, 245), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees())); 
+        return new RigidTransform2d(new Translation2d(275, 242), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees())); 
     }
 
     @Override

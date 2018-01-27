@@ -19,7 +19,7 @@ public class LeftSideSafe implements PathContainer {
         sWaypoints.add(new Waypoint(30,264,0,120));
         sWaypoints.add(new Waypoint(190,264,10,90));
         sWaypoints.add(new Waypoint(227,265,10,90));
-        sWaypoints.add(new Waypoint(275,245,0,80));
+        sWaypoints.add(new Waypoint(275,242,0,80));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }

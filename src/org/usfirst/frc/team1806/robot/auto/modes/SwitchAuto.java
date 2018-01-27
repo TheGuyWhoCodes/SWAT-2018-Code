@@ -9,7 +9,7 @@ import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideSwitch;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 
-public class RightSideSwitchAuto extends AutoModeBase {
+public class SwitchAuto extends AutoModeBase {
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		PathContainer rightSwitch = new RightSideSwitch();

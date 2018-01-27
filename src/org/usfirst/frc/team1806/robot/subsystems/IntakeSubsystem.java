@@ -74,6 +74,7 @@ public class IntakeSubsystem implements Subsystem{
 		rightOuterIntake.set(ControlMode.PercentOutput, -mIntakingSpeed);
 	}
 	public void stopAllMotors() {
-		
+		leftOuterIntake.set(ControlMode.PercentOutput,0);
+		rightOuterIntake.set(ControlMode.PercentOutput, 0);
 	}
 }
