@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>JustPowerMeUp</name>
+	<name>SWAT-2018-Private</name>
 	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
+	<projects/>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature</nature>
 	</natures>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments/>
+		</buildCommand>
+	</buildSpec>
+	<linkedResources>
+		<link>
+			<name>java</name>
+			<type>2</type>
+			<location>D:/Documents/SWAT-2018-Private/src/main/java</location>
+		</link>
+	</linkedResources>
+	<filteredResources/>
 </projectDescription>
