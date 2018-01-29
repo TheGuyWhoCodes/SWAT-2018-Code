@@ -29,6 +29,7 @@ import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
+import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 import org.usfirst.frc.team1806.robot.util.CrashTracker;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
@@ -46,14 +47,13 @@ public class Robot extends TimedRobot {
 	
 	private DriveTrainSubsystem mDrive = DriveTrainSubsystem.getInstance();
 	public static Talon meme1, meme2;
-	private LiftSubsystem mCubeLift = LiftSubsystem.getInstance();
     private RobotState mRobotState = RobotState.getInstance();
     private AutoModeExecuter mAutoModeExecuter = null;
 	public static OI m_oi;
 	public static PowerDistributionPanel powerDistributionPanel;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
-			Arrays.asList(DriveTrainSubsystem.getInstance(), LiftSubsystem.getInstance()));
+			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance()));
     private Looper mEnabledLooper = new Looper();
     /*
      * LLL
@@ -111,7 +111,6 @@ public class Robot extends TimedRobot {
             mEnabledLooper.start();
 
             mAutoModeExecuter.start();
-            mCubeLift.zeroOnBottom();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
             throw t;

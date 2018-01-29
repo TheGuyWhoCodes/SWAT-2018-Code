@@ -5,7 +5,7 @@ import org.usfirst.frc.team1806.robot.util.Translation2d;
 public class Constants {
     public static double kLooperDt = 0.005;
     public static double kDriveWheelDiameterInches = 3.5;
-    public static double kTrackWidthInches = 32;
+    public static double kTrackWidthInches = 27.5;
     public static double kTrackScrubFactor = .978;
     
     public static double kDriveInchesPerCount = 3.573839636812121e-4; 
@@ -67,7 +67,7 @@ public class Constants {
     //PID Gains for the Cube Position closed loop
     // Units: setpoints, error, and output are in counts
     public static int kCubePositionPIDTimeout = 10;
-    public static double kCubePositionkP = 0;
+    public static double kCubePositionkP = 0.0005;
     public static double kCubePositionkI = 0;
     public static double kCubePositionkD = 0;
     public static double kCubePositionkF = 1/20000;
@@ -75,13 +75,17 @@ public class Constants {
     public static double kCubePositionRampRate = 0;
     
     // Encoder constants used by Cube Lift system
-    public static int kScaleEncoderCount = 0;
-    public static int kSwitchEncoderCount = 0;
+    public static int kHighScaleEncoderCount = 17500;
+    public static int kNeutralScaleEncoderCount = 12000;
+    public static int kDropOffEncoderCount = 0;
+    public static int kSwitchEncoderCount = 7500;
     public static int kPositionControlPIDSlot = 0;
     public static int kEncoderCountsPerInch = 0;
     public static double kCubeMoveToLimitSwitchSpeed = .2;
     public static int kCubePositionTolerance = 100;
     public static int kCubeVelocityTolerance = 50;
+    public static int kCubeTopLimitSwitchPosition = 500;
+    public static int kCubeSpitOutNeedsOuterIntake = 0;
     
     // Intaking Constants
     public static double kOuterIntakeSpeed = .5;

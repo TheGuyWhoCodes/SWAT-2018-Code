@@ -209,7 +209,7 @@ public class DriveTrainSubsystem implements Subsystem{
 		masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		
-		//Invert the left side
+//		//Invert the left side
 		leftA.setInverted(true);
 		masterLeft.setInverted(true);
 		leftC.setInverted(true);

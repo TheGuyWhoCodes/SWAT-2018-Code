@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.subsystems.superstructure;
 
+import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.subsystems.IntakeSubsystem;
@@ -17,16 +18,29 @@ import org.usfirst.frc.team1806.robot.subsystems.Subsystem;
 public class SnackManipulatorSuperStructure implements Subsystem{
 	
 	//We need to grab instances of these to manipulate each one here
-	
-	private LiftSubsystem mLiftSubsystem = new LiftSubsystem().getInstance();
-	private CubeEaterSuperStructure mIntakeSubsystem = new CubeEaterSuperStructure().getInstance();
-	
+
+	private LiftSubsystem mLiftSubsystem;
+	private CubeEaterSuperStructure mIntakeSubsystem;
+	private static SnackManipulatorSuperStructure mSnack ;
+	public SnackManipulatorSuperStructure(){
+		mLiftSubsystem = new LiftSubsystem();
+		mIntakeSubsystem = new CubeEaterSuperStructure();
+	}
+	public static SnackManipulatorSuperStructure getInstance() {
+		if(mSnack == null) {
+			mSnack = new SnackManipulatorSuperStructure();
+		}
+		return mSnack;
+	}
+
+
+
 	private Loop mLooper = new Loop() {
 		
 		@Override
 		public void onStop(double timestamp) {
 			// TODO Auto-generated method stub
-			
+
 		}
 		
 		@Override
@@ -37,45 +51,67 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		
 		@Override
 		public void onLoop(double timestamp) {
-			// TODO make these actually do something
-			mLiftSubsystem.stop();
-			mIntakeSubsystem.stopAllIntake();
 			
 		}
 	};
 	@Override
 	public void writeToLog() {
 		// TODO Auto-generated method stub
-		
+		mLiftSubsystem.writeToLog();
+		mIntakeSubsystem.writeToLog();
 	}
 
 	@Override
 	public void outputToSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+		mIntakeSubsystem.outputToSmartDashboard();
+		mLiftSubsystem.outputToSmartDashboard();
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		
+		mIntakeSubsystem.stop();
+		mLiftSubsystem.stop();
 	}
 
 	@Override
 	public void zeroSensors() {
-		// TODO Auto-generated method stub
-		
+		mIntakeSubsystem.zeroSensors();
+		mLiftSubsystem.zeroSensors();
 	}
 
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
 		// TODO Auto-generated method stub
+		mIntakeSubsystem.registerEnabledLoops(enabledLooper);
+		mLiftSubsystem.registerEnabledLoops(enabledLooper);
 		
 	}
-	/**
-	 * When we reach the point switch / scale / drop off we will spit out the cube right??
-	 */
-	public void spitOutCubes() {
-//		if(mLiftSubsystem.returnCubePosition() == mLiftSubsystem.)
+	public void goToHighScaleSetpoint(){
+		mLiftSubsystem.goToHighScaleSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+	}
+	public void goToSwitchSetpoint(){
+		mLiftSubsystem.goToSwitchSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+	}
+	public void goToDropOffSetpoint(){
+		mLiftSubsystem.goToDropOffSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+	}
+	public void goToNeutralScaleSetpoint(){
+		mLiftSubsystem.goToNeutralScaleSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+	}
+	public void spitOutCube(){
+		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes());
+	}
+	public void intakeCube(){
+		mIntakeSubsystem.intaking();
+	}
+	public void goToManualMode(double power){
+		mLiftSubsystem.manualMode(power);
+	}
+	public void goToBottom(){
+		mLiftSubsystem.resetToBottom();
 	}
 }

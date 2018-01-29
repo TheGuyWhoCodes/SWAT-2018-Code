@@ -32,7 +32,8 @@ public class CubeEaterSuperStructure implements Subsystem{
     public enum IntakeStates {
     	IDLE, //  On startup
     	INTAKE, // Intaking
-    	OUTTAKE // Outtaking
+    	OUTTAKE, // Outtaking
+		SPIT_OUT // Spitting out cube
     }
     public enum WantedStates {
     	IDLE, 
@@ -85,5 +86,11 @@ public class CubeEaterSuperStructure implements Subsystem{
 		mIntakeStates = IntakeStates.OUTTAKE;
 		mInnerIntake.outtaking();
 		mOuterIntake.outtaking();
+	}
+	public void spitOutCube(boolean needsOuterIntake){
+		if(needsOuterIntake) {
+			mOuterIntake.outtaking();
+		}
+		mInnerIntake.outtaking();
 	}
 }

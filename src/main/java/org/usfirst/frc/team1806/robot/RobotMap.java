@@ -14,11 +14,11 @@ public class RobotMap {
     ///////////// CAN ports 
 	
 	//Drive train CAN
-	public static int masterLeft = 4;
-	public static int masterRight = 1;
-	public static int leftA = 3;
-	public static int leftC = 5;
-	public static int rightA = 0;
+	public static int leftA = 3;  //
+	public static int masterLeft = 4;  //
+	public static int leftC = 5; //
+	public static int rightA = 0; //
+	public static int masterRight = 1; //
 	public static int rightC = 2;
 	
 	//Cube Elevator CANs
@@ -48,4 +48,5 @@ public class RobotMap {
 	//Lift limit switch
 	public static int cubeBottomLimit = 0;
 	public static int cubeTopLimit = 1;
+	public static int cubeDetector = 2;
 }

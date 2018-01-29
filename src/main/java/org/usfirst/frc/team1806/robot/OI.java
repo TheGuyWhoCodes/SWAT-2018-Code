@@ -9,6 +9,7 @@ package org.usfirst.frc.team1806.robot;
 
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
+import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 import org.usfirst.frc.team1806.robot.util.CheesyDriveHelper;
 import org.usfirst.frc.team1806.robot.util.Latch;
 import org.usfirst.frc.team1806.robot.util.XboxController;
@@ -27,9 +28,9 @@ public class OI {
     private CheesyDriveHelper mCheesyDriveHelper = new CheesyDriveHelper();
 	private XboxController dc = new XboxController(0);
 	private XboxController oc = new XboxController(1);
-	
+	private SnackManipulatorSuperStructure mSnackManipulator = SnackManipulatorSuperStructure.getInstance();
 	private Latch shiftingLatch = new Latch();
-
+	private Latch cubeManualMode = new Latch();
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
 			if(dc.getRightTrigger() > .2) {
@@ -40,6 +41,22 @@ public class OI {
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
 			}
 			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
+			if(dc.getButtonA()) {
+				mSnackManipulator.goToBottom();
+			} else if(dc.getButtonB()){
+				mSnackManipulator.goToSwitchSetpoint();
+			} else if(dc.getButtonY()){
+				mSnackManipulator.goToHighScaleSetpoint();
+			} else if(dc.getButtonX()){
+				mSnackManipulator.goToNeutralScaleSetpoint();
+			} else if(cubeManualMode.update(oc.getButtonA())){
+				mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
+			}
+			if(Math.abs(dc.getLeftTrigger()) > .2){
+				mSnackManipulator.intakeCube();
+			} else if(Math.abs(oc.getLeftTrigger()) > .2){
+				mSnackManipulator.spitOutCube();
+			}
 		}
 	}
 	

@@ -151,7 +151,7 @@ public class CheesyDriveHelper {
         return new DriveSignal(leftPwm, rightPwm);
     }
 
-    public double handleDeadband(double val, double deadband) {
+    public static double handleDeadband(double val, double deadband) {
         return (Math.abs(val) > Math.abs(deadband)) ? val : 0.0;
     }
 }

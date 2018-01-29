@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -15,6 +16,7 @@ public class ClimberSubsystem implements Subsystem {
 	public enum ClimberStates {
 		MOVING_UP,
 		PULLING_DOWN,
+		IDLE
 	}
 	private ClimberStates mClimberStates;
 	public ClimberSubsystem() {
@@ -24,6 +26,7 @@ public class ClimberSubsystem implements Subsystem {
 		
 		rightDown.follow(leftDown); // set to follow mode
 		setBrakeMode();
+		mClimberStates = ClimberStates.IDLE;
 	}
 	public ClimberSubsystem getInstance() {
 		return mClimberSubsystem;
@@ -71,7 +74,6 @@ public class ClimberSubsystem implements Subsystem {
 	public void zeroSensors() {
 		
 	}
-
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
 		// TODO Auto-generated method stub
@@ -99,6 +101,9 @@ public class ClimberSubsystem implements Subsystem {
 	 * Power to send to the two CIMS
 	 */
 	public void climbAtPower(double power) {
+		if(mClimberStates != ClimberStates.PULLING_DOWN){
+			mClimberStates = ClimberStates.PULLING_DOWN;
+		}
 		leftDown.set(ControlMode.PercentOutput, power);
 		//right is in follower
 	}
@@ -108,6 +113,12 @@ public class ClimberSubsystem implements Subsystem {
 	 * Power to send to the 775 pro to drive it up
 	 */
 	public void liftClimberAtPower(double power) {
+		if(mClimberStates != ClimberStates.MOVING_UP){
+			mClimberStates = ClimberStates.MOVING_UP;
+		}
 		upMotor.set(ControlMode.PercentOutput, power);
+	}
+	public boolean canClimb(){
+		return DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().getMatchNumber() > 10;
 	}
 }
