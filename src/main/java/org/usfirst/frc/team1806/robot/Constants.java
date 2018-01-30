@@ -4,13 +4,14 @@ import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 public class Constants {
     public static double kLooperDt = 0.005;
-    public static double kDriveWheelDiameterInches = 3.5;
+    public static double kDriveWheelDiameterInches = 4;
     public static double kTrackWidthInches = 27.5;
     public static double kTrackScrubFactor = .978;
     
-    public static double kDriveInchesPerCount = 3.573839636812121e-4; 
+    public static double kDriveInchesPerCount = 4.119233974e-4;
     public static int kDriveTrainPIDSetTimeout = 30; 
-    public static double kCountsPerInch = 2798.111;
+    public static double kCountsPerInch = 2427.635;
+
 
     // Block Locations
     

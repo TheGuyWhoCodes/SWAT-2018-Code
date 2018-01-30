@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team1806.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -21,20 +20,15 @@ import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
-import org.usfirst.frc.team1806.robot.auto.modes.ScaleAuto;
-import org.usfirst.frc.team1806.robot.auto.modes.LeftSideElimScale;
 import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team1806.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 import org.usfirst.frc.team1806.robot.util.CrashTracker;
 import org.usfirst.frc.team1806.robot.util.DriveSignal;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
-
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -73,12 +67,12 @@ public class Robot extends TimedRobot {
 		powerDistributionPanel = new PowerDistributionPanel();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-//		AutoModeSelector.initAutoModeSelector();
         mAutoModeExecuter = null;
         mAutoModeExecuter = new AutoModeExecuter();
         mAutoModeExecuter.setAutoMode(new QualMode());
         mEnabledLooper.register(RobotStateEstimator.getInstance());
         mDrive.setCoastMode();
+        AutoModeSelector.initAutoModeSelector();
 	}
 
 
@@ -92,7 +86,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		allPeriodic();
+		allPeriodic(); AutoModeSelector.initAutoModeSelector();
 	}
 
 
@@ -109,7 +103,7 @@ public class Robot extends TimedRobot {
             
             zeroAllSensors();
             mEnabledLooper.start();
-
+			mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
             mAutoModeExecuter.start();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
@@ -158,6 +152,6 @@ public class Robot extends TimedRobot {
 		mSubsystemManager.outputToSmartDashboard();
 		mRobotState.outputToSmartDashboard();
 		mEnabledLooper.outputToSmartDashboard();
-		
+		SmartDashboard.putString("Auto We Are Running", AutoModeSelector.returnNameOfSelectedAuto());
 	}
 }

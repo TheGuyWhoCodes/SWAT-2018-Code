@@ -317,6 +317,8 @@ public class DriveTrainSubsystem implements Subsystem{
 		SmartDashboard.putNumber("driveRightPosition", getRightDistanceInches());
 		SmartDashboard.putNumber("driveLeftVelocity", getLeftVelocityInchesPerSec());
 		SmartDashboard.putNumber("driveRightVelocity", getRightVelocityInchesPerSec());
+		 SmartDashboard.putNumber("Left Side", masterLeft.getSelectedSensorPosition(0));
+		 SmartDashboard.putNumber("Right Side: ", masterRight.getSelectedSensorPosition(0));
 		if(!isHighGear()) {
 			if(masterLeft.getSelectedSensorVelocity(0) > leftLowGearMaxVel) {
 				leftLowGearMaxVel = masterLeft.getSelectedSensorVelocity(0);
@@ -586,8 +588,7 @@ public class DriveTrainSubsystem implements Subsystem{
            /* System.out.println("Left Side Velocity : "+ left_inches_per_sec+ "  " + 
             		"Right Side Veloctiy: "+ right_inches_per_sec);*/
       		
-            SmartDashboard.putNumber("Left Side", inchesPerSecondToCountsPerTenthOfSecond(left_inches_per_sec * scale));
-            SmartDashboard.putNumber("Right Side: ", inchesPerSecondToCountsPerTenthOfSecond(right_inches_per_sec * scale));
+
             SmartDashboard.putNumber("Left Side Velocity", masterLeft.getSelectedSensorVelocity(0));
             SmartDashboard.putNumber("Right Side Velocity", masterRight.getSelectedSensorVelocity(0));
         } else {

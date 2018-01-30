@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Set;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -24,15 +25,14 @@ public class AutoModeSelector {
      * Uses reflection to get every auto mode in the defined auto modes package. The idea being to remove a step from the process of adding an autonomous mode.
      */
     public static void initAutoModeSelector() {
-    	ObjectMapper modesMapper = new ObjectMapper();
-    	ArrayNode modesArray = modesMapper.createArrayNode();
-        
+    	ArrayList<String> modesArray = new ArrayList<String>();
     	Reflections reflections = new Reflections(AUTO_MODES_PACKAGE);
         Set<Class<? extends AutoModeBase>> modes = reflections.getSubTypesOf(AutoModeBase.class);
         for(Class<?> mode:modes){
-        	modesArray.add(mode.getClass().getName());
+        	modesArray.add(mode.getName());
         }
-        SmartDashboard.putString(AUTO_OPTIONS_DASHBOARD_KEY, modesArray.toString());
+        String[] stringArray = new String[modesArray.size()];
+        SmartDashboard.putStringArray(AUTO_OPTIONS_DASHBOARD_KEY, modesArray.toArray(stringArray));
         //SmartDashboard.putString(SELECTED_AUTO_MODE_DASHBOARD_KEY, mDefaultMode.mDashboardName);
     }
     
@@ -43,13 +43,13 @@ public class AutoModeSelector {
     public static AutoModeBase getSelectedAutoMode() {
         String selectedModeName = SmartDashboard.getString(
                 SELECTED_AUTO_MODE_DASHBOARD_KEY,
-                "NO SELECTED MODE!!!!");
+                "NO SELECTED MODE!!!!"); //TODO Make this default to the mobility auto
         
         Reflections reflections = new Reflections(AUTO_MODES_PACKAGE);
         Set<Class<? extends AutoModeBase>> modes = reflections.getSubTypesOf(AutoModeBase.class);
         
         for (Class<?> mode:modes) {
-            if (selectedModeName.equals(mode.getClass().getName())) {
+            if (selectedModeName.equals(mode.getName())) {
             	//TODO: Nicer messages when things go wrong.
                 try {
 					return (AutoModeBase) mode.getConstructor().newInstance();
@@ -80,5 +80,10 @@ public class AutoModeSelector {
     public static AutoModeBase fallBackToDefaultAuto(String wantedAutoMode){
     	DriverStation.reportError("Failed to select auto mode: " + wantedAutoMode, false);
     	return new LeftSideScaleAuto(); //TODO make an actual reasonable default auto
+    }
+    public static String returnNameOfSelectedAuto(){
+        return  SmartDashboard.getString(
+                SELECTED_AUTO_MODE_DASHBOARD_KEY,
+                "NO SELECTED MODE!!!!");
     }
 }
