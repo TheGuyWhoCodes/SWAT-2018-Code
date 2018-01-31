@@ -9,10 +9,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import java.sql.Driver;
+
 public class ClimberSubsystem implements Subsystem {
 	
 	private TalonSRX upMotor, leftDown, rightDown;
-	private ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
+	private static ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
+	private DriverStation mDriverStation = DriverStation.getInstance();
 	public enum ClimberStates {
 		MOVING_UP,
 		PULLING_DOWN,
@@ -28,7 +31,7 @@ public class ClimberSubsystem implements Subsystem {
 		setBrakeMode();
 		mClimberStates = ClimberStates.IDLE;
 	}
-	public ClimberSubsystem getInstance() {
+	public static ClimberSubsystem getInstance() {
 		return mClimberSubsystem;
 	}
 	private Loop mLooper = new Loop() {
@@ -100,11 +103,16 @@ public class ClimberSubsystem implements Subsystem {
 	 * @param power
 	 * Power to send to the two CIMS
 	 */
-	public void climbAtPower(double power) {
+	public void climbAtPower(double power, boolean overrideTime) {
 		if(mClimberStates != ClimberStates.PULLING_DOWN){
 			mClimberStates = ClimberStates.PULLING_DOWN;
 		}
-		leftDown.set(ControlMode.PercentOutput, power);
+
+		if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45){
+			leftDown.set(ControlMode.PercentOutput, power);
+		} else if(overrideTime) {
+			leftDown.set(ControlMode.PercentOutput, power);
+		}
 		//right is in follower
 	}
 	/**
@@ -112,11 +120,15 @@ public class ClimberSubsystem implements Subsystem {
 	 * @param power
 	 * Power to send to the 775 pro to drive it up
 	 */
-	public void liftClimberAtPower(double power) {
+	public void liftClimberAtPower(double power, boolean overrideTime) {
 		if(mClimberStates != ClimberStates.MOVING_UP){
 			mClimberStates = ClimberStates.MOVING_UP;
 		}
-		upMotor.set(ControlMode.PercentOutput, power);
+		if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45) {
+			upMotor.set(ControlMode.PercentOutput, power);
+		} else if(overrideTime){
+			upMotor.set(ControlMode.PercentOutput, power);
+		}
 	}
 	public boolean canClimb(){
 		return DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().getMatchNumber() > 10;

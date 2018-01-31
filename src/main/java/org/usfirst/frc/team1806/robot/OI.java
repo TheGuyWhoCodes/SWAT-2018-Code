@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
  */
 public class OI {
 	private DriveTrainSubsystem mDriveTrainSubsystem = DriveTrainSubsystem.getInstance();
+	private ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
     private CheesyDriveHelper mCheesyDriveHelper = new CheesyDriveHelper();
 	private XboxController dc = new XboxController(0);
 	private XboxController oc = new XboxController(1);
@@ -56,6 +58,22 @@ public class OI {
 				mSnackManipulator.intakeCube();
 			} else if(Math.abs(oc.getLeftTrigger()) > .2){
 				mSnackManipulator.spitOutCube();
+			} else {
+				mSnackManipulator.stopIntakeMotors();
+			}
+			if(oc.getRightTrigger() > .2){
+				if(oc.getButtonY()){
+					mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
+				}
+			} else {
+
+			}
+			if(oc.getLeftTrigger() > .2){
+				if(oc.getButtonY()){
+					mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
+				}
+			} else {
+
 			}
 		}
 	}

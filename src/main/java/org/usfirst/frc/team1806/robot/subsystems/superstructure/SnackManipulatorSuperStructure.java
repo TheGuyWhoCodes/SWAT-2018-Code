@@ -114,4 +114,13 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 	public void goToBottom(){
 		mLiftSubsystem.resetToBottom();
 	}
+	public boolean isAtPosition(){
+			return mLiftSubsystem.isAtPosition();
+	}
+	public void stopIntakeMotors(){
+		mIntakeSubsystem.stopAllIntake();
+	}
+	public boolean doWeGotACube(){
+		return mLiftSubsystem.doWeHaveCube();
+	}
 }

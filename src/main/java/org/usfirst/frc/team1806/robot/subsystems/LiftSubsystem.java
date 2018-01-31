@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Whew, this subsystem is for our lift, we will later implement this into a superstructure
+ * Whew, this subsystem is for our liftactions, we will later implement this into a superstructure
  * so we can interact with our intake for doing things like shooting!
  */
 public class LiftSubsystem implements LiftInterface {
@@ -53,6 +53,7 @@ public class LiftSubsystem implements LiftInterface {
 		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
+		cubeMaster.configPeakOutputReverse(.2, 10);
 		reloadGains();
 	}
 
@@ -61,6 +62,7 @@ public class LiftSubsystem implements LiftInterface {
         SmartDashboard.putString("Lift State: ", returnLiftStates().toString());
         SmartDashboard.putString("Lift Position", returnCubePosition().toString());
 		SmartDashboard.putNumber("Lift Encoder Position", cubeMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Lift Power Sending", cubeMaster.getMotorOutputPercent());
 	}
 
 	@Override
@@ -99,8 +101,9 @@ public class LiftSubsystem implements LiftInterface {
 
             @Override
             public void onLoop(double timestamp) {
-				if(mCubePosition == CubePosition.BOTTOM_LIMIT){
-					updateCubeDetector();
+            	updateCubeDetector();
+            	if(isAtPosition()){
+            		mCubeLiftStates = CubeLiftStates.HOLD_POSITION;
 				}
 				cubePositionLoop();
 				cubeLiftStateLoop();
@@ -130,11 +133,18 @@ public class LiftSubsystem implements LiftInterface {
 						return;
 					case RESET_TO_BOTTOM:
 						mIsOnTarget = false;
-						resetToBottom();
+						//resetToBottom();
 						return;
 					case RESET_TO_TOP:
 						mIsOnTarget = false;
-						resetToTop();
+						//resetToTop();
+						return;
+					case HOLD_POSITION:
+						holdPosition();
+						return;
+					case MANUAL_CONTROL:
+						return;
+					case IDLE:
 						return;
 					default:
 						return;
@@ -207,14 +217,14 @@ public class LiftSubsystem implements LiftInterface {
 	}
 	
 	public void resetToBottom() {
-		if(!bottomLimit.get()) {
+		if(!bottomLimit.get() || Math.abs(cubeMaster.getSelectedSensorPosition(0)) < Constants.kBottomLimitTolerance) {
 		    if(mCubeLiftStates != CubeLiftStates.RESET_TO_BOTTOM){
 		        mCubeLiftStates = CubeLiftStates.RESET_TO_BOTTOM;
 		        mCubePosition = CubePosition.BOTTOM_LIMIT;
             }
-			cubeMaster.set(ControlMode.PercentOutput, -Constants.kCubeMoveToLimitSwitchSpeed);
+			cubeMaster.set(ControlMode.Position, 0);
 		} else {
-			zeroSensorsAtBottom();
+//			zeroSensorsAtBottom();
 		}
 	}
 	
@@ -232,7 +242,7 @@ public class LiftSubsystem implements LiftInterface {
 
 	/**
 	 * @return
-	 * Returns whether or not the lift is ready to be held at position for a cube to be deposited
+	 * Returns whether or not the liftactions is ready to be held at position for a cube to be deposited
 	 */
 	public boolean isAtPosition() {
 		return Math.abs(mLiftWantedPosition - cubeMaster.getSelectedSensorPosition(0)) < Constants.kCubePositionTolerance &&
@@ -249,14 +259,14 @@ public class LiftSubsystem implements LiftInterface {
 
     /**
      * @return
-     * returns the position of where the lift is eg: moving, scale
+     * returns the position of where the liftactions is eg: moving, scale
      */
 	public CubePosition returnCubePosition() {
 		return mCubePosition;
 	}
 
     /**
-     * Used to stop the manipulator from running. mostly ran on stop or when first setting the lift up
+     * Used to stop the manipulator from running. mostly ran on stop or when first setting the liftactions up
      */
 	public void setLiftIdle(){
 	    if(mCubeLiftStates != CubeLiftStates.IDLE){
@@ -300,8 +310,8 @@ public class LiftSubsystem implements LiftInterface {
 		}
 	}
 	public boolean doWeHaveCube(){
-    	return true;
-    	//return mHaveCube;
+    	//return true;
+    	return mHaveCube;
 	}
 	private void updateCubeDetector(){
     	mHaveCube = cubeDetector.get();
@@ -325,5 +335,15 @@ public class LiftSubsystem implements LiftInterface {
 	}
 	public void setupForManualMode(){
 
+	}
+
+	/**
+	 * Used to hold the cube when it is ready to be spat out
+	 */
+	public void holdPosition(){
+    	cubeMaster.set(ControlMode.PercentOutput, Constants.kCubeHoldPercentOutput);
+	}
+	public int returnWantedPosition(){
+		return mLiftWantedPosition;
 	}
 }
