@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import org.reflections.Reflections;
+import org.usfirst.frc.team1806.robot.auto.modes.DummyMode;
 import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -43,7 +44,7 @@ public class AutoModeSelector {
     public static AutoModeBase getSelectedAutoMode() {
         String selectedModeName = SmartDashboard.getString(
                 SELECTED_AUTO_MODE_DASHBOARD_KEY,
-                "NO SELECTED MODE!!!!"); //TODO Make this default to the mobility auto
+                "org.usfirst.frc.team1806.robot.auto.modes.DummyMode");
         
         Reflections reflections = new Reflections(AUTO_MODES_PACKAGE);
         Set<Class<? extends AutoModeBase>> modes = reflections.getSubTypesOf(AutoModeBase.class);
@@ -79,7 +80,7 @@ public class AutoModeSelector {
     
     public static AutoModeBase fallBackToDefaultAuto(String wantedAutoMode){
     	DriverStation.reportError("Failed to select auto mode: " + wantedAutoMode, false);
-    	return new LeftSideScaleAuto(); //TODO make an actual reasonable default auto
+    	return new DummyMode();
     }
     public static String returnNameOfSelectedAuto(){
         return  SmartDashboard.getString(
