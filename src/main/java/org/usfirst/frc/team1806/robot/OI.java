@@ -66,14 +66,14 @@ public class OI {
 					mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
 				}
 			} else {
-
+				mClimberSubsystem.stopLifting();
 			}
 			if(oc.getLeftTrigger() > .2){
 				if(oc.getButtonY()){
 					mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
 				}
 			} else {
-
+				mClimberSubsystem.stopClimbing();
 			}
 		}
 	}

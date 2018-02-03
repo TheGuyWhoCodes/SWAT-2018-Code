@@ -14,12 +14,13 @@ public class RobotMap {
     ///////////// CAN ports 
 	
 	//Drive train CAN
-	public static int leftA = 3;  //
-	public static int masterLeft = 4;  //
-	public static int leftC = 5; //
 	public static int rightA = 0; //
 	public static int masterRight = 1; //
 	public static int rightC = 2;
+	public static int leftA = 3;  //
+	public static int masterLeft = 4;  //
+	public static int leftC = 5; //
+
 	
 	//Cube Elevator CANs
 	public static int cubeMaster = 6;
@@ -40,8 +41,8 @@ public class RobotMap {
 	////////// These are all of the solenoids for the robot
 	
 	//Shifting
-	public static int shiftLow = 6;
-	public static int shiftHigh = 7;
+	public static int shiftLow = 0;
+	public static int shiftHigh = 1;
 	
 	
 	///////////// DIOs

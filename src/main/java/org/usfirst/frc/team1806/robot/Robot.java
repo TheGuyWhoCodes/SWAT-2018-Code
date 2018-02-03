@@ -23,7 +23,9 @@ import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
 import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
+import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team1806.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 import org.usfirst.frc.team1806.robot.util.CrashTracker;
@@ -47,7 +49,7 @@ public class Robot extends TimedRobot {
 	public static PowerDistributionPanel powerDistributionPanel;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
-			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance()));
+			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance(), ClimberSubsystem.getInstance()));
     private Looper mEnabledLooper = new Looper();
     /*
      * LLL
