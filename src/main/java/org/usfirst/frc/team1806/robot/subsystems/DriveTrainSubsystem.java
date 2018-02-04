@@ -222,12 +222,13 @@ public class DriveTrainSubsystem implements Subsystem{
 		reloadGains();
 		mDriveStates = DriveStates.NOTHING;
 	}
-	public void arcadeDrive(double power, double turn){
-		leftDrive(power + turn); //verify signs
-		rightDrive(power - turn);
-	}
 	private void configureTalonsForPositionControl() {
         if (usesTalonPositionControl(mDriveStates)) {
+			masterLeft.configPeakOutputReverse(-1, 10);
+			masterLeft.configPeakOutputForward(1,10);
+
+			masterRight.configPeakOutputReverse(-1, 10);
+			masterRight.configPeakOutputForward(1,10);
             // We entered a position control state.
             System.out.println("Configuring position control");
             masterRight.selectProfileSlot(kLowGearPositionControlSlot, 0);
@@ -242,6 +243,11 @@ public class DriveTrainSubsystem implements Subsystem{
 	private void configureTalonsForSpeedControl() {
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
+			masterLeft.configPeakOutputReverse(-1, 10);
+			masterLeft.configPeakOutputForward(1,10);
+
+			masterRight.configPeakOutputReverse(-1, 10);
+			masterRight.configPeakOutputForward(1,10);
             System.out.println("Configuring speed control");
             masterLeft.selectProfileSlot(kHighGearVelocityControlSlot, 0);
             masterRight.selectProfileSlot(kHighGearVelocityControlSlot, 0);
@@ -410,35 +416,65 @@ public class DriveTrainSubsystem implements Subsystem{
     	return mDriveStates.toString();
     }
 
-    public void rightDrive(double output) {
+	/**
+	 * Drives only the right side at a percent
+	 * @param output
+	 * Wanted percent
+	 */
+	public void rightDrive(double output) {
 		masterRight.set(com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput, output);
 	}
+
+	/**
+	 * Sets the talons for brake mode
+	 */
     public void setBrakeMode() {
     	 //set for auto
     	 masterLeft.setNeutralMode(NeutralMode.Brake);
     	 masterRight.setNeutralMode(NeutralMode.Brake);
      }
-    public void setCoastMode() {
+
+	/**
+	 * Sets the talons up for coast mode
+	 */
+	public void setCoastMode() {
     	 // set for driving
     	 masterLeft.setNeutralMode(NeutralMode.Coast);
     	 masterRight.setNeutralMode(NeutralMode.Coast);
      }
-    public synchronized void setCreepMode(DriveSignal signal) {
+
+	/**
+	 * Used in OI to set the robot up for creep mode
+	 * @param signal
+	 * Our left and right drivetrain speed
+	 */
+	public synchronized void setCreepMode(DriveSignal signal) {
     	if(mDriveStates != DriveStates.CREEP) {
     		mDriveStates = DriveStates.CREEP;
-    		System.out.println("CREEPE");
+    		System.out.println("CREEP");
     	}
     	masterLeft.set(ControlMode.PercentOutput, signal.getLeft() / 3);
     	masterRight.set(ControlMode.PercentOutput, signal.getRight() / 3);
     }
 
     //////
+
+	/**
+	 * Used to change the robot heading when needed
+	 * @param angle
+	 * Wanted angle
+	 */
     public synchronized void setGyroAngle(Rotation2d angle) {
         navx.reset();
         navx.setAngleAdjustment(angle);
     }
-    
-    public synchronized void setHighGear(boolean wantsHighGear) {
+
+	/**
+	 * Used to set highgear
+	 * @param wantsHighGear
+	 * it's a boolean saying if you want it or not
+	 */
+	public synchronized void setHighGear(boolean wantsHighGear) {
         if (wantsHighGear != mIsHighGear) {
             mIsHighGear = wantsHighGear;
             shifter.set(wantsHighGear ? Value.kForward : Value.kReverse);
@@ -459,7 +495,13 @@ public class DriveTrainSubsystem implements Subsystem{
              leftA.setNeutralMode(currentMode);
              leftC.setNeutralMode(currentMode);
      }
-    public synchronized void setOpenLoop(DriveSignal signal) {
+
+	/**
+	 * Used to control robot in OI
+	 * @param signal
+	 * Signal is our left drivetrain and right drivetrian power
+	 */
+	public synchronized void setOpenLoop(DriveSignal signal) {
          if (mDriveStates != DriveStates.DRIVING) {
              mDriveStates = DriveStates.DRIVING;
              setNeutralMode(false);
@@ -469,11 +511,26 @@ public class DriveTrainSubsystem implements Subsystem{
          masterLeft.set(ControlMode.PercentOutput, signal.getLeft());
      }
 
-    public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+	/**
+	 * Used to update velocity setpoint and set state
+	 * @param left_inches_per_sec
+	 * Left inches per second
+	 * @param right_inches_per_sec
+	 * Right inches per second
+	 */
+	public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
         configureTalonsForSpeedControl();
         mDriveStates = DriveStates.VELOCITY_SETPOINT;
         updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
     }
+
+	/**
+	 * Used to setup our pure pursuit controller for auto
+	 * @param path
+	 * This is the wanted path that we want to drive on
+	 * @param reversed
+	 * If the robot is reversed or not
+	 */
     public synchronized void setWantDrivePath(Path path, boolean reversed) {
         if (mCurrentPath != path || mDriveStates != DriveStates.PATH_FOLLOWING) {
         	System.out.println("Setting Path_Following");
@@ -503,6 +560,11 @@ public class DriveTrainSubsystem implements Subsystem{
     public synchronized void setWantTurnToHeading(Rotation2d heading) {
         if (mDriveStates != DriveStates.TURN_TO_HEADING) {
             mDriveStates = DriveStates.TURN_TO_HEADING;
+            masterLeft.configPeakOutputReverse(-.7, 10);
+			masterLeft.configPeakOutputForward(.7,10);
+
+			masterRight.configPeakOutputReverse(-.7, 10);
+			masterRight.configPeakOutputForward(.7,10);
             configureTalonsForPositionControl();
             updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
         }
@@ -518,8 +580,11 @@ public class DriveTrainSubsystem implements Subsystem{
 		// TODO Auto-generated method stub
 		
 	}
-    
-    public void stopDrive() {
+
+	/**
+	 * Stops the drivetrain completely
+	 */
+	public void stopDrive() {
 		if(mDriveStates != DriveStates.DRIVING) {
 			mDriveStates = DriveStates.DRIVING;
 		}
@@ -542,7 +607,14 @@ public class DriveTrainSubsystem implements Subsystem{
             updateVelocitySetpoint(0, 0);
         }
     }
-    
+
+	/**
+	 * Updates the talons to what position it will go to
+	 * @param left_position_inches
+	 * Inches wanted
+	 * @param right_position_inches
+	 * Inches wanted
+	 */
     private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
         if (usesTalonPositionControl(mDriveStates)) {
             masterLeft.set(ControlMode.Position, inchesToCounts(left_position_inches));
@@ -553,9 +625,14 @@ public class DriveTrainSubsystem implements Subsystem{
             masterRight.set(ControlMode.PercentOutput, 0);
         }
     }
-    private void updateTurnToHeading(double timestamp) {
-        final Rotation2d field_to_robot = mRobotState.getLatestFieldToVehicle().getValue().getRotation();
 
+	/**
+	 * Updates motor speed when turning to an angle
+	 * @param timestamp
+	 * Current timestamp, don't worry chris it's not used
+	 */
+	private void updateTurnToHeading(double timestamp) {
+        final Rotation2d field_to_robot = mRobotState.getLatestFieldToVehicle().getValue().getRotation();
         // Figure out the rotation necessary to turn to face the goal.
         final Rotation2d robot_to_target = field_to_robot.inverse().rotateBy(mTargetHeading);
 
@@ -576,7 +653,14 @@ public class DriveTrainSubsystem implements Subsystem{
         updatePositionSetpoint(wheel_delta.left + getLeftDistanceInches(),
                 wheel_delta.right + getRightDistanceInches());
     }
-    
+
+	/**
+	 * Update velocity setpoint is used to send over our desired velocity from pure pursuit control
+	 * @param left_inches_per_sec
+	 * Left side inches per second
+	 * @param right_inches_per_sec
+	 * right side inches per second
+	 */
     private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
         if (usesTalonVelocityControl(mDriveStates)) {
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
@@ -597,9 +681,12 @@ public class DriveTrainSubsystem implements Subsystem{
             masterRight.set(ControlMode.PercentOutput, 0);
         }
     }
-    
-    @Override
-	public void zeroSensors() {
+
+	/**
+	 * This method zeros the encoders of both sides of the drivetrain
+	 */
+	@Override
+	public synchronized void zeroSensors() {
 		System.out.println("Zeroing drivetrain sensors...");
    	 masterLeft.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
    	 masterRight.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);

@@ -11,7 +11,7 @@ public class LiftToSwitch implements Action {
 
     @Override
     public void update() {
-
+        SnackManipulatorSuperStructure.getInstance().goToSwitchSetpoint();
     }
 
     @Override

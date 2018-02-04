@@ -61,6 +61,7 @@ public class OI {
 			} else {
 				mSnackManipulator.stopIntakeMotors();
 			}
+
 			if(oc.getRightTrigger() > .2){
 				if(oc.getButtonY()){
 					mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());

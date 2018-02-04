@@ -8,12 +8,12 @@ import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulator
 public class LiftToBottom implements Action {
     @Override
     public boolean isFinished() {
-        return SnackManipulatorSuperStructure.getInstance().isAtPosition();
+        return SnackManipulatorSuperStructure.getInstance().areWeAtBottom();
     }
 
     @Override
     public void update() {
-
+        SnackManipulatorSuperStructure.getInstance().goToBottom();
     }
 
     @Override

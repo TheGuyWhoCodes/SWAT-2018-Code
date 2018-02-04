@@ -41,7 +41,7 @@ public class Constants {
     public static double kPathFollowingGoalVelTolerance = 12.0;
     public static double kPathStopSteeringDistance = 9.0;
 
-
+//
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in counts per tenth of a second
     public static double kDriveHighGearVelocityKp = 0.016 ; // 1.2/1500;
@@ -51,8 +51,8 @@ public class Constants {
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = .1;
     public static double kDriveHighGearNominalOutput = 0.25;
-    public static double kDriveHighGearMaxSetpoint = 4 * 12; //FPS
-    
+
+    public static double kDriveHighGearMaxSetpoint = 10 * 12; //FPS
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
     public static double kDriveLowGearPositionKp = .17;
@@ -68,7 +68,7 @@ public class Constants {
     //PID Gains for the Cube Position closed loop
     // Units: setpoints, error, and output are in counts
     public static int kCubePositionPIDTimeout = 10;
-    public static double kCubePositionkP = 0.34;
+    public static double kCubePositionkP = 0.55;
     public static double kCubePositionkI = 0;
     public static double kCubePositionkD = 0;
     public static double kCubePositionkF = 1/20000;
@@ -76,15 +76,15 @@ public class Constants {
     public static double kCubePositionRampRate = 0;
     
     // Encoder constants used by Cube Lift system
-    public static int kHighScaleEncoderCount = 16000;
-    public static int kNeutralScaleEncoderCount = 13000;
+    public static int kHighScaleEncoderCount = 18000;
+    public static int kNeutralScaleEncoderCount = 14000;
     public static int kDropOffEncoderCount = 0;
     public static int kSwitchEncoderCount = 7500;
     public static int kPositionControlPIDSlot = 0;
     public static int kEncoderCountsPerInch = 0;
     public static double kCubeMoveToLimitSwitchSpeed = .2;
     public static double kCubeHoldPercentOutput = .08;
-    public static int kCubePositionTolerance = 100;
+    public static int kCubePositionTolerance = 500;
     public static int kCubeVelocityTolerance = 50;
     public static int kCubeTopLimitSwitchPosition = 500;
     public static int kCubeSpitOutNeedsOuterIntake = 0;

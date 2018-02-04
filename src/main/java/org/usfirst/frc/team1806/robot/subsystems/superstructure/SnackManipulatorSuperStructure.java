@@ -123,4 +123,7 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 	public boolean doWeGotACube(){
 		return mLiftSubsystem.doWeHaveCube();
 	}
+	public boolean areWeAtBottom(){
+	return	mLiftSubsystem.areWeAtBottomLimit();
+	}
 }

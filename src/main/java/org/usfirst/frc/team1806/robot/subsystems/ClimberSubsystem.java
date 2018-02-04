@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1806.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -26,7 +27,8 @@ public class ClimberSubsystem implements Subsystem {
 		upMotor = new TalonSRX(RobotMap.upMotor);
 		leftDown = new TalonSRX(RobotMap.downLeft);
 		rightDown = new TalonSRX(RobotMap.downRight);
-		
+		rightDown.configContinuousCurrentLimit(133,10);
+		leftDown.configContinuousCurrentLimit(133,10);
 		rightDown.follow(leftDown); // set to follow mode
 		setBrakeMode();
 		mClimberStates = ClimberStates.IDLE;
@@ -64,7 +66,8 @@ public class ClimberSubsystem implements Subsystem {
 	};
 	@Override
 	public void outputToSmartDashboard() {
-		
+		SmartDashboard.putNumber("Climb CIM 1: ", leftDown.getOutputCurrent());
+		SmartDashboard.putNumber("Climb CIM 2: ", rightDown.getOutputCurrent());
 	}
 
 	@Override
@@ -107,11 +110,14 @@ public class ClimberSubsystem implements Subsystem {
 		if(mClimberStates != ClimberStates.PULLING_DOWN){
 			mClimberStates = ClimberStates.PULLING_DOWN;
 		}
-
+		SmartDashboard.putNumber("Climber Power: ", power);
 		if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45){
 			leftDown.set(ControlMode.PercentOutput, power);
+
 		} else if(overrideTime) {
 			leftDown.set(ControlMode.PercentOutput, power);
+		} else {
+			leftDown.set(ControlMode.PercentOutput, 0);
 		}
 		//right is in follower
 	}
@@ -128,7 +134,16 @@ public class ClimberSubsystem implements Subsystem {
 			upMotor.set(ControlMode.PercentOutput, power);
 		} else if(overrideTime){
 			upMotor.set(ControlMode.PercentOutput, power);
+		} else {
+			upMotor.set(ControlMode.PercentOutput, 0);
 		}
+	}
+	public void stopClimbing(){
+		leftDown.set(ControlMode.PercentOutput, 0);
+
+	}
+	public void stopLifting(){
+		upMotor.set(ControlMode.PercentOutput, 0);
 	}
 	public boolean canClimb(){
 		return DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().getMatchNumber() > 10;

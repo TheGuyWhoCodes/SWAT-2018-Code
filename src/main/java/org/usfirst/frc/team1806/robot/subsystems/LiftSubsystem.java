@@ -53,7 +53,7 @@ public class LiftSubsystem implements LiftInterface {
 		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
-		cubeMaster.configPeakOutputReverse(.2, 10);
+		cubeMaster.configPeakOutputReverse(-.6, 10);
 		reloadGains();
 	}
 
@@ -63,6 +63,7 @@ public class LiftSubsystem implements LiftInterface {
         SmartDashboard.putString("Lift Position", returnCubePosition().toString());
 		SmartDashboard.putNumber("Lift Encoder Position", cubeMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Lift Power Sending", cubeMaster.getMotorOutputPercent());
+		SmartDashboard.putBoolean("Bottom limit triggered", areWeAtBottomLimit());
 	}
 
 	@Override
@@ -71,16 +72,16 @@ public class LiftSubsystem implements LiftInterface {
 	}
 
 	@Override
-	public void zeroSensors() {
+	public synchronized void zeroSensors() {
 		cubeMaster.setSelectedSensorPosition(0,0,10);
 	}
-    public void zeroSensorsAtTop(){
+    public synchronized void zeroSensorsAtTop(){
         cubeMaster.setSelectedSensorPosition(Constants.kCubeTopLimitSwitchPosition, 0, 10);
         if(mCubeLiftStates != CubeLiftStates.POSITION_CONTROL) {
             mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
         }
     }
-    public void zeroSensorsAtBottom(){
+    public synchronized void zeroSensorsAtBottom(){
         cubeMaster.setSelectedSensorPosition(0, 0, 10);
         if(mCubeLiftStates != CubeLiftStates.POSITION_CONTROL) {
             mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
@@ -101,12 +102,20 @@ public class LiftSubsystem implements LiftInterface {
 
             @Override
             public void onLoop(double timestamp) {
-            	updateCubeDetector();
-            	if(isAtPosition()){
-            		mCubeLiftStates = CubeLiftStates.HOLD_POSITION;
+            	synchronized (LiftSubsystem.this){
+					updateCubeDetector();
+					if(isAtPosition()){
+						if(mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM || areWeAtBottomLimit()){
+							System.out.println("Idling baby");
+							mCubeLiftStates = CubeLiftStates.IDLE;
+						} else{
+							mCubeLiftStates = CubeLiftStates.HOLD_POSITION;
+							holdPosition();
+						}
+					}
+					cubePositionLoop();
+					cubeLiftStateLoop();
 				}
-				cubePositionLoop();
-				cubeLiftStateLoop();
             }
 
             private void cubePositionLoop(){
@@ -133,7 +142,6 @@ public class LiftSubsystem implements LiftInterface {
 						return;
 					case RESET_TO_BOTTOM:
 						mIsOnTarget = false;
-						//resetToBottom();
 						return;
 					case RESET_TO_TOP:
 						mIsOnTarget = false;
@@ -145,6 +153,7 @@ public class LiftSubsystem implements LiftInterface {
 					case MANUAL_CONTROL:
 						return;
 					case IDLE:
+						cubeMaster.set(ControlMode.PercentOutput, 0);
 						return;
 					default:
 						return;
@@ -160,14 +169,14 @@ public class LiftSubsystem implements LiftInterface {
 	}
 
 	@Override
-	public void goToSetpoint(int setpoint) {
+	public synchronized void goToSetpoint(int setpoint) {
 		mLiftWantedPosition = setpoint;
 		cubeMaster.set(ControlMode.Position, mLiftWantedPosition);
 		System.out.println(mLiftWantedPosition + "  " + isReadyForSetpoint());
 	}
 
 	@Override
-	public void zeroOnBottom() {
+	public synchronized void zeroOnBottom() {
 		// TODO Auto-generated method stub
 		if(mCubeLiftStates != CubeLiftStates.RESET_TO_BOTTOM) {
 			mCubeLiftStates = CubeLiftStates.RESET_TO_BOTTOM;
@@ -175,7 +184,7 @@ public class LiftSubsystem implements LiftInterface {
 	}
 
 	@Override
-	public void goToTop() {
+	public synchronized void goToTop() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -216,19 +225,19 @@ public class LiftSubsystem implements LiftInterface {
 		cubeMaster.configClosedloopRamp(Constants.kCubePositionRampRate, Constants.kCubePositionPIDTimeout);
 	}
 	
-	public void resetToBottom() {
-		if(!bottomLimit.get() || Math.abs(cubeMaster.getSelectedSensorPosition(0)) < Constants.kBottomLimitTolerance) {
+	public synchronized void resetToBottom() {
+		if(!areWeAtBottomLimit() || Math.abs(cubeMaster.getSelectedSensorPosition(0)) < Constants.kBottomLimitTolerance) {
 		    if(mCubeLiftStates != CubeLiftStates.RESET_TO_BOTTOM){
 		        mCubeLiftStates = CubeLiftStates.RESET_TO_BOTTOM;
 		        mCubePosition = CubePosition.BOTTOM_LIMIT;
+				goToSetpoint(0);
             }
-			cubeMaster.set(ControlMode.Position, 0);
 		} else {
 //			zeroSensorsAtBottom();
 		}
 	}
 	
-	public void resetToTop() {
+	public synchronized void resetToTop() {
         if(!topLimit.get()) {
             if(mCubeLiftStates != CubeLiftStates.RESET_TO_TOP){
                 mCubeLiftStates = CubeLiftStates.RESET_TO_TOP;
@@ -244,7 +253,10 @@ public class LiftSubsystem implements LiftInterface {
 	 * @return
 	 * Returns whether or not the liftactions is ready to be held at position for a cube to be deposited
 	 */
-	public boolean isAtPosition() {
+	public synchronized boolean isAtPosition() {
+		if(mCubeLiftStates == CubeLiftStates.IDLE){
+			return false;
+		}
 		return Math.abs(mLiftWantedPosition - cubeMaster.getSelectedSensorPosition(0)) < Constants.kCubePositionTolerance &&
 				Math.abs(cubeMaster.getSelectedSensorVelocity(0)) < Constants.kCubeVelocityTolerance;
 	}
@@ -253,7 +265,7 @@ public class LiftSubsystem implements LiftInterface {
 	 * @return
 	 * returns current state of cube 
 	 */
-	public CubeLiftStates returnLiftStates() {
+	public synchronized CubeLiftStates returnLiftStates() {
 		return mCubeLiftStates;
 	}
 
@@ -261,14 +273,14 @@ public class LiftSubsystem implements LiftInterface {
      * @return
      * returns the position of where the liftactions is eg: moving, scale
      */
-	public CubePosition returnCubePosition() {
+	public synchronized CubePosition returnCubePosition() {
 		return mCubePosition;
 	}
 
     /**
      * Used to stop the manipulator from running. mostly ran on stop or when first setting the liftactions up
      */
-	public void setLiftIdle(){
+	public synchronized void setLiftIdle(){
 	    if(mCubeLiftStates != CubeLiftStates.IDLE){
 	        mCubeLiftStates = CubeLiftStates.IDLE;
         }
@@ -278,32 +290,36 @@ public class LiftSubsystem implements LiftInterface {
     /**
      * Sets up the robot to accept position setpoints
      */
-    public void updatePositionControl(){
+    public synchronized void updatePositionControl(){
 	    if(mCubeLiftStates != CubeLiftStates.POSITION_CONTROL){
 	        mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
         }
         setBrakeMode();
     }
 
-    public void goToHighScaleSetpoint(){
+    public synchronized void goToHighScaleSetpoint(){
     	updatePositionControl();
+    	mCubePosition = CubePosition.HIGH_SCALE;
     	if(isReadyForSetpoint()){
 			goToSetpoint(Constants.kHighScaleEncoderCount);
 		}
     }
-    public void goToSwitchSetpoint(){
+    public synchronized void goToSwitchSetpoint(){
+		mCubePosition = CubePosition.SWITCH;
 		updatePositionControl();
 		if(isReadyForSetpoint()){
 			goToSetpoint(Constants.kSwitchEncoderCount);
 		}
     }
-    public void goToDropOffSetpoint(){
+    public synchronized void goToDropOffSetpoint(){
+		mCubePosition = CubePosition.DROP_OFF;
 		updatePositionControl();
 		if(isReadyForSetpoint()){
 			goToSetpoint(Constants.kDropOffEncoderCount);
 		}
     }
-    public void goToNeutralScaleSetpoint(){
+    public synchronized void goToNeutralScaleSetpoint(){
+		mCubePosition = CubePosition.NEUTRAL_SCALE;
 		updatePositionControl();
 		if(isReadyForSetpoint()){
 			goToSetpoint(Constants.kNeutralScaleEncoderCount);
@@ -316,13 +332,14 @@ public class LiftSubsystem implements LiftInterface {
 	private void updateCubeDetector(){
     	mHaveCube = cubeDetector.get();
 	}
-	private boolean isReadyForSetpoint(){
-    	return !mIsManualMode && isCurrentModesReady() && doWeHaveCube();
+	private synchronized boolean isReadyForSetpoint(){
+    	return !mIsManualMode && isCurrentModesReady() && (doWeHaveCube() || mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM);
 	}
-	private boolean isCurrentModesReady(){
+	private synchronized boolean isCurrentModesReady(){
     	return mCubeLiftStates == CubeLiftStates.POSITION_CONTROL ||
 				mCubeLiftStates == CubeLiftStates.IDLE ||
-				mCubeLiftStates == CubeLiftStates.HOLD_POSITION;
+				mCubeLiftStates == CubeLiftStates.HOLD_POSITION ||
+				mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM;
 	}
 	public int returnLiftPosition(){
     	return cubeMaster.getSelectedSensorPosition(0);
@@ -330,7 +347,7 @@ public class LiftSubsystem implements LiftInterface {
 	public boolean needsBothIntakes(){
     	return returnLiftPosition() < Constants.kCubeSpitOutNeedsOuterIntake || mCubePosition == CubePosition.BOTTOM_LIMIT;
 	}
-	public void manualMode(double power){
+	public synchronized void manualMode(double power){
     	cubeMaster.set(ControlMode.PercentOutput, power);
 	}
 	public void setupForManualMode(){
@@ -340,10 +357,19 @@ public class LiftSubsystem implements LiftInterface {
 	/**
 	 * Used to hold the cube when it is ready to be spat out
 	 */
-	public void holdPosition(){
+	public synchronized void holdPosition(){
     	cubeMaster.set(ControlMode.PercentOutput, Constants.kCubeHoldPercentOutput);
 	}
 	public int returnWantedPosition(){
 		return mLiftWantedPosition;
 	}
+
+	/**
+	 * @return
+	 * are we at the bottom limit??
+	 */
+	public boolean areWeAtBottomLimit(){
+		return !bottomLimit.get();
+	}
+
 }
