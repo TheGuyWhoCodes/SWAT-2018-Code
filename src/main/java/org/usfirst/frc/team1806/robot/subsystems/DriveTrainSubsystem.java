@@ -453,8 +453,8 @@ public class DriveTrainSubsystem implements Subsystem{
     		mDriveStates = DriveStates.CREEP;
     		System.out.println("CREEP");
     	}
-    	masterLeft.set(ControlMode.PercentOutput, signal.getLeft() / 3);
-    	masterRight.set(ControlMode.PercentOutput, signal.getRight() / 3);
+    	masterLeft.set(ControlMode.PercentOutput, signal.getLeft() / 2);
+    	masterRight.set(ControlMode.PercentOutput, signal.getRight() / 2);
     }
 
     //////

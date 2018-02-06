@@ -3,12 +3,9 @@ package org.usfirst.frc.team1806.robot.auto;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Set;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import org.reflections.Reflections;
 import org.usfirst.frc.team1806.robot.auto.modes.DummyMode;
-import org.usfirst.frc.team1806.robot.auto.modes.LeftSideScaleAuto;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -10,11 +10,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import java.sql.Driver;
-
 public class ClimberSubsystem implements Subsystem {
-	
-	private TalonSRX upMotor, leftDown, rightDown;
+	private static int maxCurrentDraw = 90;
+	private TalonSRX upMotor, downA, downB, downC;
 	private static ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
 	private DriverStation mDriverStation = DriverStation.getInstance();
 	public enum ClimberStates {
@@ -25,11 +23,14 @@ public class ClimberSubsystem implements Subsystem {
 	private ClimberStates mClimberStates;
 	public ClimberSubsystem() {
 		upMotor = new TalonSRX(RobotMap.upMotor);
-		leftDown = new TalonSRX(RobotMap.downLeft);
-		rightDown = new TalonSRX(RobotMap.downRight);
-		rightDown.configContinuousCurrentLimit(133,10);
-		leftDown.configContinuousCurrentLimit(133,10);
-		rightDown.follow(leftDown); // set to follow mode
+		downA = new TalonSRX(RobotMap.downA);
+		downB = new TalonSRX(RobotMap.downB);
+		downC = new TalonSRX(RobotMap.downC);
+		downB.configContinuousCurrentLimit(maxCurrentDraw,10);
+		downA.configContinuousCurrentLimit(maxCurrentDraw,10);
+		downC.configContinuousCurrentLimit(maxCurrentDraw,10);
+		downB.follow(downA); // set to follow mode
+		downC.follow(downA); // set to follow mode
 		setBrakeMode();
 		mClimberStates = ClimberStates.IDLE;
 	}
@@ -66,8 +67,9 @@ public class ClimberSubsystem implements Subsystem {
 	};
 	@Override
 	public void outputToSmartDashboard() {
-		SmartDashboard.putNumber("Climb CIM 1: ", leftDown.getOutputCurrent());
-		SmartDashboard.putNumber("Climb CIM 2: ", rightDown.getOutputCurrent());
+		SmartDashboard.putNumber("Climb CIM 1: ", downA.getOutputCurrent());
+		SmartDashboard.putNumber("Climb CIM 2: ", downB.getOutputCurrent());
+		SmartDashboard.putNumber("Climb CIM 3: ", downC.getOutputCurrent());
 	}
 
 	@Override
@@ -93,13 +95,15 @@ public class ClimberSubsystem implements Subsystem {
 	}
 	public void setBrakeMode() {
 		upMotor.setNeutralMode(NeutralMode.Brake);
-		leftDown.setNeutralMode(NeutralMode.Brake);
-		rightDown.setNeutralMode(NeutralMode.Brake);
+		downA.setNeutralMode(NeutralMode.Brake);
+		downB.setNeutralMode(NeutralMode.Brake);
+		downC.setNeutralMode(NeutralMode.Brake);
 	}
 	public void setCoastMode() {
 		upMotor.setNeutralMode(NeutralMode.Coast);
-		leftDown.setNeutralMode(NeutralMode.Coast);
-		rightDown.setNeutralMode(NeutralMode.Coast);
+		downA.setNeutralMode(NeutralMode.Coast);
+		downB.setNeutralMode(NeutralMode.Coast);
+		downC.setNeutralMode(NeutralMode.Coast);
 	}
 	/**
 	 * Used to pull down on the bar when properly lined up 
@@ -112,12 +116,12 @@ public class ClimberSubsystem implements Subsystem {
 		}
 		SmartDashboard.putNumber("Climber Power: ", power);
 		if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45){
-			leftDown.set(ControlMode.PercentOutput, power);
+			downA.set(ControlMode.PercentOutput, power);
 
 		} else if(overrideTime) {
-			leftDown.set(ControlMode.PercentOutput, power);
+			downA.set(ControlMode.PercentOutput, power);
 		} else {
-			leftDown.set(ControlMode.PercentOutput, 0);
+			downA.set(ControlMode.PercentOutput, 0);
 		}
 		//right is in follower
 	}
@@ -139,7 +143,7 @@ public class ClimberSubsystem implements Subsystem {
 		}
 	}
 	public void stopClimbing(){
-		leftDown.set(ControlMode.PercentOutput, 0);
+		downA.set(ControlMode.PercentOutput, 0);
 
 	}
 	public void stopLifting(){

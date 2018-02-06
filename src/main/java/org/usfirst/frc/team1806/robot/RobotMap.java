@@ -28,8 +28,9 @@ public class RobotMap {
 	
 	// Climber CAN Ports
 	public static int upMotor = 8;
-	public static int downLeft = 9;
-	public static int downRight = 10;
+	public static int downA = 9;
+	public static int downB = 10;
+	public static int downC = 15;
 	
 	//Intake CAN Ports
 	

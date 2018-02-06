@@ -23,7 +23,12 @@ import org.usfirst.frc.team1806.robot.util.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class QualMode extends AutoModeBase {
-
+	/**
+	 * Qual Mode will be what we use for almost every qual match
+	 *
+	 * This auto decides which side to run on then drops off a cube at both the scale and the switch
+	 * @throws AutoModeEndedException
+	 */
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		String gameData;

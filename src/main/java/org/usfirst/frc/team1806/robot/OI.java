@@ -53,26 +53,26 @@ public class OI {
 				mSnackManipulator.goToNeutralScaleSetpoint();
 			} else if(cubeManualMode.update(oc.getButtonA())){
 				mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
+			} else if(oc.getButtonStart()){
+				if(cubeManualMode.returnStatus()){
+					mSnackManipulator.resetLiftSensors();
+				}
 			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
 				mSnackManipulator.intakeCube();
-			} else if(Math.abs(oc.getLeftTrigger()) > .2){
+			} else if(oc.getButtonRB()){
 				mSnackManipulator.spitOutCube();
 			} else {
 				mSnackManipulator.stopIntakeMotors();
 			}
 
 			if(oc.getRightTrigger() > .2){
-				if(oc.getButtonY()){
-					mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
-				}
-			} else {
+				mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
+			} else{
 				mClimberSubsystem.stopLifting();
 			}
 			if(oc.getLeftTrigger() > .2){
-				if(oc.getButtonY()){
-					mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
-				}
+				mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
 			} else {
 				mClimberSubsystem.stopClimbing();
 			}

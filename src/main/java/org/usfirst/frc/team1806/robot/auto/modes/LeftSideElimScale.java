@@ -29,6 +29,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.Arrays;
 
+
+/**
+ * This is our "World Famous" auto used to deposit two / three cubes to the scale
+ *
+ * This will be ran probably only at elims!
+ */
 public class LeftSideElimScale  extends AutoModeBase{
 
 		@Override

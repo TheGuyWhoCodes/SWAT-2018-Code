@@ -7,6 +7,11 @@ import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
 
+/**
+ * Lift Tester auto will be used to test our lift very quickly whenever we get to an event
+ *
+ * Self-Tester
+ */
 public class LiftTester extends AutoModeBase {
     @Override
     protected void routine() throws AutoModeEndedException {

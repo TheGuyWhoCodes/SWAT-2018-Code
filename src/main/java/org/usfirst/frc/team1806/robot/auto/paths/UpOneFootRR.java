@@ -12,6 +12,9 @@ import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 public class UpOneFootRR implements PathContainer{
+	/**
+	 * This class allows us to on the fly move up one foot without having to create a seperate path for a foot
+	 */
 	int startX, startY, distanceDriven;
 	boolean isReversed;
 	public UpOneFootRR(int startX, int startY, int distanceDriven, boolean isReversed) {

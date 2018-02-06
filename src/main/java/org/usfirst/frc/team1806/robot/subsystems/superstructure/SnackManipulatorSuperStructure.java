@@ -126,4 +126,7 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 	public boolean areWeAtBottom(){
 	return	mLiftSubsystem.areWeAtBottomLimit();
 	}
+	public synchronized void resetLiftSensors(){
+		mLiftSubsystem.zeroSensorsAtBottom();
+	}
 }
