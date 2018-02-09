@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto.paths;
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
@@ -13,14 +14,7 @@ public class RightSideSwitch implements PathContainer {
     
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(16,165,0,0));
-        sWaypoints.add(new Waypoint(25,165,5,70));
-        sWaypoints.add(new Waypoint(75,115,30,70));
-        sWaypoints.add(new Waypoint(120,115,0,70));
-        sWaypoints.add(new Waypoint(127,115,0,70));
-
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        return PathAdapter.rightSideSwitch();
     }
     
     @Override

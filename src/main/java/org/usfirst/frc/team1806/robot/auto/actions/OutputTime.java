@@ -3,9 +3,9 @@ package org.usfirst.frc.team1806.robot.auto.actions;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
-public class SpitOutTime implements Action {
+public class OutputTime implements Action {
 	String splitName;
-	public SpitOutTime(String splitName) {
+	public OutputTime(String splitName) {
 		this.splitName = splitName;
 	}
 	@Override

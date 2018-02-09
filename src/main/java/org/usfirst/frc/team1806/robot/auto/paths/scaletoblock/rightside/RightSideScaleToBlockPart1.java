@@ -16,8 +16,8 @@ public class RightSideScaleToBlockPart1 implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(280,40,0,0));
-        sWaypoints.add(new Waypoint(245,65,0,120));
+        sWaypoints.add(new Waypoint(270,50,0,0));
+        sWaypoints.add(new Waypoint(245,75,0,120));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }

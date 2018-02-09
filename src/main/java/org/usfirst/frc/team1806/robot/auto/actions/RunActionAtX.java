@@ -26,6 +26,7 @@ public class RunActionAtX implements Action{
             action.start();
             hasRunAction = true;
         }
+        lastX = currentX;
     }
 
     @Override
@@ -35,6 +36,7 @@ public class RunActionAtX implements Action{
 
     @Override
     public void start() {
-
+        lastX = RobotState.getInstance().getLatestFieldToVehicle().getValue().getTranslation().x();
+        currentX = RobotState.getInstance().getLatestFieldToVehicle().getValue().getTranslation().x();
     }
 }

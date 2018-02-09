@@ -26,6 +26,7 @@ public class RunActionAtAngle implements Action {
             action.start();
             hasRunAction = true;
         }
+        lastAngle = currentAngle;
     }
 
     @Override
@@ -35,6 +36,7 @@ public class RunActionAtAngle implements Action {
 
     @Override
     public void start() {
-
+        lastAngle = RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees();
+        currentAngle = RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees();
     }
 }

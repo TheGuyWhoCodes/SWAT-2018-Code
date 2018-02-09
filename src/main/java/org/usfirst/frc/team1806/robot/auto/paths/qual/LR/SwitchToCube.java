@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.auto.paths.qual.LR;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.path.Path;
@@ -15,13 +16,7 @@ public class SwitchToCube implements PathContainer {
     
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(180,264,0,0));
-        sWaypoints.add(new Waypoint(245,264,30,60));
-        sWaypoints.add(new Waypoint(245,215,0,60));
-        sWaypoints.add(new Waypoint(245,90,0,120));
-
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        return PathAdapter.leftRightSwitchToCube();
     }
     
     @Override

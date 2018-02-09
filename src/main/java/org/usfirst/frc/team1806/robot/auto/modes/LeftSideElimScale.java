@@ -1,28 +1,23 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
-import org.usfirst.frc.team1806.robot.Constants;
-import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
+import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.IntakeCube;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
+import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
-import org.usfirst.frc.team1806.robot.auto.paths.LeftSideScale;
-import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart2;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart3;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart4;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart2;
-import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
-import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -52,44 +47,82 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new RunActionAtX(250, new SpitOutCube(.5))
 					}
 			)));
-			runAction(new SpitOutTime("Finished Left Side"));
-			runAction(new LiftToBottom());
-			runAction(new TurnTowardsPoint(new Translation2d(190,210)));
-			runAction(new SpitOutTime("Finished Turn"));
+			runAction(new OutputTime("Finished Left Side"));
+
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							//TODO put in the intaking control
+							new TurnTowardsPoint(new Translation2d(190,210)),
+							new RunActionAtAngle(-35,new LiftToBottom())
+					}
+			)));
+			runAction(new OutputTime("Finished Turn"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart1())
 					})));
-			runAction(new SpitOutTime("Grabbed Cube"));
+			runAction(new OutputTime("Grabbed Cube"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(new LeftSideScalePart2())
 					})));
-			runAction(new TurnTowardsPoint(new Translation2d(600, 155)));
-			runAction(new RunActionAtX(210, new LiftToHighScale()));
-			runAction(new SpitOutCube(.5));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 155)),
+							new RunActionAtAngle(-75, new LiftToNeutralScale()),
+							new RunActionAtAngle(-20, new SpitOutCube(.5))
+
+					})));
+
 			runAction(new LiftToBottom());
+//			runAction(new TurnTowardsPoint(new Translation2d(190,190)));
 //			runAction(new ParallelAction(Arrays.asList(
 //					new Action[]{
-//							new RunActionAtAngle(-90 ,new LiftToBottom()),
-//							new TurnTowardsPoint(new Translation2d(190,190))
+//							new IntakeCube(),
+//							new DrivePathAction(new LeftSideScalePart3())
 //					})));
-//			runAction(new DrivePathAction(new LeftSideScalePart3()));
 //			runAction(new DrivePathAction(new LeftSideScalePart4()));
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
-			runAction(new DrivePathAction(rightScalePath));
-			runAction(new SpitOutTime("Done driving towards scale!"));
-			runAction(new TurnTowardsPoint(new Translation2d(245, 65)));
-			runAction(new SpitOutTime("Spun towards cube"));
-			runAction(new DrivePathAction(new RightSideScaleToBlockPart1()));
-			runAction(new SpitOutTime("Grabbed Cube!"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(rightScalePath),
+							new RunActionAtY(70, new LiftToHighScale()),
+							new RunActionAtX(270, new SpitOutCube(.5))
+					}
+			)));
+			runAction(new OutputTime("Done driving towards scale!"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new RunActionAtAngle(45, new LiftToBottom()),
+							new TurnTowardsPoint(new Translation2d(245, 65))
+					}
+			)));
+
+
+
+			runAction(new OutputTime("Spun towards cube"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new RightSideScaleToBlockPart1())
+					})));
+
+			runAction(new OutputTime("Grabbed Cube!"));
 			runAction(new DrivePathAction(new RightSideScaleToBlockPart2()));
-			runAction(new SpitOutTime("Drove to Scale!"));
-			runAction(new TurnTowardsPoint(new Translation2d(600, 80)));
-			runAction(new SpitOutTime("Done with Auto!"));
+			runAction(new OutputTime("Drove to Scale!"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 80)),
+							new RunActionAtAngle(45, new LiftToNeutralScale())
+					}
+			)));
+
+
+			runAction(new SpitOutCube(.5));
+			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else {
 			PathContainer dumbMode = new DumbMode();

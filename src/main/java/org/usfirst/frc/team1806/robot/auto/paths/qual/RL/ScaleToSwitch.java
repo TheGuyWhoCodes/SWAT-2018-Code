@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.auto.paths.qual.RL;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.path.Path;
@@ -15,14 +16,7 @@ public class ScaleToSwitch implements PathContainer {
     
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(275,242,0,0));
-        sWaypoints.add(new Waypoint(245,232,30,60));
-        sWaypoints.add(new Waypoint(245,175,0,80));
-        sWaypoints.add(new Waypoint(245,75,0,60));
-
-
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        return PathAdapter.rightLeftScaleToSwitch();
     }
     
     @Override

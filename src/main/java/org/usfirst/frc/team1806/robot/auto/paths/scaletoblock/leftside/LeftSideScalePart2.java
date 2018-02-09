@@ -3,6 +3,7 @@ package org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team1806.robot.RobotState;
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.path.PathBuilder;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
@@ -15,10 +16,8 @@ public class LeftSideScalePart2 implements PathContainer {
     
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(240,227,0,69));
-        sWaypoints.add(new Waypoint(275,235,0,69));
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        return PathAdapter.leftSidePart2();
+
     }
     
     @Override

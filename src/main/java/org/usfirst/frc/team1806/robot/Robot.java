@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
         mEnabledLooper.register(RobotStateEstimator.getInstance());
         mDrive.setCoastMode();
         AutoModeSelector.initAutoModeSelector();
+		PathAdapter.initPaths();
 	}
 
 

@@ -50,13 +50,6 @@ public class DriveTrainSubsystem implements Subsystem{
 		VELOCITY_SETPOINT,
 		NOTHING // Used on init
 	}
-    public enum WantedDriveState{
-		DRIVING,
-		CREEP,
-		VISION,
-		TURN_TO_THETA,
-		DRIVE_TO_POSITION
-	}
     private static DriveTrainSubsystem mDriveTrainSubsystem = new DriveTrainSubsystem();
 	private static final int kLowGearPositionControlSlot = 0;
 	private static final int kHighGearVelocityControlSlot = 1;
@@ -697,6 +690,15 @@ public class DriveTrainSubsystem implements Subsystem{
 	public void writeToLog() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * sets up a parking brake for climbing
+	 *
+	 * TODO: Do it chris
+	 */
+	public void setParkingBrakeMode(){
+		setBrakeMode();
 	}
 }
 
