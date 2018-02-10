@@ -114,9 +114,9 @@ public class LiftSubsystem implements LiftInterface {
 							holdPosition();
 						}
 					}
-					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE){
-						goToTeleOpHold();
-					}
+//					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE){
+//						goToTeleOpHold();
+//					}
 					cubePositionLoop();
 					cubeLiftStateLoop();
 				}
@@ -383,5 +383,7 @@ public class LiftSubsystem implements LiftInterface {
 	public boolean areWeAtBottomLimit(){
 		return !bottomLimit.get();
 	}
-
+	public int returnLiftHeight(){
+		return cubeMaster.getSelectedSensorPosition(0);
+	}
 }

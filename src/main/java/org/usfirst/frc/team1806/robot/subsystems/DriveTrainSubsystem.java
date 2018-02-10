@@ -131,7 +131,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	private Loop mLoop = new Loop() {
 		
 		@Override
-		public void onLoop(double timestamp) {
+		public synchronized void onLoop(double timestamp) {
 			// TODO Auto-generated method stub
 			lastTimeStamp = currentTimeStamp;
 			currentTimeStamp = timestamp;
@@ -166,7 +166,7 @@ public class DriveTrainSubsystem implements Subsystem{
 		}
 		
 		@Override
-		public void onStart(double timestamp) {
+		public synchronized void onStart(double timestamp) {
 			synchronized (DriveTrainSubsystem.this) {
 				setOpenLoop(DriveSignal.NEUTRAL);
 				setNeutralMode(false);
@@ -175,7 +175,7 @@ public class DriveTrainSubsystem implements Subsystem{
 		}
 		
 		@Override
-		public void onStop(double timestamp) {
+		public synchronized void onStop(double timestamp) {
 	        setOpenLoop(DriveSignal.NEUTRAL);
 			
 		}
@@ -215,7 +215,7 @@ public class DriveTrainSubsystem implements Subsystem{
 		reloadGains();
 		mDriveStates = DriveStates.NOTHING;
 	}
-	private void configureTalonsForPositionControl() {
+	private synchronized void configureTalonsForPositionControl() {
         if (usesTalonPositionControl(mDriveStates)) {
 			masterLeft.configPeakOutputReverse(-1, 10);
 			masterLeft.configPeakOutputForward(1,10);
@@ -233,7 +233,7 @@ public class DriveTrainSubsystem implements Subsystem{
         	System.out.println("Oh no! DIdn't set Position control");
         }
     }
-	private void configureTalonsForSpeedControl() {
+	private synchronized void configureTalonsForSpeedControl() {
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
 			masterLeft.configPeakOutputReverse(-1, 10);
@@ -363,7 +363,7 @@ public class DriveTrainSubsystem implements Subsystem{
      
      
      @Override
-	public void registerEnabledLoops(Looper enabledLooper) {
+	public synchronized void registerEnabledLoops(Looper enabledLooper) {
 		enabledLooper.register(mLoop);
 		
 	}
@@ -421,7 +421,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	/**
 	 * Sets the talons for brake mode
 	 */
-    public void setBrakeMode() {
+    public synchronized void setBrakeMode() {
     	 //set for auto
     	 masterLeft.setNeutralMode(NeutralMode.Brake);
     	 masterRight.setNeutralMode(NeutralMode.Brake);
@@ -430,7 +430,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	/**
 	 * Sets the talons up for coast mode
 	 */
-	public void setCoastMode() {
+	public synchronized void setCoastMode() {
     	 // set for driving
     	 masterLeft.setNeutralMode(NeutralMode.Coast);
     	 masterRight.setNeutralMode(NeutralMode.Coast);
@@ -569,7 +569,7 @@ public class DriveTrainSubsystem implements Subsystem{
     }
     
     @Override
-	public void stop() {
+	public synchronized void stop() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -577,7 +577,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	/**
 	 * Stops the drivetrain completely
 	 */
-	public void stopDrive() {
+	public synchronized void stopDrive() {
 		if(mDriveStates != DriveStates.DRIVING) {
 			mDriveStates = DriveStates.DRIVING;
 		}
@@ -589,7 +589,7 @@ public class DriveTrainSubsystem implements Subsystem{
      * Called periodically when the robot is in path following mode. Updates the path follower with the robots latest
      * pose, distance driven, and velocity, the updates the wheel velocity setpoints.
      */
-    private void updatePathFollower(double timestamp) {
+    private synchronized void updatePathFollower(double timestamp) {
         RigidTransform2d robot_pose = mRobotState.getLatestFieldToVehicle().getValue();
         Twist2d command = mPathFollower.update(timestamp, robot_pose,
                 RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
@@ -624,7 +624,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	 * @param timestamp
 	 * Current timestamp, don't worry chris it's not used
 	 */
-	private void updateTurnToHeading(double timestamp) {
+	private synchronized void updateTurnToHeading(double timestamp) {
         final Rotation2d field_to_robot = mRobotState.getLatestFieldToVehicle().getValue().getRotation();
         // Figure out the rotation necessary to turn to face the goal.
         final Rotation2d robot_to_target = field_to_robot.inverse().rotateBy(mTargetHeading);

@@ -154,5 +154,6 @@ public class Robot extends TimedRobot {
 		mRobotState.outputToSmartDashboard();
 		mEnabledLooper.outputToSmartDashboard();
 		SmartDashboard.putString("Auto We Are Running", AutoModeSelector.returnNameOfSelectedAuto());
+		SmartDashboard.putNumber("PDP Total", powerDistributionPanel.getTotalCurrent());
 	}
 }

@@ -26,12 +26,15 @@ public class RunActionAtAngle implements Action {
             action.start();
             hasRunAction = true;
         }
+        if(hasRunAction){
+            action.update();
+        }
         lastAngle = currentAngle;
     }
 
     @Override
     public void done() {
-
+        action.done();
     }
 
     @Override

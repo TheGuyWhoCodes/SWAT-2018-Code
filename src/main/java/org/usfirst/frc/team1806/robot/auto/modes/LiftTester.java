@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.auto.modes;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
+import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
@@ -19,5 +20,6 @@ public class LiftTester extends AutoModeBase {
         runAction(new LiftToNeutralScale());
         runAction(new LiftToHighScale());
         runAction(new LiftToBottom());
+        runAction(new SpitOutCube(.5));
     }
 }

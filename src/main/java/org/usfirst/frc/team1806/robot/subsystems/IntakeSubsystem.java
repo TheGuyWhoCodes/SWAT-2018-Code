@@ -34,6 +34,9 @@ public class IntakeSubsystem implements Subsystem{
 	public IntakeSubsystem(double intakingSpeed, int rightCAN, int leftCAN) {
 		leftOuterIntake = new TalonSRX(rightCAN);
 		rightOuterIntake = new TalonSRX(leftCAN);
+
+		rightOuterIntake.setInverted(false);
+		leftOuterIntake.setInverted(true);
 		mIntakingSpeed = intakingSpeed;
 	}
 	@Override

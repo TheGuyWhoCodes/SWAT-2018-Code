@@ -6,7 +6,8 @@ import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulator
 public class IntakeCube implements Action {
     @Override
     public boolean isFinished() {
-        return SnackManipulatorSuperStructure.getInstance().doWeGotACube();
+        return true;
+        // return SnackManipulatorSuperStructure.getInstance().doWeGotACube();
     }
 
     @Override

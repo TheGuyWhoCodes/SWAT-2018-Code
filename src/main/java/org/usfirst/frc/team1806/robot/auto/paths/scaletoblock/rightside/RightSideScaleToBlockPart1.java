@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.auto.PathAdapter;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.RobotState;
 import org.usfirst.frc.team1806.robot.path.Path;
@@ -15,16 +16,12 @@ public class RightSideScaleToBlockPart1 implements PathContainer {
     
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(270,50,0,0));
-        sWaypoints.add(new Waypoint(245,75,0,120));
-
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        return PathAdapter.rightSidePart1();
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(260, 40), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees())); 
+        return new RigidTransform2d(new Translation2d(275, 50), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override

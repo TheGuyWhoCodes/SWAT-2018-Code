@@ -43,8 +43,8 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(safeSide),
-							new RunActionAtX(175, new LiftToHighScale()),
-							new RunActionAtX(250, new SpitOutCube(.5))
+							new RunActionAtX(135, new LiftToHighScale()),
+							new RunActionAtX(268, new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
@@ -52,7 +52,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(190,210)),
-							new RunActionAtAngle(-35,new LiftToBottom())
+							new RunActionAtAngleRange(-180,-15,new LiftToBottom())
 					}
 			)));
 			runAction(new OutputTime("Finished Turn"));
@@ -70,10 +70,11 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(600, 155)),
-							new RunActionAtAngle(-75, new LiftToNeutralScale()),
-							new RunActionAtAngle(-20, new SpitOutCube(.5))
-
-					})));
+							new RunActionAtAngleRange(-75,75, new LiftToNeutralScale()),
+							//new RunActionAtX(268, new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
+							new RunActionAtLiftHeight(15000, (new SpitOutCube(.1)))
+					}
+			)));
 
 			runAction(new LiftToBottom());
 //			runAction(new TurnTowardsPoint(new Translation2d(190,190)));
@@ -83,6 +84,8 @@ public class LeftSideElimScale  extends AutoModeBase{
 //							new DrivePathAction(new LeftSideScalePart3())
 //					})));
 //			runAction(new DrivePathAction(new LeftSideScalePart4()));
+
+
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
@@ -90,13 +93,13 @@ public class LeftSideElimScale  extends AutoModeBase{
 					new Action[]{
 							new DrivePathAction(rightScalePath),
 							new RunActionAtY(70, new LiftToHighScale()),
-							new RunActionAtX(270, new SpitOutCube(.5))
+							new RunActionAtX(260,new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Done driving towards scale!"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new RunActionAtAngle(45, new LiftToBottom()),
+							new RunActionAtAngleRange(-45,45, new LiftToBottom()),
 							new TurnTowardsPoint(new Translation2d(245, 65))
 					}
 			)));
@@ -116,12 +119,11 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(600, 80)),
-							new RunActionAtAngle(45, new LiftToNeutralScale())
+							new RunActionAtAngleRange(-45,45, new LiftToNeutralScale()),
+							new RunActionAtLiftHeight(15000, (new SpitOutCube(.1)))
 					}
 			)));
-
-
-			runAction(new SpitOutCube(.5));
+			runAction(new LiftToBottom());
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else {

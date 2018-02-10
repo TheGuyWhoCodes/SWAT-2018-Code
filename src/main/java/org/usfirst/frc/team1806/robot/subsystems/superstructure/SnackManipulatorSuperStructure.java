@@ -36,19 +36,19 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 
 
 	private Loop mLooper = new Loop() {
-		
+
 		@Override
 		public void onStop(double timestamp) {
 			// TODO Auto-generated method stub
-
+			mIntakeSubsystem.stopAllIntake();
 		}
-		
+
 		@Override
 		public void onStart(double timestamp) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void onLoop(double timestamp) {
 			
@@ -102,7 +102,7 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mLiftSubsystem.goToNeutralScaleSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
 	}
-	public void spitOutCube(){
+	public synchronized void spitOutCube(){
 		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes());
 	}
 	public void intakeCube(){
@@ -121,10 +121,14 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mIntakeSubsystem.stopAllIntake();
 	}
 	public boolean doWeGotACube(){
+
 		return mLiftSubsystem.doWeHaveCube();
 	}
 	public boolean areWeAtBottom(){
 	return	mLiftSubsystem.areWeAtBottomLimit();
+	}
+	public int returnLiftHeight(){
+		return mLiftSubsystem.returnLiftHeight();
 	}
 	public synchronized void resetLiftSensors(){
 		mLiftSubsystem.zeroSensorsAtBottom();

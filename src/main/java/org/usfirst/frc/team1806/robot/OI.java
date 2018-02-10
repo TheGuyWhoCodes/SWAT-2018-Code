@@ -60,7 +60,7 @@ public class OI {
 			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
 				mSnackManipulator.intakeCube();
-			} else if(oc.getButtonRB()){
+			} else if(dc.getButtonRB()){
 				mSnackManipulator.spitOutCube();
 			} else {
 				mSnackManipulator.stopIntakeMotors();

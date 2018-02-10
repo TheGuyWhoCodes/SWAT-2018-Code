@@ -19,7 +19,7 @@ public class Constants {
     
     ///Motion
     
-    public static double kMinLookAhead = 9; // inches
+    public static double kMinLookAhead = 9.25; // inches
     public static double kMinLookAheadSpeed = 9.0; // inches per second
     public static double kMaxLookAhead = 24.0; // inches
     public static double kMaxLookAheadSpeed = 120.0; // inches per second
@@ -51,8 +51,7 @@ public class Constants {
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = .1;
     public static double kDriveHighGearNominalOutput = 0.25;
-
-    public static double kDriveHighGearMaxSetpoint = 12 * 12; //FPS
+    public static double kDriveHighGearMaxSetpoint = 14 * 12; //FPS
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
     public static double kDriveLowGearPositionKp = .17;
@@ -77,7 +76,7 @@ public class Constants {
     
     // Encoder constants used by Cube Lift system
     public static int kHighScaleEncoderCount = 18000;
-    public static int kNeutralScaleEncoderCount = 15000;
+    public static int kNeutralScaleEncoderCount = 15500;
     public static int kTeleOpHoldHeight = 3000;
     public static int kDropOffEncoderCount = 0;
     public static int kSwitchEncoderCount = 7500;
@@ -92,6 +91,6 @@ public class Constants {
     public static int kBottomLimitTolerance = 50;
     
     // Intaking Constants
-    public static double kOuterIntakeSpeed = .5;
-    public static double kInnerIntakeSpeed = .5;
+    public static double kOuterIntakeSpeed = 1;
+    public static double kInnerIntakeSpeed = 1;
 }

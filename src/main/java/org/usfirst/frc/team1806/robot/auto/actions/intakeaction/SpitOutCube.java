@@ -13,7 +13,7 @@ public class SpitOutCube implements Action{
     }
     @Override
     public boolean isFinished() {
-        return startTime + wantedTime <= timer.getFPGATimestamp() ;
+        return timer.hasPeriodPassed(wantedTime);
     }
 
     @Override
@@ -28,6 +28,10 @@ public class SpitOutCube implements Action{
 
     @Override
     public void start() {
-
+        timer.reset();
+        timer.start();
+        System.out.println("We are spitting!");
+        startTime = timer.getFPGATimestamp();
+        SnackManipulatorSuperStructure.getInstance().spitOutCube();
     }
 }

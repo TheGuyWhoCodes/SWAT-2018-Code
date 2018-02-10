@@ -27,10 +27,14 @@ public class RunActionAtX implements Action{
             hasRunAction = true;
         }
         lastX = currentX;
+        if(hasRunAction){
+            action.update();
+        }
     }
 
     @Override
     public void done() {
+        action.done();
 
     }
 

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.subsystems.superstructure;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
@@ -51,7 +52,7 @@ public class CubeEaterSuperStructure implements Subsystem{
 	@Override
 	public void outputToSmartDashboard() {
 		// TODO Auto-generated method stub
-		
+		SmartDashboard.putString("Intake States", mIntakeStates.toString());
 	}
 
 	@Override

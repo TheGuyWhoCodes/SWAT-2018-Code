@@ -69,7 +69,7 @@ public class ClimberSubsystem implements Subsystem {
 	public void outputToSmartDashboard() {
 		SmartDashboard.putNumber("Climb CIM 1: ", downA.getOutputCurrent());
 		SmartDashboard.putNumber("Climb CIM 2: ", downB.getOutputCurrent());
-		SmartDashboard.putNumber("Climb CIM 3: ", downC.getOutputCurrent());
+//		SmartDashboard.putNumber("Climb CIM 3: ", downC.getOutputCurrent());
 	}
 
 	@Override
