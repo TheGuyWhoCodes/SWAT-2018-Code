@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import org.usfirst.frc.team1806.robot.auto.actions.controller.VibrateControllerForTime;
 import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
@@ -33,6 +34,8 @@ public class OI {
 	private SnackManipulatorSuperStructure mSnackManipulator = SnackManipulatorSuperStructure.getInstance();
 	private Latch shiftingLatch = new Latch();
 	private Latch cubeManualMode = new Latch();
+	private Latch cubeOverride = new Latch();
+	private boolean didWeHaveACube = false;
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
 			if(dc.getRightTrigger() > .2) {
@@ -54,15 +57,22 @@ public class OI {
 			} else if(cubeManualMode.update(oc.getButtonA())){
 				mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
 			} else if(oc.getButtonStart()){
-				if(cubeManualMode.returnStatus()){
 					mSnackManipulator.resetLiftSensors();
-				}
+
 			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
 				mSnackManipulator.intakeCube();
 			} else if(dc.getButtonRB()){
-				mSnackManipulator.spitOutCube();
-			} else {
+				mSnackManipulator.spitOutCube(.6);
+			} else if(dc.getPOVUp()){
+				mSnackManipulator.spitOutCube(1);
+			} else if(dc.getPOVDown()){
+				mSnackManipulator.spitOutCube(.3);
+			} else if(dc.getPOVRight()){
+				mSnackManipulator.spitOutCube(.5);
+			} else if(dc.getPOVLeft()){
+				mSnackManipulator.spitOutCube(.4);
+			}else {
 				mSnackManipulator.stopIntakeMotors();
 			}
 
@@ -76,6 +86,11 @@ public class OI {
 			} else {
 				mClimberSubsystem.stopClimbing();
 			}
+
+			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
+				new VibrateControllerForTime(1, dc).start();
+			}
+			didWeHaveACube = mSnackManipulator.doWeGotACube();
 		}
 	}
 	

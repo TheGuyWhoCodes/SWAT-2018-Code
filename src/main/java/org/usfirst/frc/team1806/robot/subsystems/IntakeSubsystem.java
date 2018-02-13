@@ -72,9 +72,9 @@ public class IntakeSubsystem implements Subsystem{
 		leftOuterIntake.set(ControlMode.PercentOutput, mIntakingSpeed);
 		rightOuterIntake.set(ControlMode.PercentOutput, mIntakingSpeed);
 	}
-	public void outtaking(){
-		leftOuterIntake.set(ControlMode.PercentOutput, -mIntakingSpeed);
-		rightOuterIntake.set(ControlMode.PercentOutput, -mIntakingSpeed);
+	public void outtaking(double power){
+		leftOuterIntake.set(ControlMode.PercentOutput, -power);
+		rightOuterIntake.set(ControlMode.PercentOutput, -power);
 	}
 	public void stopAllMotors() {
 		leftOuterIntake.set(ControlMode.PercentOutput,0);

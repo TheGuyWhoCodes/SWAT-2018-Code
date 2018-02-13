@@ -18,7 +18,7 @@ public class SpitOutCube implements Action{
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().spitOutCube();
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(.6);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class SpitOutCube implements Action{
         timer.start();
         System.out.println("We are spitting!");
         startTime = timer.getFPGATimestamp();
-        SnackManipulatorSuperStructure.getInstance().spitOutCube();
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(.6);
     }
 }

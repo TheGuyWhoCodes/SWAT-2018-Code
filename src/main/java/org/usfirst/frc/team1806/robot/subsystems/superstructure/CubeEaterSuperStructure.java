@@ -83,15 +83,21 @@ public class CubeEaterSuperStructure implements Subsystem{
 		mInnerIntake.intaking();
 		mOuterIntake.intaking();
 	}
-	public void outTaking() {
+	public void outTaking(double power) {
 		mIntakeStates = IntakeStates.OUTTAKE;
-		mInnerIntake.outtaking();
-		mOuterIntake.outtaking();
+		mInnerIntake.outtaking(power);
+		mOuterIntake.outtaking(power);
 	}
-	public void spitOutCube(boolean needsOuterIntake){
+	public void innerOuttake(double power){
+		mIntakeStates = IntakeStates.OUTTAKE;
+		mInnerIntake.outtaking(power);
+	}
+	public void spitOutCube(boolean needsOuterIntake, double power){
 		if(needsOuterIntake) {
-			mOuterIntake.outtaking();
+			outTaking(power);
+		} else {
+			innerOuttake(power);
 		}
-		mInnerIntake.outtaking();
 	}
+
 }

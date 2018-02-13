@@ -6,9 +6,13 @@ import org.usfirst.frc.team1806.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 
 public class LiftToBottom implements Action {
+    boolean instant;
+    public LiftToBottom(boolean finishInstantly){
+        instant = finishInstantly;
+    }
     @Override
     public boolean isFinished() {
-        return SnackManipulatorSuperStructure.getInstance().areWeAtBottom();
+        return (SnackManipulatorSuperStructure.getInstance().areWeAtBottom()) || instant;
     }
 
     @Override

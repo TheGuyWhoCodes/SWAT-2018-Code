@@ -51,7 +51,7 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 
 		@Override
 		public void onLoop(double timestamp) {
-			
+
 		}
 	};
 	@Override
@@ -102,11 +102,15 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mLiftSubsystem.goToNeutralScaleSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
 	}
-	public synchronized void spitOutCube(){
-		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes());
+	public synchronized void spitOutCube(double power){
+		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
 	}
 	public void intakeCube(){
-		mIntakeSubsystem.intaking();
+		if(!doWeGotACube()){
+			mIntakeSubsystem.intaking();
+		} else {
+			mIntakeSubsystem.stopAllIntake();
+		}
 	}
 	public void goToManualMode(double power){
 		mLiftSubsystem.manualMode(power);
@@ -133,4 +137,5 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 	public synchronized void resetLiftSensors(){
 		mLiftSubsystem.zeroSensorsAtBottom();
 	}
+
 }

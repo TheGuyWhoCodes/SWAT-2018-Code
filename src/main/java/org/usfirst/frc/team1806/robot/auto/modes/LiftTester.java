@@ -18,8 +18,8 @@ public class LiftTester extends AutoModeBase {
     protected void routine() throws AutoModeEndedException {
         runAction(new LiftToSwitch());
         runAction(new LiftToNeutralScale());
-        runAction(new LiftToHighScale());
-        runAction(new LiftToBottom());
+        runAction(new LiftToHighScale(false));
+        runAction(new LiftToBottom(false));
         runAction(new SpitOutCube(.5));
     }
 }

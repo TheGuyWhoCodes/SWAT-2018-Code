@@ -553,11 +553,11 @@ public class DriveTrainSubsystem implements Subsystem{
     public synchronized void setWantTurnToHeading(Rotation2d heading) {
         if (mDriveStates != DriveStates.TURN_TO_HEADING) {
             mDriveStates = DriveStates.TURN_TO_HEADING;
-            masterLeft.configPeakOutputReverse(-.7, 10);
-			masterLeft.configPeakOutputForward(.7,10);
+            masterLeft.configPeakOutputReverse(-.85, 10);
+			masterLeft.configPeakOutputForward(.85,10);
 
-			masterRight.configPeakOutputReverse(-.7, 10);
-			masterRight.configPeakOutputForward(.7,10);
+			masterRight.configPeakOutputReverse(-.85, 10);
+			masterRight.configPeakOutputForward(.85,10);
             configureTalonsForPositionControl();
             updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
         }

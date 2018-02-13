@@ -43,9 +43,9 @@ public class QualMode extends AutoModeBase {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
 			runAction(new DrivePathAction(rightScalePath));
-			runAction(new LiftToHighScale());
+			runAction(new LiftToHighScale(false));
 			runAction(new SpitOutCube(.2));
-			runAction(new LiftToBottom());
+			runAction(new LiftToBottom(false));
 			runAction(new TurnTowardsPoint(new Translation2d(245, 65)));
 			runAction(new DrivePathAction(new RightSideScaleToBlockPart1()));
 			runAction(new DrivePathAction(new UpOneFootRR(245,65,-12,false)));
@@ -58,7 +58,7 @@ public class QualMode extends AutoModeBase {
 			runAction(new LiftToNeutralScale());
 			runAction(new SpitOutCube(.2));
 			runAction(new OutputTime("Finished Left Side"));
-			runAction(new LiftToBottom());
+			runAction(new LiftToBottom(false));
 			runAction(new TurnTowardsPoint(new Translation2d(190,210)));
 			runAction(new OutputTime("Finished Turn"));
 			runAction(new DrivePathAction(new LeftSideScalePart1()));
