@@ -105,20 +105,6 @@ public class DriveTrainSubsystem implements Subsystem{
 	private int rightHighGearMaxVel = 0;
 	private double currentTimeStamp;
 	private double lastTimeStamp;
-	// This HashSet is used for PDP usage in our modified Talon code
-	private HashSet<Integer> rightSidePDP = new HashSet<Integer>() {{
-		int[] PDPValues = {13,14,15};
-		add(PDPValues[0]);
-		add(PDPValues[1]);
-		add(PDPValues[2]);
-	}};
-	private HashSet<Integer> leftSidePDP = new HashSet<Integer>() {{
-		int[] PDPValues = {0,1,2};
-		add(PDPValues[0]);
-		add(PDPValues[1]);
-		add(PDPValues[2]);
-	}};
-
 	// State Control
 	private DriveStates mDriveStates;
 	
@@ -355,6 +341,8 @@ public class DriveTrainSubsystem implements Subsystem{
 		SmartDashboard.putNumber("rightLowGearMaxVel", rightLowGearMaxVel);
 		SmartDashboard.putNumber("leftHighGearMaxVel", leftHighGearMaxVel);
 		SmartDashboard.putNumber("rightHighGearMaxVel", rightHighGearMaxVel);
+		SmartDashboard.putNumber("Right Motor Percent Output", masterRight.getMotorOutputPercent());
+		SmartDashboard.putNumber("Left Motor Percent Output", masterLeft.getMotorOutputPercent());
 		SmartDashboard.putString("Drive State", returnDriveState());
 		SmartDashboard.putNumber("NavX", getGyroAngle().getDegrees());
 		SmartDashboard.putBoolean("Are we in brake mode", mIsBrakeMode);

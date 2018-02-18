@@ -18,7 +18,7 @@ import org.usfirst.frc.team1806.robot.subsystems.Subsystem;
  */
 public class CubeEaterSuperStructure implements Subsystem{
     static CubeEaterSuperStructure mInstance = null;
-    private final IntakeSubsystem mOuterIntake;
+//    private final IntakeSubsystem mOuterIntake;
     private final IntakeSubsystem mInnerIntake;
     public static CubeEaterSuperStructure getInstance() {
         if (mInstance == null) {
@@ -27,7 +27,7 @@ public class CubeEaterSuperStructure implements Subsystem{
         return mInstance;
     }
     public CubeEaterSuperStructure() {
-		mOuterIntake = new IntakeSubsystem(Constants.kOuterIntakeSpeed, RobotMap.rightOuterIntake, RobotMap.leftOuterIntake);
+//		mOuterIntake = new IntakeSubsystem(Constants.kOuterIntakeSpeed, RobotMap.rightOuterIntake, RobotMap.leftOuterIntake);
 		mInnerIntake = new IntakeSubsystem(Constants.kInnerIntakeSpeed, RobotMap.rightInnerIntake, RobotMap.leftInnerIntake);
 	}
     public enum IntakeStates {
@@ -36,13 +36,7 @@ public class CubeEaterSuperStructure implements Subsystem{
     	OUTTAKE, // Outtaking
 		SPIT_OUT // Spitting out cube
     }
-    public enum WantedStates {
-    	IDLE, 
-    	INTAKE,		//ya know b
-    	OUTTAKE
-    }
     private IntakeStates mIntakeStates = IntakeStates.IDLE;
-    private WantedStates mWantedStates = WantedStates.IDLE;
     @Override
 	public void writeToLog() {
 		// TODO Auto-generated method stub
@@ -76,17 +70,17 @@ public class CubeEaterSuperStructure implements Subsystem{
 	public void stopAllIntake() {
 		mIntakeStates = IntakeStates.IDLE;
 		mInnerIntake.stopAllMotors();
-		mOuterIntake.stopAllMotors();
+//		mOuterIntake.stopAllMotors();
 	}
 	public void intaking() {
 		mIntakeStates = IntakeStates.INTAKE;
 		mInnerIntake.intaking();
-		mOuterIntake.intaking();
+//		mOuterIntake.intaking();
 	}
 	public void outTaking(double power) {
 		mIntakeStates = IntakeStates.OUTTAKE;
 		mInnerIntake.outtaking(power);
-		mOuterIntake.outtaking(power);
+//		mOuterIntake.outtaking(power);
 	}
 	public void innerOuttake(double power){
 		mIntakeStates = IntakeStates.OUTTAKE;

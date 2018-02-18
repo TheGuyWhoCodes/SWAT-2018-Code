@@ -8,15 +8,20 @@ import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
+import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
+import org.usfirst.frc.team1806.robot.auto.paths.UpOneFootRR;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart2;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart3;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart4;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart2;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart1;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart2;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart3;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
@@ -34,57 +39,54 @@ public class LeftSideElimScale  extends AutoModeBase{
 
 		@Override
 		protected void routine() throws AutoModeEndedException {
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
-		if(gameData.charAt(1) == 'L') {
+			String gameData;
+			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
+			System.out.println(gameData);
+		if(gameData.equals("LL")) {
 			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(safeSide),
-							new RunActionAtX(135, new LiftToHighScale()),
-							new RunActionAtX(268, new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
+							new RunActionAtX(70, new LiftToHighScale(false)),
+							new RunActionAtX(252, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
-
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(190,210)),
-							new RunActionAtAngleRange(-180,-15,new LiftToBottom())
-					}
-			)));
+			runAction(new LiftToBottom(true));
+			runAction(new TurnTowardsPoint(new Translation2d(190,240)));
 			runAction(new OutputTime("Finished Turn"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart1())
 					})));
-			runAction(new OutputTime("Grabbed Cube"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new DrivePathAction(new LeftSideScalePart2())
-					})));
-
+							new LiftToSwitch(),
+							new RunActionAtLiftHeight(5000, new SpitOutCube(.1))
+					}
+			)));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 155)),
-							new RunActionAtAngleRange(-75,75, new LiftToNeutralScale()),
-							//new RunActionAtX(268, new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
-							new RunActionAtLiftHeight(15000, (new SpitOutCube(.1)))
+							new DrivePathAction(new ThreeCubePart1()),
+							new LiftToBottom(true)
 					}
 			)));
 
-			runAction(new LiftToBottom());
-//			runAction(new TurnTowardsPoint(new Translation2d(190,190)));
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new IntakeCube(),
-//							new DrivePathAction(new LeftSideScalePart3())
-//					})));
-//			runAction(new DrivePathAction(new LeftSideScalePart4()));
-
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new ThreeCubePart2())
+					})));
+			runAction(new DrivePathAction(new ThreeCubePart3()));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new LiftToHighScale(false),
+							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+					})));
 
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
@@ -92,14 +94,14 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(rightScalePath),
-							new RunActionAtY(70, new LiftToHighScale()),
+							new RunActionAtY(110, new LiftToHighScale(false)),
 							new RunActionAtX(260,new RunActionAtLiftHeight(15000, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Done driving towards scale!"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new RunActionAtAngleRange(-45,45, new LiftToBottom()),
+							new RunActionAtAngleRange(-45,45, new LiftToBottom(false)),
 							new TurnTowardsPoint(new Translation2d(245, 65))
 					}
 			)));
@@ -123,10 +125,43 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new RunActionAtLiftHeight(15000, (new SpitOutCube(.1)))
 					}
 			)));
-			runAction(new LiftToBottom());
+			runAction(new LiftToBottom(false));
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
-		} else {
+		} else if(gameData.charAt(1) == 'L'){
+			System.out.println("Running left Side!");
+			PathContainer safeSide = new LeftSideSafe();
+			runAction(new ResetPoseFromPathAction(safeSide));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(safeSide),
+							new RunActionAtX(70, new LiftToHighScale(false)),
+							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+					}
+			)));
+			runAction(new OutputTime("Finished Left Side"));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(190,210)),
+							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
+					}
+			)));
+			runAction(new OutputTime("Finished Turn"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new LeftSideScalePart1())
+					})));
+			runAction(new DrivePathAction(new LeftSideScalePart2()));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new LiftToHighScale(false),
+							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+					}
+			)));
+		}else {
 			PathContainer dumbMode = new DumbMode();
 			runAction(new ResetPoseFromPathAction(dumbMode));
 			runAction(new DrivePathAction(dumbMode));

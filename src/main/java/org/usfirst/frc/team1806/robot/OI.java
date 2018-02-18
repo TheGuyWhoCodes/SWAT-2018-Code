@@ -87,10 +87,10 @@ public class OI {
 				mClimberSubsystem.stopClimbing();
 			}
 
-			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
-				new VibrateControllerForTime(1, dc).start();
-			}
-			didWeHaveACube = mSnackManipulator.doWeGotACube();
+//			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
+//				new VibrateControllerForTime(1, dc).start();
+//			}
+//			didWeHaveACube = mSnackManipulator.doWeGotACube();
 		}
 	}
 	

@@ -2,11 +2,8 @@ package org.usfirst.frc.team1806.robot.auto.modes;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
-import org.usfirst.frc.team1806.robot.auto.actions.DrivePathAction;
-import org.usfirst.frc.team1806.robot.auto.actions.ResetPoseFromPathAction;
-import org.usfirst.frc.team1806.robot.auto.actions.OutputTime;
-import org.usfirst.frc.team1806.robot.auto.actions.TurnTowardsPoint;
-import org.usfirst.frc.team1806.robot.auto.actions.WaitAction;
+import org.usfirst.frc.team1806.robot.auto.actions.*;
+import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.IntakeCube;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
@@ -22,10 +19,15 @@ import org.usfirst.frc.team1806.robot.auto.paths.qual.RL.ScaleToSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart2;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart1;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart2;
+import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart3;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 import edu.wpi.first.wpilibj.DriverStation;
+
+import java.util.Arrays;
 
 public class QualMode extends AutoModeBase {
 	/**
@@ -52,27 +54,70 @@ public class QualMode extends AutoModeBase {
 			runAction(new LiftToSwitch());
 			runAction(new SpitOutCube(.2));
 		} else if(gameData.equals("LL")) {
+			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
-			runAction(new DrivePathAction(safeSide));
-			runAction(new LiftToNeutralScale());
-			runAction(new SpitOutCube(.2));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(safeSide),
+							new RunActionAtX(70, new LiftToHighScale(false)),
+							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+					}
+			)));
 			runAction(new OutputTime("Finished Left Side"));
-			runAction(new LiftToBottom(false));
-			runAction(new TurnTowardsPoint(new Translation2d(190,210)));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(190,210)),
+							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
+					}
+			)));
 			runAction(new OutputTime("Finished Turn"));
-			runAction(new DrivePathAction(new LeftSideScalePart1()));
-			runAction(new DrivePathAction(new UpOneFootRR(240,227,-12,false)));
-			runAction(new OutputTime("Grabbed Cube"));
-			runAction(new LiftToSwitch());
-			runAction(new SpitOutCube(.2));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new LeftSideScalePart1())
+					})));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new LiftToSwitch(),
+							new RunActionAtLiftHeight(5000, new SpitOutCube(.1))
+					}
+			)));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new ThreeCubePart1()),
+							new LiftToBottom(true)
+					}
+			)));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new ThreeCubePart2())
+					})));
+			runAction(new DrivePathAction(new ThreeCubePart3()));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new LiftToHighScale(false),
+							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+					})));
 		} else if(gameData.equals("LR")) {
 			PathContainer safeSide = new DriveToSwitch();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new DrivePathAction(safeSide));
-			runAction(new TurnTowardsPoint(new Translation2d(180,60)));
-			runAction(new WaitAction(1));
-			runAction(new TurnTowardsPoint(new Translation2d(280,264)));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(180,60)),
+							new LiftToSwitch()
+					})));
+			runAction(new SpitOutCube(.1));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(280,264)),
+							new LiftToBottom(true)
+					})));
 			runAction(new DrivePathAction(new SwitchToCube()));
 			runAction(new TurnTowardsPoint(new Translation2d(0,90)));
 			runAction(new DrivePathAction(new UpOneFootRR(245,90,-12,false)));

@@ -8,18 +8,14 @@ public class Constants {
     public static double kTrackWidthInches = 27.5;
     public static double kTrackScrubFactor = .978;
     
-    public static double kDriveInchesPerCount = 4.119233974e-4;
+    public static double kDriveInchesPerCount = 4.0698e-4;
     public static int kDriveTrainPIDSetTimeout = 30; 
-    public static double kCountsPerInch = 2427.635;
+    public static double kCountsPerInch = 2457.12;
 
 
-    // Block Locations
-    
-    public static Translation2d kRightBlockLocation = new Translation2d(200, 100);
-    
     ///Motion
     
-    public static double kMinLookAhead = 9.25; // inches
+    public static double kMinLookAhead = 9; // inches
     public static double kMinLookAheadSpeed = 9.0; // inches per second
     public static double kMaxLookAhead = 24.0; // inches
     public static double kMaxLookAheadSpeed = 120.0; // inches per second
@@ -44,17 +40,18 @@ public class Constants {
 //
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in counts per tenth of a second
-    public static double kDriveHighGearVelocityKp = 0.016 ; // 1.2/1500;
+    public static double kDriveHighGearVelocityKp = 0.01 ; // 1.2/1500;
     public static double kDriveHighGearVelocityKi = 0.0000; //0.0;
-    public static double kDriveHighGearVelocityKd = 0.2; //0.0001; //6.0/1500;
-    public static double kDriveHighGearVelocityKf = .027; //.025;
+    public static double kDriveHighGearVelocityKd = 0.3; //0.0001; //6.0/1500;
+    public static double kDriveHighGearVelocityKf = .025; //.025;
     public static int kDriveHighGearVelocityIZone = 0;
     public static double kDriveHighGearVelocityRampRate = .1;
     public static double kDriveHighGearNominalOutput = 0.25;
     public static double kDriveHighGearMaxSetpoint = 14 * 12; //FPS
+
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
-    public static double kDriveLowGearPositionKp = .17;
+    public static double kDriveLowGearPositionKp = .14;
     public static double kDriveLowGearPositionKi = 0.006;
     public static double kDriveLowGearPositionKd = 13.0;
     public static double kDriveLowGearPositionKf = 1/3000;
@@ -67,15 +64,15 @@ public class Constants {
     //PID Gains for the Cube Position closed loop
     // Units: setpoints, error, and output are in counts
     public static int kCubePositionPIDTimeout = 10;
-    public static double kCubePositionkP = 0.55;
-    public static double kCubePositionkI = 0;
-    public static double kCubePositionkD = 0;
+    public static double kCubePositionkP = 1;
+    public static double kCubePositionkI = 0.002;
+    public static double kCubePositionkD = 0.0015;
     public static double kCubePositionkF = 1/20000;
-    public static int kCubePositionIZone = 0;
+    public static int kCubePositionIZone = 800;
     public static double kCubePositionRampRate = 0;
     
     // Encoder constants used by Cube Lift system
-    public static int kHighScaleEncoderCount = 18000;
+    public static int kHighScaleEncoderCount = 18500;
     public static int kNeutralScaleEncoderCount = 15500;
     public static int kTeleOpHoldHeight = 3000;
     public static int kDropOffEncoderCount = 0;
@@ -83,9 +80,9 @@ public class Constants {
     public static int kPositionControlPIDSlot = 0;
     public static int kEncoderCountsPerInch = 0;
     public static double kCubeMoveToLimitSwitchSpeed = .2;
-    public static double kCubeHoldPercentOutput = .1;
+    public static double kCubeHoldPercentOutput = .12;
     public static int kCubePositionTolerance = 500;
-    public static int kCubeVelocityTolerance = 50;
+    public static int kCubeVelocityTolerance = 100;
     public static int kCubeTopLimitSwitchPosition = 500;
     public static int kCubeSpitOutNeedsOuterIntake = 0;
     public static int kBottomLimitTolerance = 50;

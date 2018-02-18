@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -145,6 +146,7 @@ public class Robot extends TimedRobot {
         mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
         mSubsystemManager.zeroSensors();
         System.out.print("All Sensors zeroed!");
+
 	}
 	public synchronized void allPeriodic() {
 		mSubsystemManager.outputToSmartDashboard();

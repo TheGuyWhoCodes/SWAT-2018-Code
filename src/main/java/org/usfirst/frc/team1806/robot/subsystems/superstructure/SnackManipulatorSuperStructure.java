@@ -106,11 +106,11 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
 	}
 	public void intakeCube(){
-		if(!doWeGotACube()){
+		//if(!doWeGotACube()){
 			mIntakeSubsystem.intaking();
-		} else {
-			mIntakeSubsystem.stopAllIntake();
-		}
+		//} else {
+		//	mIntakeSubsystem.stopAllIntake();
+		//}
 	}
 	public void goToManualMode(double power){
 		mLiftSubsystem.manualMode(power);
@@ -125,7 +125,6 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mIntakeSubsystem.stopAllIntake();
 	}
 	public boolean doWeGotACube(){
-
 		return mLiftSubsystem.doWeHaveCube();
 	}
 	public boolean areWeAtBottom(){

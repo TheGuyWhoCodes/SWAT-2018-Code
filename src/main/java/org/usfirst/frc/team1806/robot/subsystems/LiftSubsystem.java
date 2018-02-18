@@ -34,7 +34,7 @@ public class LiftSubsystem implements LiftInterface {
         TOP_LIMIT,
 	}
 	private TalonSRX cubeMaster, cubeSlave; //gotta have the power
-	private DigitalInput bottomLimit, topLimit, cubeDetector;
+	public DigitalInput bottomLimit, topLimit, cubeDetector;
 	private boolean isBrakeMode = false;
 	private boolean mIsOnTarget = false;
 	private boolean mHaveCube = false;
@@ -60,6 +60,8 @@ public class LiftSubsystem implements LiftInterface {
 
 	@Override
 	public void outputToSmartDashboard() {
+		SmartDashboard.putNumber("Wanted Lift Setpoint: ", mLiftWantedPosition);
+		SmartDashboard.putBoolean("Do We Got A Cube: " , doWeHaveCube());
         SmartDashboard.putString("Lift State: ", returnLiftStates().toString());
         SmartDashboard.putString("Lift Position", returnCubePosition().toString());
 		SmartDashboard.putNumber("Lift Encoder Position", cubeMaster.getSelectedSensorPosition(0));
@@ -106,7 +108,9 @@ public class LiftSubsystem implements LiftInterface {
             	synchronized (LiftSubsystem.this){
 					updateCubeDetector();
 					if(isAtPosition()){
-						if(mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM || areWeAtBottomLimit()){
+						if(mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM
+								|| areWeAtBottomLimit()
+								){
 							System.out.println("Idling baby");
 							mCubeLiftStates = CubeLiftStates.IDLE;
 						} else{
@@ -114,9 +118,6 @@ public class LiftSubsystem implements LiftInterface {
 							holdPosition();
 						}
 					}
-//					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE){
-//						goToTeleOpHold();
-//					}
 					cubePositionLoop();
 					cubeLiftStateLoop();
 				}
@@ -149,7 +150,6 @@ public class LiftSubsystem implements LiftInterface {
 						return;
 					case RESET_TO_TOP:
 						mIsOnTarget = false;
-						//resetToTop();
 						return;
 					case HOLD_POSITION:
 						holdPosition();
@@ -238,7 +238,7 @@ public class LiftSubsystem implements LiftInterface {
 				mHaveCube = false;
             }
 		} else {
-//			zeroSensorsAtBottom();
+
 		}
 	}
 	
@@ -341,11 +341,11 @@ public class LiftSubsystem implements LiftInterface {
 	}
 	private void updateCubeDetector(){
     	if(mCubeLiftStates == CubeLiftStates.IDLE && mCubeLiftStates == CubeLiftStates.IDLE){
-			mHaveCube = cubeDetector.get();
+			mHaveCube = !cubeDetector.get();
 		}
 	}
 	private synchronized boolean isReadyForSetpoint(){
-    	return !mIsManualMode && isCurrentModesReady() && (doWeHaveCube() || mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM);
+    	return (!mIsManualMode && isCurrentModesReady());
 	}
 	private synchronized boolean isCurrentModesReady(){
     	return mCubeLiftStates == CubeLiftStates.POSITION_CONTROL ||
@@ -371,6 +371,11 @@ public class LiftSubsystem implements LiftInterface {
 	 */
 	public synchronized void holdPosition(){
     	cubeMaster.set(ControlMode.PercentOutput, Constants.kCubeHoldPercentOutput);
+    	if(getHeightInCounts() < returnWantedPosition() - Constants.kCubePositionTolerance){
+    		mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
+    		goToSetpoint(mLiftWantedPosition);
+		}
+//		goToSetpoint(mLiftWantedPosition);
 	}
 	public int returnWantedPosition(){
 		return mLiftWantedPosition;

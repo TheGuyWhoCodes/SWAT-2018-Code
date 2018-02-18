@@ -30,7 +30,7 @@ public class RobotMap {
 	public static int upMotor = 8;
 	public static int downA = 9;
 	public static int downB = 10;
-	public static int downC = 15;
+	public static int downC = 13;
 	
 	//Intake CAN Ports
 	
@@ -51,4 +51,23 @@ public class RobotMap {
 	public static int cubeBottomLimit = 0;
 	public static int cubeTopLimit = 1;
 	public static int cubeDetector = 2;
+
+	//PDP PORTS
+
+	//0 leftSide
+	//1 leftSide
+	//2 leftSide
+	//3
+	//4
+	//5
+	//6
+	//7
+	//8
+	//9
+	//10
+	//11
+	//12
+	//13 rightSide
+	//14 rightSide
+	//15 rightSide
 }

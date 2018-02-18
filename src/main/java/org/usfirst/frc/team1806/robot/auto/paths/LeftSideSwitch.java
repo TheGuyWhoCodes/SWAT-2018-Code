@@ -19,7 +19,7 @@ public class LeftSideSwitch implements PathContainer {
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(180.0));
+        return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0));
     }
 
     @Override
