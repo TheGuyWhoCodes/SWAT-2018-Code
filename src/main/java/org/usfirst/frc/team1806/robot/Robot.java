@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.UnhandledException;
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
 import org.usfirst.frc.team1806.robot.auto.PathAdapter;
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
 			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance(), ClimberSubsystem.getInstance()));
     private Looper mEnabledLooper = new Looper();
+    public static boolean isCompBot = true;
     /*
      * LLL
      * RRR
@@ -71,6 +73,11 @@ public class Robot extends TimedRobot {
         mEnabledLooper.register(RobotStateEstimator.getInstance());
         mDrive.setCoastMode();
         AutoModeSelector.initAutoModeSelector();
+        try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e){
+        	System.out.println(e);
+		}
 		PathAdapter.initPaths();
 	}
 

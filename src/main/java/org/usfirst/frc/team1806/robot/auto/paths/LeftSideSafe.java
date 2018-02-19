@@ -20,7 +20,7 @@ public class LeftSideSafe implements PathContainer {
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(16, 264), Rotation2d.fromDegrees(0)); 
+        return new RigidTransform2d(new Translation2d(16, 270), Rotation2d.fromDegrees(0));
     }
 
     @Override

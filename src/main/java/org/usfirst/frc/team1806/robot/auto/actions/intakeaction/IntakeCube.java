@@ -12,16 +12,17 @@ public class IntakeCube implements Action {
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().intakeCube();
+        SnackManipulatorSuperStructure.getInstance().intakeCube(.7);
     }
 
     @Override
     public void done() {
         SnackManipulatorSuperStructure.getInstance().stopIntakeMotors();
+        System.out.println("stopping intake");
     }
 
     @Override
     public void start() {
-
+        System.out.println("starting intake");
     }
 }

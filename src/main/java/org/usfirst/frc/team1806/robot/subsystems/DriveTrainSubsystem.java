@@ -157,6 +157,7 @@ public class DriveTrainSubsystem implements Subsystem{
 				setOpenLoop(DriveSignal.NEUTRAL);
 				setNeutralMode(false);
 				navx.reset();
+				setMaxDrivePower(1);
 			}
 		}
 		
@@ -197,17 +198,14 @@ public class DriveTrainSubsystem implements Subsystem{
 		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
 		//init navx
 		navx = new NavX(SPI.Port.kMXP);
-		
+
 		reloadGains();
 		mDriveStates = DriveStates.NOTHING;
+		setMaxDrivePower(1);
 	}
 	private synchronized void configureTalonsForPositionControl() {
         if (usesTalonPositionControl(mDriveStates)) {
-			masterLeft.configPeakOutputReverse(-1, 10);
-			masterLeft.configPeakOutputForward(1,10);
-
-			masterRight.configPeakOutputReverse(-1, 10);
-			masterRight.configPeakOutputForward(1,10);
+			setMaxDrivePower(1);
             // We entered a position control state.
             System.out.println("Configuring position control");
             masterRight.selectProfileSlot(kLowGearPositionControlSlot, 0);
@@ -222,11 +220,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	private synchronized void configureTalonsForSpeedControl() {
         if (!usesTalonVelocityControl(mDriveStates)) {
             // We entered a velocity control state.
-			masterLeft.configPeakOutputReverse(-1, 10);
-			masterLeft.configPeakOutputForward(1,10);
-
-			masterRight.configPeakOutputReverse(-1, 10);
-			masterRight.configPeakOutputForward(1,10);
+			setMaxDrivePower(1);
             System.out.println("Configuring speed control");
             masterLeft.selectProfileSlot(kHighGearVelocityControlSlot, 0);
             masterRight.selectProfileSlot(kHighGearVelocityControlSlot, 0);
@@ -541,19 +535,14 @@ public class DriveTrainSubsystem implements Subsystem{
     public synchronized void setWantTurnToHeading(Rotation2d heading) {
         if (mDriveStates != DriveStates.TURN_TO_HEADING) {
             mDriveStates = DriveStates.TURN_TO_HEADING;
-            masterLeft.configPeakOutputReverse(-.85, 10);
-			masterLeft.configPeakOutputForward(.85,10);
-
-			masterRight.configPeakOutputReverse(-.85, 10);
-			masterRight.configPeakOutputForward(.85,10);
             configureTalonsForPositionControl();
-            updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
+			setMaxDrivePower(Constants.kDriveTurnMaxPower);
+			updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
         }
         if (Math.abs(heading.inverse().rotateBy(mTargetHeading).getDegrees()) > 1E-3) {
             mTargetHeading = heading;
             mIsOnTarget = false;
         }
-        setHighGear(false);
     }
     
     @Override
@@ -687,6 +676,30 @@ public class DriveTrainSubsystem implements Subsystem{
 	 */
 	public void setParkingBrakeMode(){
 		setBrakeMode();
+	}
+
+	/**
+	 * sets the max power that the drivetrain can go
+	 * @param power
+	 */
+	public void setMaxDrivePower(double power){
+		masterLeft.configPeakOutputReverse(-power, 10);
+		masterLeft.configPeakOutputForward(power,10);
+
+		leftA.configPeakOutputReverse(-power, 10);
+		leftA.configPeakOutputForward(power,10);
+
+		leftC.configPeakOutputReverse(-power, 10);
+		leftC.configPeakOutputForward(power,10);
+
+		masterRight.configPeakOutputReverse(-power, 10);
+		masterRight.configPeakOutputForward(power,10);
+
+		rightA.configPeakOutputReverse(-power, 10);
+		rightA.configPeakOutputForward(power,10);
+
+		rightC.configPeakOutputReverse(-power, 10);
+		rightC.configPeakOutputForward(power,10);
 	}
 }
 

@@ -94,6 +94,9 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 		mLiftSubsystem.goToSwitchSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
 	}
+	public void goToExchangeSetpoint(){
+		mLiftSubsystem.goToExchangeHeight();
+	}
 	public void goToDropOffSetpoint(){
 		mLiftSubsystem.goToDropOffSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
@@ -105,9 +108,9 @@ public class SnackManipulatorSuperStructure implements Subsystem{
 	public synchronized void spitOutCube(double power){
 		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
 	}
-	public void intakeCube(){
+	public void intakeCube(double power){
 		//if(!doWeGotACube()){
-			mIntakeSubsystem.intaking();
+			mIntakeSubsystem.intaking(power);
 		//} else {
 		//	mIntakeSubsystem.stopAllIntake();
 		//}

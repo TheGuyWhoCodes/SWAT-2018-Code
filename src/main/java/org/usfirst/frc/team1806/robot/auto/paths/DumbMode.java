@@ -18,15 +18,15 @@ public class DumbMode implements PathContainer {
 	public Path buildPath() {
 		System.out.println("well you're sitting here");
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(16,264,0,0));
-        sWaypoints.add(new Waypoint(150,264,0,70));
+        sWaypoints.add(new Waypoint(0,0,0,0));
+        sWaypoints.add(new Waypoint(150,0,0,70));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
 	}
 
 	@Override
 	public RigidTransform2d getStartPose() {
 		// TODO Auto-generated method stub
-		return new RigidTransform2d(new Translation2d(16, 264), Rotation2d.fromDegrees(0.0)); 
+		return new RigidTransform2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0.0));
 	}
 
 	@Override

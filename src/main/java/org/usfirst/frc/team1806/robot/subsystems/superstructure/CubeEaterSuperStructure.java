@@ -72,9 +72,9 @@ public class CubeEaterSuperStructure implements Subsystem{
 		mInnerIntake.stopAllMotors();
 //		mOuterIntake.stopAllMotors();
 	}
-	public void intaking() {
+	public void intaking(double power) {
 		mIntakeStates = IntakeStates.INTAKE;
-		mInnerIntake.intaking();
+		mInnerIntake.intakeAtPower(power);
 //		mOuterIntake.intaking();
 	}
 	public void outTaking(double power) {

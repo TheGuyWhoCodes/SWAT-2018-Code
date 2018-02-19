@@ -45,21 +45,14 @@ public class OI {
 				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
 			}
-			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
-			if(dc.getButtonA()) {
-				mSnackManipulator.goToBottom();
-			} else if(dc.getButtonB()){
-				mSnackManipulator.goToSwitchSetpoint();
-			} else if(dc.getButtonY()){
-				mSnackManipulator.goToHighScaleSetpoint();
-			} else if(dc.getButtonX()){
-				mSnackManipulator.goToNeutralScaleSetpoint();
-			} else if(cubeManualMode.update(oc.getButtonA())){
-				mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
-			} else if(oc.getButtonStart()){
-					mSnackManipulator.resetLiftSensors();
+//			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
 
-			}
+		}
+
+		synchronized (mSnackManipulator){
+//			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
+//				new VibrateControllerForTime(1, dc).start();
+//			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
 				mSnackManipulator.intakeCube();
 			} else if(dc.getButtonRB()){
@@ -75,22 +68,33 @@ public class OI {
 			}else {
 				mSnackManipulator.stopIntakeMotors();
 			}
+		}
+		if(dc.getButtonA()) {
+			mSnackManipulator.goToBottom();
+		} else if(dc.getButtonB()){
+			mSnackManipulator.goToSwitchSetpoint();
+		} else if(dc.getButtonY()){
+			mSnackManipulator.goToHighScaleSetpoint();
+		} else if(dc.getButtonX()){
+			mSnackManipulator.goToNeutralScaleSetpoint();
+		} else if(dc.getButtonLB()){
+			mSnackManipulator.goToExchangeSetpoint();
+		}else if(cubeManualMode.update(oc.getButtonA())){
+			mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
+		} else if(oc.getButtonStart()){
+			mSnackManipulator.resetLiftSensors();
 
-			if(oc.getRightTrigger() > .2){
-				mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
-			} else{
-				mClimberSubsystem.stopLifting();
-			}
-			if(oc.getLeftTrigger() > .2){
-				mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
-			} else {
-				mClimberSubsystem.stopClimbing();
-			}
+		}
 
-//			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
-//				new VibrateControllerForTime(1, dc).start();
-//			}
-//			didWeHaveACube = mSnackManipulator.doWeGotACube();
+		if(oc.getRightTrigger() > .2){
+			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
+		} else{
+			mClimberSubsystem.stopLifting();
+		}
+		if(oc.getLeftTrigger() > .2){
+			mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
+		} else {
+			mClimberSubsystem.stopClimbing();
 		}
 	}
 	

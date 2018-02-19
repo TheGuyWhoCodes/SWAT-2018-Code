@@ -32,6 +32,7 @@ public class LiftSubsystem implements LiftInterface {
 		BOTTOM_LIMIT,
 		TELEOP_HOLD,
         TOP_LIMIT,
+		EXCHANGE_HEIGHT
 	}
 	private TalonSRX cubeMaster, cubeSlave; //gotta have the power
 	public DigitalInput bottomLimit, topLimit, cubeDetector;
@@ -54,7 +55,7 @@ public class LiftSubsystem implements LiftInterface {
 		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
-		cubeMaster.configPeakOutputReverse(-.6, 10);
+		cubeMaster.configPeakOutputReverse(-.4, 10);
 		reloadGains();
 	}
 
@@ -118,6 +119,10 @@ public class LiftSubsystem implements LiftInterface {
 							holdPosition();
 						}
 					}
+					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE){
+                        goToTeleOpHold();
+                    }
+
 					cubePositionLoop();
 					cubeLiftStateLoop();
 				}
@@ -334,6 +339,13 @@ public class LiftSubsystem implements LiftInterface {
     	updatePositionControl();
     	if(isReadyForSetpoint()){
     		goToSetpoint(Constants.kTeleOpHoldHeight);
+		}
+	}
+	public synchronized void goToExchangeHeight(){
+		mCubePosition = CubePosition.EXCHANGE_HEIGHT;
+		updatePositionControl();
+		if(isReadyForSetpoint()){
+			goToSetpoint(800);
 		}
 	}
 	public boolean doWeHaveCube(){

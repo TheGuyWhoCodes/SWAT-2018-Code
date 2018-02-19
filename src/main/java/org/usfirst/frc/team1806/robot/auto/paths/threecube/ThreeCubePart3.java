@@ -16,7 +16,7 @@ public class ThreeCubePart3 implements PathContainer{
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(227, 197), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(220, 196), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override
