@@ -5,10 +5,7 @@ import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.IntakeCube;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
+import org.usfirst.frc.team1806.robot.auto.actions.liftactions.*;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
@@ -48,9 +45,12 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new LiftToTeleopHold(),
+									new RunActionAtX(264, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
+							)),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),
-							new RunActionAtX(264, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
@@ -60,7 +60,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new IntakeCube(),
-							new DrivePathAction(new LeftSideScalePart1())
+							new DrivePathAction(new LeftSideScalePart1()),
 					})));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
@@ -87,6 +87,10 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new LiftToHighScale(false),
 							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
 					})));
+
+
+
+
 
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
@@ -128,6 +132,10 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new LiftToBottom(false));
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
+
+
+
+
 		} else if(gameData.charAt(1) == 'L'){
 			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();

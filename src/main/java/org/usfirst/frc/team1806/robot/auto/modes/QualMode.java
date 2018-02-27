@@ -106,10 +106,9 @@ public class QualMode extends AutoModeBase {
 		} else if(gameData.equals("LR")) {
 			PathContainer safeSide = new DriveToSwitch();
 			runAction(new ResetPoseFromPathAction(safeSide));
-			runAction(new DrivePathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(180,60)),
+							new DrivePathAction(safeSide),
 							new LiftToSwitch()
 					})));
 			runAction(new SpitOutCube(.1));
@@ -120,22 +119,57 @@ public class QualMode extends AutoModeBase {
 					})));
 			runAction(new DrivePathAction(new SwitchToCube()));
 			runAction(new TurnTowardsPoint(new Translation2d(0,90)));
-			runAction(new DrivePathAction(new UpOneFootRR(245,90,-12,false)));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new UpOneFootRR(235,100,-12,false)),
+							new IntakeCube()
+					})));
 			runAction(new DrivePathAction(new RightSideScaleToBlockPart2()));
 			runAction(new OutputTime("Drove to Scale!"));
-			runAction(new TurnTowardsPoint(new Translation2d(600, 80)));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(600, 80)),
+							new RunActionAtAngleRange(-45,45, new LiftToHighScale()),
+							new RunActionAtLiftHeight(17000, (new SpitOutCube(.1)))
+					})));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(100,100)),
+							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
+					}
+			)));
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else if(gameData.equals("RL")) {
+			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
-			runAction(new DrivePathAction(safeSide));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(safeSide),
+							new RunActionAtX(70, new LiftToHighScale(false)),
+							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+					}
+			)));
 			runAction(new OutputTime("Finished Left Side"));
-			runAction(new TurnTowardsPoint(new Translation2d(190,210)));
-			runAction(new OutputTime("Finished Turn"));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new TurnTowardsPoint(new Translation2d(190,210)),
+							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
+					}
+			)));
 			runAction(new DrivePathAction(new ScaleToSwitch()));
 			runAction(new TurnTowardsPoint(new Translation2d(200,70)));
-			runAction(new DrivePathAction(new UpOneFootRR(245,75,-20,false)));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new UpOneFootRR(245,75,-20,false)),
+							new IntakeCube()
+					}
+			)));
+			runAction(new SpitOutCube(.1));
+			runAction(new LiftToBottom(true));
 		} else {
 			runAction(new DrivePathAction(new DumbMode()));
 		}

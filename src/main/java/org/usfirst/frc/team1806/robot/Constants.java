@@ -16,6 +16,7 @@ public class Constants {
 
     public final static double kMinLookAhead = 9; // inches
     public final static double kMinLookAheadSpeed = 9.0; // inches per second
+    public final static double kMaxLookAhead = 42; // inches
     public final static double kMaxLookAheadSpeed = 120.0; // inches per second
     public final static double kDeltaLookAhead = kMaxLookAhead - kMinLookAhead;
     public final static double kDeltaLookAheadSpeed = kMaxLookAheadSpeed - kMinLookAheadSpeed;
@@ -41,6 +42,7 @@ public class Constants {
     public final static double kDriveHighGearVelocityKp = 0.01; // 1.2/1500;
     public final static double kDriveHighGearVelocityKi = 0.0000; //0.0;
     public final static double kDriveHighGearVelocityKd = 0.3; //0.0001; //6.0/1500;
+    public final static double kDriveHighGearVelocityKf = 0.1628674627745835; //.025;
     public final static int kDriveHighGearVelocityIZone = 0;
     public final static double kDriveHighGearVelocityRampRate = .1;
     public final static double kDriveHighGearNominalOutput = 0.25;
@@ -48,10 +50,16 @@ public class Constants {
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
+    public final static double kDriveLowGearPositionKp = .38;
+    public final static double kDriveLowGearPositionKi = 0.0205;
+    public final static double kDriveLowGearPositionKd = 9.5;
+    public final static double kDriveLowGearPositionKf = 0.0020564073582649;
+    public final static int kDriveLowGearPositionIZone = 250;
     public final static double kDriveLowGearPositionRampRate = 240.0; // V/s
     public final static double kDriveLowGearNominalOutput = 0.5; // V
     public final static int kDriveLowGearMaxVelocity = 20146; // Counts
     public final static int kDriveLowGearMaxAccel = 20146; // Counts
+    public final static double kDriveTurnMaxPower = .6;
     //PID Gains for the Cube Position closed loop
     // Units: setpoints, error, and output are in counts
     public final static int kCubePositionPIDTimeout = 10;
@@ -65,6 +73,7 @@ public class Constants {
     // Encoder constants used by Cube Lift system
     public final static int kHighScaleEncoderCount = 18500;
     public final static int kNeutralScaleEncoderCount = 15500;
+    public final static int kTeleOpHoldHeight = 1000;
     public final static int kDropOffEncoderCount = 0;
     public final static int kSwitchEncoderCount = 7500;
     public final static int kPositionControlPIDSlot = 0;
