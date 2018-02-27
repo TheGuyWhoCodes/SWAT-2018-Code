@@ -87,7 +87,7 @@ public class DriveTrainSubsystem implements Subsystem{
     }
     //Initialize all of the drive motors
     private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
-    private DoubleSolenoid shifter;
+//    private DoubleSolenoid shifter;
     private NavX navx;
     private PathFollower mPathFollower;
     private Rotation2d mTargetHeading = new Rotation2d();
@@ -190,13 +190,16 @@ public class DriveTrainSubsystem implements Subsystem{
 		
 		
 //		//Invert the left side
-		leftA.setInverted(true);
-		masterLeft.setInverted(true);
-		leftC.setInverted(true);
-		
+		rightA.setInverted(true);
+		masterRight.setInverted(true);
+		rightC.setInverted(true);
+
+		masterRight.setSensorPhase(true);
+		masterLeft.setSensorPhase(true);
+
 		// init solenoids
-		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
-		//init navx
+//		shifter = new DoubleSolenoid(RobotMap.shiftLow, RobotMap.shiftHigh);
+//		init navx
 		navx = new NavX(SPI.Port.kMXP);
 
 		reloadGains();
@@ -449,12 +452,12 @@ public class DriveTrainSubsystem implements Subsystem{
 	 * @param wantsHighGear
 	 * it's a boolean saying if you want it or not
 	 */
-	public synchronized void setHighGear(boolean wantsHighGear) {
-        if (wantsHighGear != mIsHighGear) {
-            mIsHighGear = wantsHighGear;
-            shifter.set(wantsHighGear ? Value.kForward : Value.kReverse);
-        }
-    }
+//	public synchronized void setHighGear(boolean wantsHighGear) {
+//        if (wantsHighGear != mIsHighGear) {
+//            mIsHighGear = wantsHighGear;
+//            shifter.set(wantsHighGear ? Value.kForward : Value.kReverse);
+//        }
+//    }
     
     /**
       * Sets the neutral mode for the drive train.
@@ -700,6 +703,7 @@ public class DriveTrainSubsystem implements Subsystem{
 
 		rightC.configPeakOutputReverse(-power, 10);
 		rightC.configPeakOutputForward(power,10);
+
 	}
 }
 

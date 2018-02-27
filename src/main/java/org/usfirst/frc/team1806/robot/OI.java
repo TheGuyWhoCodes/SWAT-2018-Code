@@ -50,11 +50,13 @@ public class OI {
 		}
 
 		synchronized (mSnackManipulator){
-//			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
-//				new VibrateControllerForTime(1, dc).start();
-//			}
+			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
+				dc.rumble(.5,.5,1);
+			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
-				mSnackManipulator.intakeCube();
+				mSnackManipulator.intakeCube(Constants.kInnerIntakeSpeed, Constants.kInnerIntakeSpeed);
+			} else if(oc.getButtonLB()){
+                mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed );
 			} else if(dc.getButtonRB()){
 				mSnackManipulator.spitOutCube(.6);
 			} else if(dc.getPOVUp()){
@@ -65,9 +67,17 @@ public class OI {
 				mSnackManipulator.spitOutCube(.5);
 			} else if(dc.getPOVLeft()){
 				mSnackManipulator.spitOutCube(.4);
-			}else {
+			} else if(oc.getButtonRB() && oc.getButtonLB()){
+				mSnackManipulator.intakeLeftSide(Constants.kInnerIntakeSpeed);
+				mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed);
+			} else if(oc.getButtonRB()) {
+				mSnackManipulator.intakeLeftSide(Constants.kInnerIntakeSpeed);
+			}else if(oc.getButtonLB()) {
+				mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed);
+			} else {
 				mSnackManipulator.stopIntakeMotors();
 			}
+
 		}
 		if(dc.getButtonA()) {
 			mSnackManipulator.goToBottom();
@@ -85,7 +95,7 @@ public class OI {
 			mSnackManipulator.resetLiftSensors();
 
 		}
-
+		didWeHaveACube = mSnackManipulator.doWeGotACube();
 		if(oc.getRightTrigger() > .2){
 			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
 		} else{
@@ -97,21 +107,5 @@ public class OI {
 			mClimberSubsystem.stopClimbing();
 		}
 	}
-	
-	public void setDriverRumble(double value){
-		dc.setRumble(RumbleType.kLeftRumble, value);
-		dc.setRumble(RumbleType.kRightRumble, value);
-		//joelyoloyilyiyi
-	}
-	public void setOperatorRumble(){
-		dc.setRumble(RumbleType.kLeftRumble, 1);
-		dc.setRumble(RumbleType.kRightRumble, 1);
-	}
-	public void stopRumble(){
-		dc.setRumble(RumbleType.kLeftRumble, 0);
-		dc.setRumble(RumbleType.kRightRumble, 0);
-		
-		oc.setRumble(RumbleType.kLeftRumble, 0);
-		oc.setRumble(RumbleType.kRightRumble, 0);
-	}
+
 }

@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
             if (mAutoModeExecuter != null) {
                 mAutoModeExecuter.stop(); 
             }
-            mDrive.setHighGear(true);
+//            mDrive.setHighGear(true);
             mDrive.setBrakeMode();
             
             mEnabledLooper.start();

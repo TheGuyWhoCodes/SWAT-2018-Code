@@ -27,18 +27,16 @@ public class RobotMap {
 	public static int cubeSlave = 7;
 	
 	// Climber CAN Ports
-	public static int upMotor = 8;
-	public static int downA = 9;
-	public static int downB = 10;
+	public static int upMotor = 9;
+	public static int downA = 10;
+	public static int downB = 8;
 	public static int downC = 13;
 	
 	//Intake CAN Ports
 	
 	public static int leftInnerIntake = 11;
 	public static int rightInnerIntake = 12;
-	public static int leftOuterIntake = 13;
-	public static int rightOuterIntake = 14;
-	
+
 	////////// These are all of the solenoids for the robot
 	
 	//Shifting

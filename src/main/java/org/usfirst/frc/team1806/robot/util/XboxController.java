@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+
 /*
  * The XboxController class is a wrapper of the joystick class,
  * auto applies deadzones and makes nice methods for us
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class XboxController extends Joystick {
 	private static DriverStation mDS;
 	private final int mPort;
+	public Timer rumbleTimer;
 
 	// defaults the deadzone to .15 if a value is not passed in as a parameter
 	private double mJoystickDeadzoneValue = .15;
@@ -124,5 +126,33 @@ public class XboxController extends Joystick {
 	public boolean getPOVRight() {
 
 		return getPOV() > 45 && getPOV() <= 135;
+	}
+
+	/**
+	 * Makes the controller rumble.
+	 * @param l The left rumble value.
+	 * @param r The right rumble value.
+	 */
+	public void rumble(double l, double r) {
+		setRumble(RumbleType.kLeftRumble, l);
+		setRumble(RumbleType.kRightRumble, r);
+	}
+
+	/**
+	 * Makes the controller rumble for X seconds.
+	 * @param l The left rumble value.
+	 * @param r The right rumble value.
+	 * @param seconds How long the controller should rumble.
+	 */
+	public void rumble(double l, double r, double seconds) {
+		rumble(l, r);
+		rumbleTimer = new Timer(seconds, false, new TimerUser() {
+			public void timer() {
+				rumble(0, 0);
+			}
+			public void timerStop() {
+				rumbleTimer = null;
+			}
+		}).start();
 	}
 }

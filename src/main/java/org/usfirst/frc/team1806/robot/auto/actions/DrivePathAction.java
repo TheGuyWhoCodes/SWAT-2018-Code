@@ -42,6 +42,6 @@ public class DrivePathAction implements Action {
     @Override
     public void start() {
         mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
-        mDrive.setHighGear(true);
+//        mDrive.setHighGear(true);
     }
 }

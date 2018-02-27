@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.subsystems.superstructure;
 
+import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -15,129 +16,172 @@ import org.usfirst.frc.team1806.robot.subsystems.Subsystem;
  * @author SWAT
  *
  */
-public class SnackManipulatorSuperStructure implements Subsystem{
-	
-	//We need to grab instances of these to manipulate each one here
+public class SnackManipulatorSuperStructure implements Subsystem {
 
-	private LiftSubsystem mLiftSubsystem;
-	private CubeEaterSuperStructure mIntakeSubsystem;
-	private static SnackManipulatorSuperStructure mSnack ;
-	public SnackManipulatorSuperStructure(){
-		mLiftSubsystem = new LiftSubsystem();
-		mIntakeSubsystem = new CubeEaterSuperStructure();
-	}
-	public static SnackManipulatorSuperStructure getInstance() {
-		if(mSnack == null) {
-			mSnack = new SnackManipulatorSuperStructure();
-		}
-		return mSnack;
-	}
+    //We need to grab instances of these to manipulate each one here
+
+    private LiftSubsystem mLiftSubsystem;
+    private CubeEaterSuperStructure mIntakeSubsystem;
+    private static SnackManipulatorSuperStructure mSnack;
+
+    public SnackManipulatorSuperStructure() {
+        mLiftSubsystem = new LiftSubsystem();
+        mIntakeSubsystem = new CubeEaterSuperStructure();
+    }
+
+    public static SnackManipulatorSuperStructure getInstance() {
+        if (mSnack == null) {
+            mSnack = new SnackManipulatorSuperStructure();
+        }
+        return mSnack;
+    }
 
 
+    private Loop mLooper = new Loop() {
 
-	private Loop mLooper = new Loop() {
+        @Override
+        public void onStop(double timestamp) {
+            // TODO Auto-generated method stub
+            mIntakeSubsystem.stopAllIntake();
+        }
 
-		@Override
-		public void onStop(double timestamp) {
-			// TODO Auto-generated method stub
-			mIntakeSubsystem.stopAllIntake();
-		}
+        @Override
+        public void onStart(double timestamp) {
+            // TODO Auto-generated method stub
 
-		@Override
-		public void onStart(double timestamp) {
-			// TODO Auto-generated method stub
+        }
 
-		}
+        @Override
+        public void onLoop(double timestamp) {
 
-		@Override
-		public void onLoop(double timestamp) {
+        }
+    };
 
-		}
-	};
-	@Override
-	public void writeToLog() {
-		// TODO Auto-generated method stub
-		mLiftSubsystem.writeToLog();
-		mIntakeSubsystem.writeToLog();
-	}
+    @Override
+    public void writeToLog() {
+        // TODO Auto-generated method stub
+        mLiftSubsystem.writeToLog();
+        mIntakeSubsystem.writeToLog();
+    }
 
-	@Override
-	public void outputToSmartDashboard() {
-		mIntakeSubsystem.outputToSmartDashboard();
-		mLiftSubsystem.outputToSmartDashboard();
-	}
+    @Override
+    public void outputToSmartDashboard() {
+        mIntakeSubsystem.outputToSmartDashboard();
+        mLiftSubsystem.outputToSmartDashboard();
+    }
 
-	@Override
-	public void stop() {
-		mIntakeSubsystem.stop();
-		mLiftSubsystem.stop();
-	}
+    @Override
+    public void stop() {
+        mIntakeSubsystem.stop();
+        mLiftSubsystem.stop();
+    }
 
-	@Override
-	public void zeroSensors() {
-		mIntakeSubsystem.zeroSensors();
-		mLiftSubsystem.zeroSensors();
-	}
+    @Override
+    public void zeroSensors() {
+        mIntakeSubsystem.zeroSensors();
+        mLiftSubsystem.zeroSensors();
+    }
 
-	@Override
-	public void registerEnabledLoops(Looper enabledLooper) {
-		// TODO Auto-generated method stub
-		mIntakeSubsystem.registerEnabledLoops(enabledLooper);
-		mLiftSubsystem.registerEnabledLoops(enabledLooper);
-		
-	}
-	public void goToHighScaleSetpoint(){
-		mLiftSubsystem.goToHighScaleSetpoint();
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
+        // TODO Auto-generated method stub
+        mIntakeSubsystem.registerEnabledLoops(enabledLooper);
+        mLiftSubsystem.registerEnabledLoops(enabledLooper);
+
+    }
+
+    public void goToHighScaleSetpoint() {
+        mLiftSubsystem.goToHighScaleSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
-	}
-	public void goToSwitchSetpoint(){
-		mLiftSubsystem.goToSwitchSetpoint();
-//		mIntakeSubsystem.stopAllIntake();
-	}
-	public void goToExchangeSetpoint(){
-		mLiftSubsystem.goToExchangeHeight();
-	}
-	public void goToDropOffSetpoint(){
-		mLiftSubsystem.goToDropOffSetpoint();
-//		mIntakeSubsystem.stopAllIntake();
-	}
-	public void goToNeutralScaleSetpoint(){
-		mLiftSubsystem.goToNeutralScaleSetpoint();
-//		mIntakeSubsystem.stopAllIntake();
-	}
-	public synchronized void spitOutCube(double power){
-		mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
-	}
-	public void intakeCube(double power){
-		//if(!doWeGotACube()){
-			mIntakeSubsystem.intaking(power);
-		//} else {
-		//	mIntakeSubsystem.stopAllIntake();
-		//}
-	}
-	public void goToManualMode(double power){
-		mLiftSubsystem.manualMode(power);
-	}
-	public void goToBottom(){
-		mLiftSubsystem.resetToBottom();
-	}
-	public boolean isAtPosition(){
-			return mLiftSubsystem.isAtPosition();
-	}
-	public void stopIntakeMotors(){
-		mIntakeSubsystem.stopAllIntake();
-	}
-	public boolean doWeGotACube(){
-		return mLiftSubsystem.doWeHaveCube();
-	}
-	public boolean areWeAtBottom(){
-	return	mLiftSubsystem.areWeAtBottomLimit();
-	}
-	public int returnLiftHeight(){
-		return mLiftSubsystem.returnLiftHeight();
-	}
-	public synchronized void resetLiftSensors(){
-		mLiftSubsystem.zeroSensorsAtBottom();
-	}
+    }
 
+    public void goToSwitchSetpoint() {
+        mLiftSubsystem.goToSwitchSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+    }
+    public void goToTeleopHold(){
+        mLiftSubsystem.goToTeleOpHold();
+    }
+    public void goToExchangeSetpoint() {
+        mLiftSubsystem.goToExchangeHeight();
+    }
+
+    public void goToDropOffSetpoint() {
+        mLiftSubsystem.goToDropOffSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+    }
+
+    public void goToNeutralScaleSetpoint() {
+        mLiftSubsystem.goToNeutralScaleSetpoint();
+//		mIntakeSubsystem.stopAllIntake();
+    }
+
+    public synchronized void spitOutCube(double power) {
+        mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
+    }
+
+    public void intakeCube(double leftPower, double rightPower) {
+        double mRightPower = 1; //Math.abs(Math.sin(7 * Timer.getFPGATimestamp()));
+        double mLeftPower = 1;//Math.abs(Math.sin(7 * Timer.getFPGATimestamp()));
+        mIntakeSubsystem.intaking(leftPower * mLeftPower, rightPower * mRightPower);
+    }
+
+    public void goToManualMode(double power) {
+        mLiftSubsystem.manualMode(power);
+    }
+
+    public void goToBottom() {
+        mLiftSubsystem.resetToBottom();
+    }
+
+    public boolean isAtPosition() {
+        return mLiftSubsystem.isAtPosition();
+    }
+
+    public void stopIntakeMotors() {
+        mIntakeSubsystem.stopAllIntake();
+    }
+
+    public boolean doWeGotACube() {
+        return mLiftSubsystem.doWeHaveCube();
+    }
+
+    public boolean areWeAtBottom() {
+        return mLiftSubsystem.areWeAtBottomLimit();
+    }
+
+    public int returnLiftHeight() {
+        return mLiftSubsystem.returnLiftHeight();
+    }
+
+    public synchronized void resetLiftSensors() {
+        mLiftSubsystem.zeroSensorsAtBottom();
+    }
+
+    /**
+     * Increases the setpoint of the lift based on a constant
+     * @return true if setting the setpoint was successful
+     *          false if setting the setpoint wasn't successful
+     * @see LiftSubsystem
+     */
+    public boolean bumpSetpointUp() {
+        return mLiftSubsystem.bumpSetpointUp();
+    }
+    /**
+     * Decreases the setpoint of the lift based on a constant
+     * @return true if setting the setpoint was successful
+     *          false if setting the setpoint wasn't successful
+     * @see LiftSubsystem
+     */
+    public boolean bumpSetpointDown() {
+        return mLiftSubsystem.bumpSetpointDown();
+    }
+
+    public void intakeRightSide(double power){
+        mIntakeSubsystem.intakeRightSide(power);
+    }
+    public void intakeLeftSide(double power){
+        mIntakeSubsystem.intakeLeftSide(power);
+    }
 }
+

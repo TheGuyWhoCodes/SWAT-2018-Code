@@ -18,30 +18,30 @@ public class TurnTowardsPoint implements Action {
     
     
     public TurnTowardsPoint(Translation2d point) {
-        mTargetHeading = new Rotation2d(point.subtract(RobotState.getInstance().getLatestFieldToVehicle().getValue().getTranslation()), true);
-    }
+            mTargetHeading = new Rotation2d(point.subtract(RobotState.getInstance().getLatestFieldToVehicle().getValue().getTranslation()), true);
+        }
 
-    @Override
-    public boolean isFinished() {
-        return mDrive.isDoneWithTurn();
-    }
+        @Override
+        public boolean isFinished() {
+            return mDrive.isDoneWithTurn();
+        }
 
-    @Override
-    public void update() {
-        // Nothing done here, controller updates in mEnabedLooper in robot
-    }
+        @Override
+        public void update() {
+            // Nothing done here, controller updates in mEnabedLooper in robot
+        }
 
-    @Override
-    public void done() {
-    	mDrive.setCoastMode();
-    	mDrive.setOpenLoop(new DriveSignal(0, 0));
-    	System.out.println("Finished turning to point.");
-    }
+        @Override
+        public void done() {
+            mDrive.setCoastMode();
+            mDrive.setOpenLoop(new DriveSignal(0, 0));
+            System.out.println("Finished turning to point.");
+        }
 
-    @Override
-    public void start() {
-    	mDrive.setBrakeMode();
-    	System.out.println("Turning to point.");
+        @Override
+        public void start() {
+            mDrive.setBrakeMode();
+            System.out.println("Turning to point.");
         mDrive.setWantTurnToHeading(mTargetHeading);
     }
 }
