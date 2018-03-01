@@ -38,9 +38,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 		protected void routine() throws AutoModeEndedException {
 			String gameData;
 			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
-			System.out.println(gameData);
 		if(gameData.equals("LL")) {
-			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
@@ -137,7 +135,6 @@ public class LeftSideElimScale  extends AutoModeBase{
 
 
 		} else if(gameData.charAt(1) == 'L'){
-			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(

@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang.UnhandledException;
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
 import org.usfirst.frc.team1806.robot.auto.PathAdapter;
@@ -63,6 +62,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		zeroAllSensors();
+        mEnabledLooper.register(RobotStateEstimator.getInstance());
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 		powerDistributionPanel = new PowerDistributionPanel();
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
         mAutoModeExecuter = null;
         mAutoModeExecuter = new AutoModeExecuter();
         mAutoModeExecuter.setAutoMode(new QualMode());
-        mEnabledLooper.register(RobotStateEstimator.getInstance());
         mDrive.setCoastMode();
         AutoModeSelector.initAutoModeSelector();
         try {
@@ -149,10 +148,10 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 	}
 	public void zeroAllSensors() {
-		System.out.println("Zeroing all Sensors..");
-        mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+//		System.out.println("Zeroing all Sensors..");
         mSubsystemManager.zeroSensors();
-        System.out.print("All Sensors zeroed!");
+        mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+//        System.out.print("All Sensors zeroed!");
 
 	}
 	public synchronized void allPeriodic() {

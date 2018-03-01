@@ -16,8 +16,6 @@ public class TurnTester extends AutoModeBase {
         runAction(new WaitAction(1));
         runAction(new TurnTowardsPoint(new Translation2d(0,1)));
         runAction(new WaitAction(1));
-        runAction(new TurnTowardsPoint(new Translation2d(-1,0)));
-        runAction(new WaitAction(1));
         runAction(new TurnTowardsPoint(new Translation2d(0,-1)));
     }
 }

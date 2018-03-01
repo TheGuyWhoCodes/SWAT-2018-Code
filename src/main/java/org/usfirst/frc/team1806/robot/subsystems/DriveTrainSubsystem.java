@@ -343,7 +343,6 @@ public class DriveTrainSubsystem implements Subsystem{
 		SmartDashboard.putString("Drive State", returnDriveState());
 		SmartDashboard.putNumber("NavX", getGyroAngle().getDegrees());
 		SmartDashboard.putBoolean("Are we in brake mode", mIsBrakeMode);
-
 	}
      
      
@@ -576,6 +575,8 @@ public class DriveTrainSubsystem implements Subsystem{
         if (!mPathFollower.isFinished()) {
             Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
             updateVelocitySetpoint(setpoint.left, setpoint.right);
+            SmartDashboard.putNumber("Left Side Setpoint: ", setpoint.left);
+            SmartDashboard.putNumber("Right Side Setpoint: ", setpoint.right);
         } else {
             updateVelocitySetpoint(0, 0);
         }
@@ -610,7 +611,7 @@ public class DriveTrainSubsystem implements Subsystem{
         final Rotation2d robot_to_target = field_to_robot.inverse().rotateBy(mTargetHeading);
 
         // Check if we are on target
-        final double kGoalPosTolerance = 2; // degrees
+        final double kGoalPosTolerance = 3; // degrees
         final double kGoalVelTolerance = 5.0; // inches per second
         if (Math.abs(robot_to_target.getDegrees()) < kGoalPosTolerance
                 && Math.abs(getLeftVelocityInchesPerSec()) < kGoalVelTolerance
@@ -625,6 +626,11 @@ public class DriveTrainSubsystem implements Subsystem{
                 .inverseKinematics(new Twist2d(0, 0, robot_to_target.getRadians()));
         updatePositionSetpoint(wheel_delta.left + getLeftDistanceInches(),
                 wheel_delta.right + getRightDistanceInches());
+
+        SmartDashboard.putNumber("Wanted Right Turn To Heading: ", wheel_delta.right + getRightDistanceInches());
+        SmartDashboard.putNumber("Wanted Left Turn to Heading", wheel_delta.left + getLeftDistanceInches());
+        SmartDashboard.putNumber("Current Right Turn To Heading", getRightDistanceInches());
+        SmartDashboard.putNumber("Current Left Turn To Heading", getLeftDistanceInches());
     }
 
 	/**
@@ -646,8 +652,8 @@ public class DriveTrainSubsystem implements Subsystem{
             		"Right Side Veloctiy: "+ right_inches_per_sec);*/
       		
 
-            SmartDashboard.putNumber("Left Side Velocity", masterLeft.getSelectedSensorVelocity(0));
-            SmartDashboard.putNumber("Right Side Velocity", masterRight.getSelectedSensorVelocity(0));
+            SmartDashboard.putNumber("Left Side Velocity", getLeftVelocityInchesPerSec());
+            SmartDashboard.putNumber("Right Side Velocity", getRightVelocityInchesPerSec());
         } else {
             System.out.println("Hit a bad velocity control state");
             masterLeft.set(ControlMode.PercentOutput, 0);
@@ -660,11 +666,11 @@ public class DriveTrainSubsystem implements Subsystem{
 	 */
 	@Override
 	public synchronized void zeroSensors() {
-		System.out.println("Zeroing drivetrain sensors...");
+//		System.out.println("Zeroing drivetrain sensors...");
    	 masterLeft.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
    	 masterRight.setSelectedSensorPosition(0, 0, Constants.kDriveTrainPIDSetTimeout);
    	 navx.zeroYaw();		
-   	 System.out.println("Drivetrain sensors zeroed!");
+//   	 System.out.println("Drivetrain sensors zeroed!");
 	}
 	@Override
 	public void writeToLog() {

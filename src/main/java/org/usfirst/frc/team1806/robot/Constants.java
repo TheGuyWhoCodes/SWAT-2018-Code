@@ -24,11 +24,11 @@ public class Constants {
     public final static double kInertiaSteeringGain = 0.0; // angular velocity command is multiplied by this gain *
     // our speed
     // in inches per sec
-    public final static double kSegmentCompletionTolerance = 0.25; // inches
+    public final static double kSegmentCompletionTolerance = 0.5; // inches
     public final static double kPathFollowingMaxAccel = 120.0; // inches per second^2
     public final static double kPathFollowingMaxVel = 120.0; // inches per second
     public final static double kPathFollowingProfileKp = 1.15;
-    public final static double kPathFollowingProfileKi = 0.06;
+    public final static double kPathFollowingProfileKi = 0.05;
     public final static double kPathFollowingProfileKv = 0.00002;
     public final static double kPathFollowingProfileKffv = 1.25;
     public final static double kPathFollowingProfileKffa = 0.05;
@@ -40,19 +40,19 @@ public class Constants {
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in counts per tenth of a second
     public final static double kDriveHighGearVelocityKp = 0.01; // 1.2/1500;
-    public final static double kDriveHighGearVelocityKi = 0.0000; //0.0;
+    public final static double kDriveHighGearVelocityKi = 0.00000; //0.0;
     public final static double kDriveHighGearVelocityKd = 0.3; //0.0001; //6.0/1500;
     public final static double kDriveHighGearVelocityKf = 0.1628674627745835; //.025;
     public final static int kDriveHighGearVelocityIZone = 0;
     public final static double kDriveHighGearVelocityRampRate = .1;
     public final static double kDriveHighGearNominalOutput = 0.25;
-    public final static double kDriveHighGearMaxSetpoint = 14 * 12; //FPS
+    public final static double kDriveHighGearMaxSetpoint = 10.5 * 12; //FPS
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
-    public final static double kDriveLowGearPositionKp = .38;
-    public final static double kDriveLowGearPositionKi = 0.0205;
-    public final static double kDriveLowGearPositionKd = 9.5;
+    public final static double kDriveLowGearPositionKp = .2;
+    public final static double kDriveLowGearPositionKi = 0.00;
+    public final static double kDriveLowGearPositionKd = 9.75;
     public final static double kDriveLowGearPositionKf = 0.0020564073582649;
     public final static int kDriveLowGearPositionIZone = 250;
     public final static double kDriveLowGearPositionRampRate = 240.0; // V/s

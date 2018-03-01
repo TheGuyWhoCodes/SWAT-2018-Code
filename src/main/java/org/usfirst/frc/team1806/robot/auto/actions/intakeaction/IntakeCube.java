@@ -13,7 +13,7 @@ public class IntakeCube implements Action {
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().intakeCube(.7 * Math.abs(Math.sin(6 * Timer.getFPGATimestamp())), .7 * Math.abs(Math.sin(6 * Timer.getFPGATimestamp())));
+        SnackManipulatorSuperStructure.getInstance().intakeCube(.7, .7);
     }
 
     @Override

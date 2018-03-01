@@ -40,21 +40,36 @@ public class QualMode extends AutoModeBase {
 	protected void routine() throws AutoModeEndedException {
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
-		System.out.println(gameData);
 		if(gameData.equals("RR")) {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
-			runAction(new DrivePathAction(rightScalePath));
-			runAction(new LiftToHighScale(false));
-			runAction(new SpitOutCube(.2));
-			runAction(new LiftToBottom(false));
-			runAction(new TurnTowardsPoint(new Translation2d(245, 65)));
-			runAction(new DrivePathAction(new RightSideScaleToBlockPart1()));
-			runAction(new DrivePathAction(new UpOneFootRR(245,65,-12,false)));
-			runAction(new LiftToSwitch());
-			runAction(new SpitOutCube(.2));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(rightScalePath),
+//							new RunActionAtY(110, new LiftToHighScale(false)),
+//							new RunActionAtX(260,new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+					}
+			)));
+			runAction(new OutputTime("Done driving towards scale!"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+//							new RunActionAtAngleRange(-80,80, new LiftToBottom(false)),
+							new TurnTowardsPoint(new Translation2d(245, 65))
+					}
+			)));
+
+
+
+//			runAction(new OutputTime("Spun towards cube"));
+//			runAction(new ParallelAction(Arrays.asList(
+//					new Action[]{
+//							new IntakeCube(),
+//							new DrivePathAction(new RightSideScaleToBlockPart1())
+//					})));
+//			runAction(new DrivePathAction(new UpOneFootRR(245,65,-12,false)));
+//			runAction(new LiftToSwitch());
+//			runAction(new SpitOutCube(.2));
 		} else if(gameData.equals("LL")) {
-			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
@@ -109,31 +124,31 @@ public class QualMode extends AutoModeBase {
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(safeSide),
-							new LiftToSwitch()
-					})));
-			runAction(new SpitOutCube(.1));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(280,264)),
-							new LiftToBottom(true)
-					})));
-			runAction(new DrivePathAction(new SwitchToCube()));
-			runAction(new TurnTowardsPoint(new Translation2d(0,90)));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new DrivePathAction(new UpOneFootRR(235,100,-12,false)),
-							new IntakeCube()
-					})));
-			runAction(new DrivePathAction(new RightSideScaleToBlockPart2()));
-			runAction(new OutputTime("Drove to Scale!"));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 80)),
-							new RunActionAtAngleRange(-45,45, new LiftToHighScale()),
-							new RunActionAtLiftHeight(17000, (new SpitOutCube(.1)))
-					})));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
+							//new RunActionAtX(130, new LiftToSwitch())
+                    })));
+            runAction(new SpitOutCube(.1));
+            runAction(new ParallelAction(Arrays.asList(
+                    new Action[]{
+                            new TurnTowardsPoint(new Translation2d(280,264)),
+                            //new LiftToBottom(true)
+                    })));
+            runAction(new DrivePathAction(new SwitchToCube()));
+            runAction(new TurnTowardsPoint(new Translation2d(0,90)));
+            runAction(new ParallelAction(Arrays.asList(
+                    new Action[]{
+                            new DrivePathAction(new UpOneFootRR(235,60,-12,false)),
+                            new IntakeCube()
+                    })));
+            runAction(new DrivePathAction(new RightSideScaleToBlockPart2()));
+            runAction(new OutputTime("Drove to Scale!"));
+            runAction(new ParallelAction(Arrays.asList(
+                    new Action[]{
+                            new TurnTowardsPoint(new Translation2d(600, 80)),
+                            new RunActionAtAngleRange(-45,45, new LiftToHighScale(true)),
+                            new RunActionAtLiftHeight(17000, (new SpitOutCube(.1)))
+                    })));
+            runAction(new ParallelAction(Arrays.asList(
+                    new Action[]{
 							new TurnTowardsPoint(new Translation2d(100,100)),
 							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
 					}
@@ -141,7 +156,6 @@ public class QualMode extends AutoModeBase {
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else if(gameData.equals("RL")) {
-			System.out.println("Running left Side!");
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(

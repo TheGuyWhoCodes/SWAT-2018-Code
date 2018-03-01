@@ -57,6 +57,7 @@ public class LiftSubsystem implements LiftInterface {
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
 		cubeMaster.configPeakOutputReverse(-.4, 10);
+		cubeMaster.setSensorPhase(true);
 		reloadGains();
 	}
 
@@ -109,7 +110,7 @@ public class LiftSubsystem implements LiftInterface {
             public void onLoop(double timestamp) {
             	synchronized (LiftSubsystem.this){
 					updateCubeDetector();
-					if(isAtPosition()){
+					if(isAtPosition() && mCubeLiftStates != CubeLiftStates.MANUAL_CONTROL){
 						if(mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM
 								|| areWeAtBottomLimit()
 								){
