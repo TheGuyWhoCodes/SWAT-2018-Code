@@ -45,7 +45,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 					new Action[]{
 							new SeriesAction(Arrays.asList(
 									new LiftToTeleopHold(),
-									new RunActionAtX(264, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
+									new RunActionAtX(263, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
 							)),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),
@@ -53,7 +53,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			)));
 			runAction(new OutputTime("Finished Left Side"));
 			runAction(new LiftToBottom(true));
-			runAction(new TurnTowardsPoint(new Translation2d(190,220)));
+			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
 			runAction(new OutputTime("Finished Turn"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
@@ -81,7 +81,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new DrivePathAction(new ThreeCubePart3()));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new TurnTowardsPoint(new Translation2d(300, 215)),
 							new LiftToHighScale(false),
 							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
 					})));
@@ -141,14 +141,14 @@ public class LeftSideElimScale  extends AutoModeBase{
 					new Action[]{
 							new DrivePathAction(safeSide),
 							new RunActionAtX(70, new LiftToHighScale(false)),
-							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+							new RunActionAtX(263, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
 
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(190,210)),
+							new TurnTowardsPoint(new Translation2d(223,220)),
 							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
 					}
 			)));
@@ -161,15 +161,17 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new DrivePathAction(new LeftSideScalePart2()));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new TurnTowardsPoint(new Translation2d(280, 220)),
 							new LiftToHighScale(false),
 							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
 					}
 			)));
+			runAction(new LiftToBottom(true));
 		}else {
 			PathContainer dumbMode = new DumbMode();
 			runAction(new ResetPoseFromPathAction(dumbMode));
 			runAction(new DrivePathAction(dumbMode));
+			runAction(new TurnTowardsPoint(new Translation2d(0, 0)));
 		}
 	}
 

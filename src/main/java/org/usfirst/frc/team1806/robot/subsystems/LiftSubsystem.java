@@ -47,8 +47,6 @@ public class LiftSubsystem implements LiftInterface {
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
 		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
-		cubeMaster.setInverted(true);
-		cubeSlave.setInverted(true);
 		cubeSlave.follow(cubeMaster);
 		cubeMaster.configContinuousCurrentLimit(130, 10);
 		bottomLimit = new DigitalInput(RobotMap.cubeBottomLimit);
@@ -56,9 +54,9 @@ public class LiftSubsystem implements LiftInterface {
 		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
-		cubeMaster.configPeakOutputReverse(-.4, 10);
 		cubeMaster.setSensorPhase(true);
-		reloadGains();
+		cubeMaster.configPeakOutputReverse(-.4, 10);
+ 		reloadGains();
 	}
 
 	@Override

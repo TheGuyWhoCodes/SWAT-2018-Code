@@ -5,10 +5,7 @@ import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.IntakeCube;
 import org.usfirst.frc.team1806.robot.auto.actions.intakeaction.SpitOutCube;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
-import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
+import org.usfirst.frc.team1806.robot.auto.actions.liftactions.*;
 import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
@@ -124,13 +121,13 @@ public class QualMode extends AutoModeBase {
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(safeSide),
-							//new RunActionAtX(130, new LiftToSwitch())
+							new RunActionAtX(130, new LiftToSwitch())
                     })));
             runAction(new SpitOutCube(.1));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
                             new TurnTowardsPoint(new Translation2d(280,264)),
-                            //new LiftToBottom(true)
+                            new LiftToBottom(true)
                     })));
             runAction(new DrivePathAction(new SwitchToCube()));
             runAction(new TurnTowardsPoint(new Translation2d(0,90)));
@@ -160,13 +157,15 @@ public class QualMode extends AutoModeBase {
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new LiftToTeleopHold(),
+									new RunActionAtX(263, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
+							)),
 							new DrivePathAction(safeSide),
-							new RunActionAtX(70, new LiftToHighScale(false)),
-							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+							new RunActionAtX(100, new LiftToHighScale(false)),
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
-
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(190,210)),
@@ -178,10 +177,11 @@ public class QualMode extends AutoModeBase {
 
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new DrivePathAction(new UpOneFootRR(245,75,-20,false)),
+							new DrivePathAction(new UpOneFootRR(237,75,-15,false)),
 							new IntakeCube()
 					}
 			)));
+			runAction(new LiftToSwitch());
 			runAction(new SpitOutCube(.1));
 			runAction(new LiftToBottom(true));
 		} else {
