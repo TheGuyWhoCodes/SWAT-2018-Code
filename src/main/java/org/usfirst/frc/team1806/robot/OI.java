@@ -7,6 +7,9 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import edu.wpi.first.wpilibj.CircularBuffer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1806.robot.auto.actions.controller.VibrateControllerForTime;
 import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
@@ -36,6 +39,7 @@ public class OI {
 	private Latch cubeManualMode = new Latch();
 	private Latch cubeOverride = new Latch();
 	private boolean didWeHaveACube = false;
+
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
 			if(dc.getRightTrigger() > .2) {
@@ -54,11 +58,11 @@ public class OI {
 				dc.rumble(.5,.5,1);
 			}
 			if(Math.abs(dc.getLeftTrigger()) > .2){
-				mSnackManipulator.intakeCube(Constants.kInnerIntakeSpeed, Constants.kInnerIntakeSpeed);
+				SnackManipulatorSuperStructure.getInstance().intakeCube(.85, .85);
 			} else if(oc.getButtonLB()){
                 mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed );
 			} else if(dc.getButtonRB()){
-				mSnackManipulator.spitOutCube(.6);
+				SnackManipulatorSuperStructure.getInstance().spitOutCube((.8) * (-.23 * Robot.powerDistributionPanel.getVoltage()) + 3.9);
 			} else if(dc.getPOVUp()){
 				mSnackManipulator.spitOutCube(1);
 			} else if(dc.getPOVDown()){

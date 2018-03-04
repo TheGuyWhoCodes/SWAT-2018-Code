@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1806.robot.auto.actions.intakeaction;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.actions.Action;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 
@@ -8,6 +10,7 @@ public class SpitOutCube implements Action{
     Timer timer = new Timer();
     double startTime;
     double wantedTime;
+    PowerDistributionPanel powerDistributionPanel;
     public SpitOutCube(double time){
         wantedTime = time;
     }
@@ -18,7 +21,7 @@ public class SpitOutCube implements Action{
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().spitOutCube(.8);
+        SnackManipulatorSuperStructure.getInstance().spitOutCube((.7) * (-.23 * Robot.powerDistributionPanel.getVoltage()) + 3.9);
     }
 
     @Override

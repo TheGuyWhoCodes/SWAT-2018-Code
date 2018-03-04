@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1806.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -47,8 +49,6 @@ public class IntakeSubsystem implements Subsystem{
 
 	@Override
 	public void outputToSmartDashboard() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

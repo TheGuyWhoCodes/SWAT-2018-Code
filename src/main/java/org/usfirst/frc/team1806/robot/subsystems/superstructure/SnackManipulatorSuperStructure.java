@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1806.robot.subsystems.superstructure;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -19,7 +21,7 @@ import org.usfirst.frc.team1806.robot.subsystems.Subsystem;
 public class SnackManipulatorSuperStructure implements Subsystem {
 
     //We need to grab instances of these to manipulate each one here
-
+    PowerDistributionPanel powerDistributionPanel;
     private LiftSubsystem mLiftSubsystem;
     private CubeEaterSuperStructure mIntakeSubsystem;
     private static SnackManipulatorSuperStructure mSnack;
@@ -27,6 +29,7 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     public SnackManipulatorSuperStructure() {
         mLiftSubsystem = new LiftSubsystem();
         mIntakeSubsystem = new CubeEaterSuperStructure();
+        powerDistributionPanel = new PowerDistributionPanel();
     }
 
     public static SnackManipulatorSuperStructure getInstance() {
@@ -68,6 +71,8 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     public void outputToSmartDashboard() {
         mIntakeSubsystem.outputToSmartDashboard();
         mLiftSubsystem.outputToSmartDashboard();
+        SmartDashboard.putNumber("Intake PDP Total: ", powerDistributionPanel.getCurrent(5) + powerDistributionPanel.getCurrent(6));
+
     }
 
     @Override
@@ -125,7 +130,6 @@ public class SnackManipulatorSuperStructure implements Subsystem {
         double mLeftPower = 1;//Math.abs(Math.sin(7 * Timer.getFPGATimestamp()));
         mIntakeSubsystem.intaking(leftPower * mLeftPower, rightPower * mRightPower);
     }
-
     public void goToManualMode(double power) {
         mLiftSubsystem.manualMode(power);
     }

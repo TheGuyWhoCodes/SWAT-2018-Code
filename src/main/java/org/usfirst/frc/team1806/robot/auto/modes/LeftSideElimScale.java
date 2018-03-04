@@ -81,7 +81,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new DrivePathAction(new ThreeCubePart3()));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(300, 215)),
+							new TurnTowardsPoint(new Translation2d(300, 210)),
 							new LiftToHighScale(false),
 							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
 					})));

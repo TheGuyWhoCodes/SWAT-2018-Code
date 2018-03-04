@@ -10,6 +10,7 @@ import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideCrossScale;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSafe;
 import org.usfirst.frc.team1806.robot.auto.paths.UpOneFootRR;
+import org.usfirst.frc.team1806.robot.auto.paths.qual.LR.CubeToScale;
 import org.usfirst.frc.team1806.robot.auto.paths.qual.LR.DriveToSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.qual.LR.SwitchToCube;
 import org.usfirst.frc.team1806.robot.auto.paths.qual.RL.ScaleToSwitch;
@@ -121,35 +122,30 @@ public class QualMode extends AutoModeBase {
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(safeSide),
-							new RunActionAtX(130, new LiftToSwitch())
+							new LiftToSwitch(),
+							new RunActionAtX(110, new SpitOutCube(.1))
                     })));
-            runAction(new SpitOutCube(.1));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new TurnTowardsPoint(new Translation2d(280,264)),
+                            new TurnTowardsPoint(new Translation2d(170,300)),
                             new LiftToBottom(true)
                     })));
             runAction(new DrivePathAction(new SwitchToCube()));
-            runAction(new TurnTowardsPoint(new Translation2d(0,90)));
+            runAction(new TurnTowardsPoint(new Translation2d(204,70)));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new DrivePathAction(new UpOneFootRR(235,60,-12,false)),
+                            new DrivePathAction(new UpOneFootRR(245,70,-17,false)),
                             new IntakeCube()
                     })));
-            runAction(new DrivePathAction(new RightSideScaleToBlockPart2()));
+            runAction(new DrivePathAction(new CubeToScale()));
             runAction(new OutputTime("Drove to Scale!"));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new TurnTowardsPoint(new Translation2d(600, 80)),
-                            new RunActionAtAngleRange(-45,45, new LiftToHighScale(true)),
+                            new TurnTowardsPoint(new Translation2d(330, 100)),
+                            new RunActionAtAngleRange(-90,90, new LiftToHighScale(true)),
                             new RunActionAtLiftHeight(17000, (new SpitOutCube(.1)))
                     })));
-            runAction(new ParallelAction(Arrays.asList(
-                    new Action[]{
-							new TurnTowardsPoint(new Translation2d(100,100)),
-							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
-					}
-			)));
+            runAction(new LiftToBottom(true));
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else if(gameData.equals("RL")) {
@@ -172,7 +168,12 @@ public class QualMode extends AutoModeBase {
 							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
 					}
 			)));
-			runAction(new DrivePathAction(new ScaleToSwitch()));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new ScaleToSwitch()),
+							new RunActionAtY(130, new LiftToBottom(true))
+					}
+			)));
 			runAction(new TurnTowardsPoint(new Translation2d(200,70)));
 
 			runAction(new ParallelAction(Arrays.asList(

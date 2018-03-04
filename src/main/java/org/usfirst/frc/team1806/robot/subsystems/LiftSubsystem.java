@@ -160,6 +160,7 @@ public class LiftSubsystem implements LiftInterface {
 						holdPosition();
 						return;
 					case MANUAL_CONTROL:
+						mIsOnTarget = false;
 						return;
 					case IDLE:
 						cubeMaster.set(ControlMode.PercentOutput, 0);
@@ -352,7 +353,7 @@ public class LiftSubsystem implements LiftInterface {
     	return mHaveCube;
 	}
 	private void updateCubeDetector(){
-    	if(mCubeLiftStates == CubeLiftStates.IDLE && mCubeLiftStates == CubeLiftStates.IDLE){
+    	if(cubeMaster.getSelectedSensorPosition(0) < 1000){
 			mHaveCube = cubeDetector.get();
 		}
 	}
