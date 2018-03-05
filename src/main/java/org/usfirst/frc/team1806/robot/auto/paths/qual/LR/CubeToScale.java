@@ -16,7 +16,7 @@ public class CubeToScale implements PathContainer {
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(228, 70), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(222, 70), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override

@@ -71,11 +71,13 @@ public class Constants {
     public final static double kCubePositionRampRate = 0;
 
     // Encoder constants used by Cube Lift system
+    public final static int kCreepModeLiftHeight = 13000;
     public final static int kHighScaleEncoderCount = 18500;
     public final static int kNeutralScaleEncoderCount = 15500;
-    public final static int kTeleOpHoldHeight = 1000;
+    public final static int kWinningScaleEncoderCount = 11700;
+    public final static int kTeleOpHoldHeight = 800;
     public final static int kDropOffEncoderCount = 0;
-    public final static int kSwitchEncoderCount = 7500;
+    public final static int kSwitchEncoderCount = 5000;
     public final static int kPositionControlPIDSlot = 0;
     public final static int kEncoderCountsPerInch = 0;
     public final static double kCubeMoveToLimitSwitchSpeed = .2;

@@ -130,24 +130,19 @@ public class QualMode extends AutoModeBase {
                             new TurnTowardsPoint(new Translation2d(170,300)),
                             new LiftToBottom(true)
                     })));
-            runAction(new DrivePathAction(new SwitchToCube()));
-            runAction(new TurnTowardsPoint(new Translation2d(204,70)));
-            runAction(new ParallelAction(Arrays.asList(
+	            runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new DrivePathAction(new UpOneFootRR(245,70,-17,false)),
-                            new IntakeCube()
+							new DrivePathAction(new SwitchToCube()),
+                            new RunActionAtY(180, new IntakeCube())
                     })));
-            runAction(new DrivePathAction(new CubeToScale()));
-            runAction(new OutputTime("Drove to Scale!"));
-            runAction(new ParallelAction(Arrays.asList(
-                    new Action[]{
-                            new TurnTowardsPoint(new Translation2d(330, 100)),
-                            new RunActionAtAngleRange(-90,90, new LiftToHighScale(true)),
-                            new RunActionAtLiftHeight(17000, (new SpitOutCube(.1)))
-                    })));
-            runAction(new LiftToBottom(true));
-			runAction(new OutputTime("Done with Auto!"));
-			runAction(new WaitAction(15));
+	            runAction(new TurnTowardsPoint(new Translation2d(325,90)));
+	            runAction(new ParallelAction(Arrays.asList(
+	            		new Action[]{
+								new DrivePathAction(new CubeToScale()),
+								new LiftToHighScale(true),
+								new RunActionAtX(280, new SpitOutCube(.1))
+						}
+				)));
 		} else if(gameData.equals("RL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));

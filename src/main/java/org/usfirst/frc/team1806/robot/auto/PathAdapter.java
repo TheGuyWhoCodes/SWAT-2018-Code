@@ -213,9 +213,9 @@ public class PathAdapter {
         if(leftRightDriveToSwitch == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(16,270,0,0));
-            sWaypoints.add(new Waypoint(30,270,5,60));
-            sWaypoints.add(new Waypoint(50,270,0,60));
-            sWaypoints.add(new Waypoint(102,248,0,60));
+            sWaypoints.add(new Waypoint(30,270,5,90));
+            sWaypoints.add(new Waypoint(50,270,0,90));
+            sWaypoints.add(new Waypoint(102,248,0,90));
             sWaypoints.add(new Waypoint(111,242,0,60));
 
             leftRightDriveToSwitch = PathBuilder.buildPathFromWaypoints(sWaypoints);
@@ -230,9 +230,11 @@ public class PathAdapter {
             sWaypoints.add(new Waypoint(111,242,0,0));
             sWaypoints.add(new Waypoint(135,265,0,80));
             sWaypoints.add(new Waypoint(190,272,0,100));
-            sWaypoints.add(new Waypoint(235,250,10,100));
+            sWaypoints.add(new Waypoint(235,250,0,100));
             sWaypoints.add(new Waypoint(242,180,0,144));
-            sWaypoints.add(new Waypoint(242,70,0,90));
+            sWaypoints.add(new Waypoint(242,150,10,144));
+            sWaypoints.add(new Waypoint(222,125,10,100));
+            sWaypoints.add(new Waypoint(222,70,0,100));
             leftRightSwitchToCube = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return leftRightSwitchToCube;
@@ -241,9 +243,8 @@ public class PathAdapter {
     public static Path leftRightCubeToSwitch() {
         if(leftRightCubeToSwitch == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(225,70,0,0));
-            sWaypoints.add(new Waypoint(250,50,5,90));
-            sWaypoints.add(new Waypoint(265,50,0,70));
+            sWaypoints.add(new Waypoint(222,70,0,0));
+            sWaypoints.add(new Waypoint(255,75,0,60));
             leftRightCubeToSwitch = PathBuilder.buildPathFromWaypoints(sWaypoints);
 
         }

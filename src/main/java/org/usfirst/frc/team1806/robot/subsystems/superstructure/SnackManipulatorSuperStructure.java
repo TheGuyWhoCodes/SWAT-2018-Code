@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.subsystems.IntakeSubsystem;
@@ -104,6 +105,9 @@ public class SnackManipulatorSuperStructure implements Subsystem {
         mLiftSubsystem.goToSwitchSetpoint();
 //		mIntakeSubsystem.stopAllIntake();
     }
+    public void goToWinningScaleSetpoint(){
+        mLiftSubsystem.goToWinningScale();
+    }
     public void goToTeleopHold(){
         mLiftSubsystem.goToTeleOpHold();
     }
@@ -122,7 +126,7 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     }
 
     public synchronized void spitOutCube(double power) {
-        mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), power);
+        mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), (power * 12) / Robot.powerDistributionPanel.getVoltage());
     }
 
     public void intakeCube(double leftPower, double rightPower) {

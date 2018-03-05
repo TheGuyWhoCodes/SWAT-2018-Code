@@ -21,7 +21,7 @@ public class SpitOutCube implements Action{
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().spitOutCube((.7) * (-.23 * Robot.powerDistributionPanel.getVoltage()) + 3.9);
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(.7);
     }
 
     @Override

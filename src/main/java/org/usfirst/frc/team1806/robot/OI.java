@@ -42,7 +42,7 @@ public class OI {
 
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
-			if(dc.getRightTrigger() > .2) {
+			if(dc.getRightTrigger() > .2 || SnackManipulatorSuperStructure.getInstance().returnLiftHeight() > Constants.kCreepModeLiftHeight) {
 				mDriveTrainSubsystem.setCreepMode(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));		
 			}else {
@@ -62,7 +62,7 @@ public class OI {
 			} else if(oc.getButtonLB()){
                 mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed );
 			} else if(dc.getButtonRB()){
-				SnackManipulatorSuperStructure.getInstance().spitOutCube((.8) * (-.23 * Robot.powerDistributionPanel.getVoltage()) + 3.9);
+				SnackManipulatorSuperStructure.getInstance().spitOutCube(.8);
 			} else if(dc.getPOVUp()){
 				mSnackManipulator.spitOutCube(1);
 			} else if(dc.getPOVDown()){
@@ -92,7 +92,7 @@ public class OI {
 		} else if(dc.getButtonX()){
 			mSnackManipulator.goToNeutralScaleSetpoint();
 		} else if(dc.getButtonLB()){
-			mSnackManipulator.goToExchangeSetpoint();
+			mSnackManipulator.goToWinningScaleSetpoint();
 		}else if(cubeManualMode.update(oc.getButtonA())){
 			mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
 		} else if(oc.getButtonStart()){

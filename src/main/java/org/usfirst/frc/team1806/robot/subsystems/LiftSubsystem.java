@@ -33,6 +33,7 @@ public class LiftSubsystem implements LiftInterface {
 		BOTTOM_LIMIT,
 		TELEOP_HOLD,
         TOP_LIMIT,
+		WINNING_SCALE,
 		EXCHANGE_HEIGHT
 	}
 	private TalonSRX cubeMaster, cubeSlave; //gotta have the power
@@ -119,7 +120,7 @@ public class LiftSubsystem implements LiftInterface {
 							holdPosition();
 						}
 					}
-					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE && DriverStation.getInstance().isOperatorControl()){
+					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE && DriverStation.getInstance().isOperatorControl() &&  mCubeLiftStates != CubeLiftStates.MANUAL_CONTROL){
                         goToTeleOpHold();
                     }
 
@@ -349,6 +350,13 @@ public class LiftSubsystem implements LiftInterface {
 			goToSetpoint(800);
 		}
 	}
+	public synchronized void goToWinningScale(){
+		mCubePosition = CubePosition.WINNING_SCALE;
+		updatePositionControl();
+		if(isReadyForSetpoint()){
+			goToSetpoint(Constants.kWinningScaleEncoderCount);
+		}
+	}
 	public boolean doWeHaveCube(){
     	return mHaveCube;
 	}
@@ -373,6 +381,7 @@ public class LiftSubsystem implements LiftInterface {
     	return returnLiftPosition() < Constants.kCubeSpitOutNeedsOuterIntake || mCubePosition == CubePosition.BOTTOM_LIMIT;
 	}
 	public synchronized void manualMode(double power){
+    	mCubeLiftStates = CubeLiftStates.MANUAL_CONTROL;
     	cubeMaster.set(ControlMode.PercentOutput, power);
 	}
 	public void setupForManualMode(){
