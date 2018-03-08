@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
+import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
@@ -44,57 +45,54 @@ public class QualMode extends AutoModeBase {
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(rightScalePath),
-//							new RunActionAtY(110, new LiftToHighScale(false)),
-//							new RunActionAtX(260,new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+							new RunActionAtY(110, new LiftToHighScale(false)),
+							new RunActionAtX(260,new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Done driving towards scale!"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-//							new RunActionAtAngleRange(-80,80, new LiftToBottom(false)),
+							new RunActionAtAngleRange(-80,80, new LiftToBottom(false)),
 							new TurnTowardsPoint(new Translation2d(245, 65))
 					}
 			)));
 
 
-
-//			runAction(new OutputTime("Spun towards cube"));
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new IntakeCube(),
-//							new DrivePathAction(new RightSideScaleToBlockPart1())
-//					})));
-//			runAction(new DrivePathAction(new UpOneFootRR(245,65,-12,false)));
-//			runAction(new LiftToSwitch());
-//			runAction(new SpitOutCube(.2));
+			runAction(new OutputTime("Spun towards cube"));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new RightSideScaleToBlockPart1())
+					})));
+			runAction(new DrivePathAction(new UpOneFootRR(245,65,-12,false)));
+			runAction(new LiftToSwitch());
+			runAction(new SpitOutCube(.2));
 		} else if(gameData.equals("LL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new LiftToTeleopHold(),
+									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+							)),
 							new DrivePathAction(safeSide),
-							new RunActionAtX(70, new LiftToHighScale(false)),
-							new RunActionAtX(268, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+							new RunActionAtX(100, new LiftToHighScale(false)),
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
-
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(190,210)),
-							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
-					}
-			)));
+			runAction(new LiftToBottom(true));
+			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
 			runAction(new OutputTime("Finished Turn"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new IntakeCube(),
-							new DrivePathAction(new LeftSideScalePart1())
+							new DrivePathAction(new LeftSideScalePart1()),
 					})));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new LiftToSwitch(),
-							new RunActionAtLiftHeight(5000, new SpitOutCube(.1))
+							new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, new SpitOutCube(.1))
 					}
 			)));
 			runAction(new ParallelAction(Arrays.asList(
@@ -112,9 +110,9 @@ public class QualMode extends AutoModeBase {
 			runAction(new DrivePathAction(new ThreeCubePart3()));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 210)),
+							new TurnTowardsPoint(new Translation2d(300, 210)),
 							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
 					})));
 		} else if(gameData.equals("LR")) {
 			PathContainer safeSide = new DriveToSwitch();
@@ -130,19 +128,35 @@ public class QualMode extends AutoModeBase {
                             new TurnTowardsPoint(new Translation2d(170,300)),
                             new LiftToBottom(true)
                     })));
-	            runAction(new ParallelAction(Arrays.asList(
-                    new Action[]{
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new Action[]{
+											new RunActionAtX(130, new LiftToTeleopHold()),
+											new RunActionAtY(160, new LiftToBottom(true))
+									}
+							)),
 							new DrivePathAction(new SwitchToCube()),
-                            new RunActionAtY(180, new IntakeCube())
-                    })));
-	            runAction(new TurnTowardsPoint(new Translation2d(325,90)));
-	            runAction(new ParallelAction(Arrays.asList(
-	            		new Action[]{
-								new DrivePathAction(new CubeToScale()),
-								new LiftToHighScale(true),
-								new RunActionAtX(280, new SpitOutCube(.1))
-						}
-				)));
+							new RunActionAtY(150, new IntakeCube())
+
+					})));
+
+
+//	            runAction(new TurnTowardsPoint(new Translation2d(215,80)));
+//	            runAction(new ParallelAction(Arrays.asList(
+//	            		new Action[]{
+//								new DrivePathAction(new CubeToScale()),
+//								new SeriesAction(Arrays.asList(
+//										new Action[]{
+//												new IntakeCube(),
+//												new RunActionAtX(240, new LiftToHighScale(true)),
+//												new RunActionAtX(270, new SpitOutCube(.1))
+//										}
+//								)),
+//						}
+//				)));
+			runAction(new LiftToHighScale(false));
+			runAction(new RunActionAtLiftHeight(18000, new SpitOutCube(.1)));
 		} else if(gameData.equals("RL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
@@ -150,7 +164,7 @@ public class QualMode extends AutoModeBase {
 					new Action[]{
 							new SeriesAction(Arrays.asList(
 									new LiftToTeleopHold(),
-									new RunActionAtX(263, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
+									new RunActionAtX(263, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
 							)),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),

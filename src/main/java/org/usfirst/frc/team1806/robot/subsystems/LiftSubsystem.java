@@ -41,7 +41,6 @@ public class LiftSubsystem implements LiftInterface {
 	private boolean isBrakeMode = false;
 	private boolean mIsOnTarget = false;
 	private boolean mHaveCube = false;
-	private boolean mIsManualMode = false;
 	private int mLiftWantedPosition = 0;
 	private CubeLiftStates mCubeLiftStates;
 	private CubePosition mCubePosition;
@@ -113,7 +112,6 @@ public class LiftSubsystem implements LiftInterface {
 						if(mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM
 								|| areWeAtBottomLimit()
 								){
-							System.out.println("Idling baby");
 							mCubeLiftStates = CubeLiftStates.IDLE;
 						} else{
 							mCubeLiftStates = CubeLiftStates.HOLD_POSITION;
@@ -123,7 +121,6 @@ public class LiftSubsystem implements LiftInterface {
 					if(doWeHaveCube() && mCubeLiftStates == CubeLiftStates.IDLE && DriverStation.getInstance().isOperatorControl() &&  mCubeLiftStates != CubeLiftStates.MANUAL_CONTROL){
                         goToTeleOpHold();
                     }
-
 					cubePositionLoop();
 					cubeLiftStateLoop();
 				}
@@ -161,7 +158,6 @@ public class LiftSubsystem implements LiftInterface {
 						holdPosition();
 						return;
 					case MANUAL_CONTROL:
-						mIsOnTarget = false;
 						return;
 					case IDLE:
 						cubeMaster.set(ControlMode.PercentOutput, 0);
@@ -183,7 +179,7 @@ public class LiftSubsystem implements LiftInterface {
 	public synchronized void goToSetpoint(int setpoint) {
 		mLiftWantedPosition = setpoint;
 		cubeMaster.set(ControlMode.Position, mLiftWantedPosition);
-		System.out.println(mLiftWantedPosition + "  " + isReadyForSetpoint());
+		//System.out.println(mLiftWantedPosition + "  " + isReadyForSetpoint());
 	}
 
 	@Override
@@ -366,7 +362,7 @@ public class LiftSubsystem implements LiftInterface {
 		}
 	}
 	private synchronized boolean isReadyForSetpoint(){
-    	return (!mIsManualMode && isCurrentModesReady());
+    	return (isCurrentModesReady());
 	}
 	private synchronized boolean isCurrentModesReady(){
     	return mCubeLiftStates == CubeLiftStates.POSITION_CONTROL ||

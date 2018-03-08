@@ -191,5 +191,8 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     public void intakeLeftSide(double power){
         mIntakeSubsystem.intakeLeftSide(power);
     }
+    public void setIdleMode(){
+        mLiftSubsystem.setLiftIdle();
+    }
 }
 

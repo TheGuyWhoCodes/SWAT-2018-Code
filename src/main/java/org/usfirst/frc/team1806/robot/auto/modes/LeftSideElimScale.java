@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
+import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
@@ -45,7 +46,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 					new Action[]{
 							new SeriesAction(Arrays.asList(
 									new LiftToTeleopHold(),
-									new RunActionAtX(263, new RunActionAtLiftHeight(18200, (new SpitOutCube(.1))))
+									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
 							)),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),
@@ -63,7 +64,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new LiftToSwitch(),
-							new RunActionAtLiftHeight(6000, new SpitOutCube(.1))
+							new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, new SpitOutCube(.1))
 					}
 			)));
 			runAction(new ParallelAction(Arrays.asList(
@@ -79,11 +80,12 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new DrivePathAction(new ThreeCubePart2())
 					})));
 			runAction(new DrivePathAction(new ThreeCubePart3()));
+
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(300, 210)),
-							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+							new LiftToNeutralScale(),
+							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, new SpitOutCube(.1))
 					})));
 
 
@@ -95,9 +97,14 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ResetPoseFromPathAction(rightScalePath));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new Action[]{
+											new LiftToTeleopHold(),
+											new RunActionAtX(260,new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+									}
+							)),
 							new DrivePathAction(rightScalePath),
 							new RunActionAtY(110, new LiftToHighScale(false)),
-							new RunActionAtX(260,new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
 					}
 			)));
 			runAction(new OutputTime("Done driving towards scale!"));
@@ -122,9 +129,9 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new OutputTime("Drove to Scale!"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(600, 80)),
-							new RunActionAtAngleRange(-45,45, new LiftToNeutralScale()),
-							new RunActionAtLiftHeight(15000, (new SpitOutCube(.1)))
+							new TurnTowardsPoint(new Translation2d(300, 75)),
+							new RunActionAtAngleRange(-120,120, new LiftToNeutralScale()),
+							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, (new SpitOutCube(.1)))
 					}
 			)));
 			runAction(new LiftToBottom(false));
@@ -139,31 +146,29 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
+							new SeriesAction(Arrays.asList(
+									new LiftToTeleopHold(),
+									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+							)),
 							new DrivePathAction(safeSide),
-							new RunActionAtX(70, new LiftToHighScale(false)),
-							new RunActionAtX(263, new RunActionAtLiftHeight(17900, (new SpitOutCube(.1))))
+							new RunActionAtX(100, new LiftToHighScale(false)),
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
-
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(223,220)),
-							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
-					}
-			)));
+			runAction(new LiftToBottom(true));
+			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
 			runAction(new OutputTime("Finished Turn"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new IntakeCube(),
-							new DrivePathAction(new LeftSideScalePart1())
+							new DrivePathAction(new LeftSideScalePart1()),
 					})));
 			runAction(new DrivePathAction(new LeftSideScalePart2()));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(280, 220)),
 							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(16000, new SpitOutCube(.1))
+							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
 					}
 			)));
 			runAction(new LiftToBottom(true));

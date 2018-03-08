@@ -21,7 +21,7 @@ public class SpitOutCube implements Action{
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().spitOutCube(.7);
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(.77);
     }
 
     @Override

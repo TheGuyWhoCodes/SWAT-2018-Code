@@ -39,67 +39,74 @@ public class OI {
 	private Latch cubeManualMode = new Latch();
 	private Latch cubeOverride = new Latch();
 	private boolean didWeHaveACube = false;
-
+	private boolean wereWeManual = false;
 	public void runCommands(){
 		synchronized (mDriveTrainSubsystem) {
 			if(dc.getRightTrigger() > .2 || SnackManipulatorSuperStructure.getInstance().returnLiftHeight() > Constants.kCreepModeLiftHeight) {
 				mDriveTrainSubsystem.setCreepMode(mCheesyDriveHelper.cheesyDrive(
-						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));		
+						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));
 			}else {
 				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
-						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));	
+						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));
 			}
 //			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
 
 		}
 
-		synchronized (mSnackManipulator){
-			if((mSnackManipulator.doWeGotACube()) && !didWeHaveACube){
-				dc.rumble(.5,.5,1);
+		synchronized (mSnackManipulator) {
+			if ((mSnackManipulator.doWeGotACube()) && !didWeHaveACube) {
+				dc.rumble(.5, .5, 1);
 			}
-			if(Math.abs(dc.getLeftTrigger()) > .2){
+			if (Math.abs(dc.getLeftTrigger()) > .2) {
 				SnackManipulatorSuperStructure.getInstance().intakeCube(.85, .85);
-			} else if(oc.getButtonLB()){
-                mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed );
-			} else if(dc.getButtonRB()){
+			} else if (oc.getButtonLB()) {
+				mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed);
+			} else if (dc.getButtonRB()) {
 				SnackManipulatorSuperStructure.getInstance().spitOutCube(.8);
-			} else if(dc.getPOVUp()){
+			} else if (dc.getPOVUp()) {
 				mSnackManipulator.spitOutCube(1);
-			} else if(dc.getPOVDown()){
+			} else if (dc.getPOVDown()) {
 				mSnackManipulator.spitOutCube(.3);
-			} else if(dc.getPOVRight()){
+			} else if (dc.getPOVRight()) {
 				mSnackManipulator.spitOutCube(.5);
-			} else if(dc.getPOVLeft()){
+			} else if (dc.getPOVLeft()) {
 				mSnackManipulator.spitOutCube(.4);
-			} else if(oc.getButtonRB() && oc.getButtonLB()){
+			} else if (oc.getButtonRB() && oc.getButtonLB()) {
 				mSnackManipulator.intakeLeftSide(Constants.kInnerIntakeSpeed);
 				mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed);
-			} else if(oc.getButtonRB()) {
+			} else if (oc.getButtonRB()) {
 				mSnackManipulator.intakeLeftSide(Constants.kInnerIntakeSpeed);
-			}else if(oc.getButtonLB()) {
+			} else if (oc.getButtonLB()) {
 				mSnackManipulator.intakeRightSide(Constants.kInnerIntakeSpeed);
 			} else {
 				mSnackManipulator.stopIntakeMotors();
 			}
 
+			if (cubeManualMode.update(oc.getButtonA())) {
+				if(oc.getButtonB()){
+					mSnackManipulator.goToManualMode(Constants.kCubeHoldPercentOutput);
+				} else {
+					mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
+				}
+			} else if (!cubeManualMode.returnStatus() && wereWeManual) {
+				mSnackManipulator.setIdleMode();
+			} else if (dc.getButtonA()) {
+				mSnackManipulator.goToBottom();
+			} else if (dc.getButtonB()) {
+				mSnackManipulator.goToSwitchSetpoint();
+			} else if (dc.getButtonY()) {
+				mSnackManipulator.goToHighScaleSetpoint();
+			} else if (dc.getButtonX()) {
+				mSnackManipulator.goToNeutralScaleSetpoint();
+			} else if (dc.getButtonLB()) {
+				mSnackManipulator.goToWinningScaleSetpoint();
+			} else if (oc.getButtonStart()) {
+				mSnackManipulator.resetLiftSensors();
+			}
+			wereWeManual = cubeManualMode.returnStatus();
+			didWeHaveACube = mSnackManipulator.doWeGotACube();
 		}
-		if(dc.getButtonA()) {
-			mSnackManipulator.goToBottom();
-		} else if(dc.getButtonB()){
-			mSnackManipulator.goToSwitchSetpoint();
-		} else if(dc.getButtonY()){
-			mSnackManipulator.goToHighScaleSetpoint();
-		} else if(dc.getButtonX()){
-			mSnackManipulator.goToNeutralScaleSetpoint();
-		} else if(dc.getButtonLB()){
-			mSnackManipulator.goToWinningScaleSetpoint();
-		}else if(cubeManualMode.update(oc.getButtonA())){
-			mSnackManipulator.goToManualMode(CheesyDriveHelper.handleDeadband(oc.getLeftJoyY(), .2));
-		} else if(oc.getButtonStart()){
-			mSnackManipulator.resetLiftSensors();
 
-		}
-		didWeHaveACube = mSnackManipulator.doWeGotACube();
 		if(oc.getRightTrigger() > .2){
 			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
 		} else{

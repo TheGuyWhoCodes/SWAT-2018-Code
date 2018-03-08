@@ -33,7 +33,7 @@ public class Constants {
     public final static double kPathFollowingProfileKffv = 1.2;
     public final static double kPathFollowingProfileKffa = 0.05;
     public final static double kPathFollowingGoalPosTolerance = 0.75;
-    public final static double kPathFollowingGoalVelTolerance = 12.0;
+    public final static double kPathFollowingGoalVelTolerance = 18.0;
     public final static double kPathStopSteeringDistance = 9.0;
 
     //
@@ -71,13 +71,26 @@ public class Constants {
     public final static double kCubePositionRampRate = 0;
 
     // Encoder constants used by Cube Lift system
+    public final static int kSpitOutConstant = 500;
     public final static int kCreepModeLiftHeight = 13000;
     public final static int kHighScaleEncoderCount = 18500;
+
+    public final static int kHighScaleSpitOutCount = kHighScaleEncoderCount - kSpitOutConstant;
+
     public final static int kNeutralScaleEncoderCount = 15500;
+
+    public final static int kNeutralScaleSpitOutCount = kNeutralScaleEncoderCount - kSpitOutConstant;
+
     public final static int kWinningScaleEncoderCount = 11700;
+
+    public final static int kWinningScaleSpitOut = kWinningScaleEncoderCount - kSpitOutConstant;
+
     public final static int kTeleOpHoldHeight = 800;
     public final static int kDropOffEncoderCount = 0;
-    public final static int kSwitchEncoderCount = 5000;
+    public final static int kSwitchEncoderCount = 7000;
+
+    public final static int kSwitchEncoderSpit = kSwitchEncoderCount - kSpitOutConstant;
+
     public final static int kPositionControlPIDSlot = 0;
     public final static int kEncoderCountsPerInch = 0;
     public final static double kCubeMoveToLimitSwitchSpeed = .2;

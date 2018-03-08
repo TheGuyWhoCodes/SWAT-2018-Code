@@ -16,12 +16,12 @@ public class CubeToScale implements PathContainer {
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(222, 70), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(242, 100), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override
     public boolean isReversed() {
-        return true;
+        return false;
     }
     // WAYPOINT_DATA: [{"position":{"x":260,"y":60},"speed":60,"radius":0,"comment":""},{"position":{"x":240,"y":100},"speed":60,"radius":20,"comment":""},{"position":{"x":220,"y":100},"speed":60,"radius":0,"comment":""}]
     // IS_REVERSED: false
