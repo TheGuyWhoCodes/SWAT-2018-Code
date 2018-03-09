@@ -2,6 +2,12 @@ package org.usfirst.frc.team1806.robot.auto.modes;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
+import org.usfirst.frc.team1806.robot.auto.actions.DrivePathAction;
+import org.usfirst.frc.team1806.robot.auto.actions.ResetPoseFromPathAction;
+import org.usfirst.frc.team1806.robot.auto.actions.TurnTowardsPoint;
+import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
+import org.usfirst.frc.team1806.robot.path.PathContainer;
+import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 public class DummyMode extends AutoModeBase {
 
@@ -17,8 +23,10 @@ public class DummyMode extends AutoModeBase {
 	 */
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		// TODO Auto-generated method stub
-		
+		PathContainer dumbMode = new DumbMode();
+		runAction(new ResetPoseFromPathAction(dumbMode));
+		runAction(new DrivePathAction(dumbMode));
+		runAction(new TurnTowardsPoint(new Translation2d(0, 0)));
 	}
 
 }

@@ -108,12 +108,14 @@ public class QualMode extends AutoModeBase {
 							new DrivePathAction(new ThreeCubePart2())
 					})));
 			runAction(new DrivePathAction(new ThreeCubePart3()));
+
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(300, 210)),
-							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
+							new LiftToNeutralScale(),
+							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, new SpitOutCube(.1))
 					})));
+
 		} else if(gameData.equals("LR")) {
 			PathContainer safeSide = new DriveToSwitch();
 			runAction(new ResetPoseFromPathAction(safeSide));
@@ -141,20 +143,6 @@ public class QualMode extends AutoModeBase {
 
 					})));
 
-
-//	            runAction(new TurnTowardsPoint(new Translation2d(215,80)));
-//	            runAction(new ParallelAction(Arrays.asList(
-//	            		new Action[]{
-//								new DrivePathAction(new CubeToScale()),
-//								new SeriesAction(Arrays.asList(
-//										new Action[]{
-//												new IntakeCube(),
-//												new RunActionAtX(240, new LiftToHighScale(true)),
-//												new RunActionAtX(270, new SpitOutCube(.1))
-//										}
-//								)),
-//						}
-//				)));
 			runAction(new LiftToHighScale(false));
 			runAction(new RunActionAtLiftHeight(18000, new SpitOutCube(.1)));
 		} else if(gameData.equals("RL")) {
