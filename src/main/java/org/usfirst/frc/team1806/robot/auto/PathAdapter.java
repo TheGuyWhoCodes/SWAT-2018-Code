@@ -24,9 +24,9 @@ public class PathAdapter {
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(16,270,0,0));
             sWaypoints.add(new Waypoint(30,270,0,100));
-            sWaypoints.add(new Waypoint(190,260,10,100));
-            sWaypoints.add(new Waypoint(227,250,10,100));
-            sWaypoints.add(new Waypoint(260,235,0,80));
+            sWaypoints.add(new Waypoint(190,257,10,100));
+            sWaypoints.add(new Waypoint(227,245,10,100));
+            sWaypoints.add(new Waypoint(260,231,0,80));
             getElimLeftSide = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return getElimLeftSide;
@@ -37,7 +37,7 @@ public class PathAdapter {
         //Drive back to get to cube
         if(threeCubePart1 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(225,220,0,0));
+            sWaypoints.add(new Waypoint(223,220,0,0));
             sWaypoints.add(new Waypoint(240,240,0,120));
             threeCubePart1 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -95,9 +95,9 @@ public class PathAdapter {
     public static Path leftSidePart1(){
         if(leftSidePart1 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(260,235,0,0));
+            sWaypoints.add(new Waypoint(260,231,0,0));
             sWaypoints.add(new Waypoint(245,225,0,70));
-            sWaypoints.add(new Waypoint(225,220,0,60));
+            sWaypoints.add(new Waypoint(223,220,0,60));
 
             leftSidePart1 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -108,7 +108,7 @@ public class PathAdapter {
     public static Path leftSidePart2(){
         if(leftSidePart2 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(225,220,0,0));
+            sWaypoints.add(new Waypoint(223,220,0,0));
             sWaypoints.add(new Waypoint(263,232,0,69));
 
             leftSidePart2 = PathBuilder.buildPathFromWaypoints(sWaypoints);
@@ -141,7 +141,7 @@ public class PathAdapter {
         if(rightSidePart1 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(270,55,0,0));
-            sWaypoints.add(new Waypoint(226,70,0,120));
+            sWaypoints.add(new Waypoint(220,70,0,120));
             rightSidePart1 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return rightSidePart1;
@@ -150,7 +150,7 @@ public class PathAdapter {
     public static Path rightSidePart2(){
         if(rightSidePart2 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(226,70,0,0));
+            sWaypoints.add(new Waypoint(220,70,0,0));
             sWaypoints.add(new Waypoint(282,45,20,120));
             rightSidePart2 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -228,15 +228,15 @@ public class PathAdapter {
         if(leftRightSwitchToCube == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(111,242,0,0));
-            sWaypoints.add(new Waypoint(135,265,0,100));
-            sWaypoints.add(new Waypoint(190,272,0,100));
-            sWaypoints.add(new Waypoint(230,250,0,144));
-            sWaypoints.add(new Waypoint(239,180,0,144));
-            sWaypoints.add(new Waypoint(237,160,10,60));
+            sWaypoints.add(new Waypoint(135,265,0,60));
+            sWaypoints.add(new Waypoint(190,272,0,60));
+            sWaypoints.add(new Waypoint(230,250,0,60));
+            sWaypoints.add(new Waypoint(239,180,0,60));
+            sWaypoints.add(new Waypoint(237,130,0,60));
             sWaypoints.add(new Waypoint(215,90,0,60));
             sWaypoints.add(new Waypoint(207,80,0,60));
-            sWaypoints.add(new Waypoint(207,35,10,60));
-            sWaypoints.add(new Waypoint(260,44,0,60));
+            sWaypoints.add(new Waypoint(207,35,0,60));
+            sWaypoints.add(new Waypoint(263,40,0,60));
 
             leftRightSwitchToCube = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -264,7 +264,7 @@ public class PathAdapter {
             sWaypoints.add(new Waypoint(275,242,0,0));
             sWaypoints.add(new Waypoint(237,232,30,60));
             sWaypoints.add(new Waypoint(237,175,0,80));
-            sWaypoints.add(new Waypoint(237,70,0,60));
+            sWaypoints.add(new Waypoint(237,75,0,60));
             rightLeftScaleToSwitch = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return rightLeftScaleToSwitch;

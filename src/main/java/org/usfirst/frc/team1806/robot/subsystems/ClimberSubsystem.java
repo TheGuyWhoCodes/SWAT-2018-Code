@@ -32,6 +32,8 @@ public class ClimberSubsystem implements Subsystem {
 		downB.follow(downA); // set to follow mode
 		downC.follow(downA); // set to follow mode
 		setBrakeMode();
+		downB.setInverted(true);
+		downC.setInverted(true);
 		mClimberStates = ClimberStates.IDLE;
 	}
 	public static ClimberSubsystem getInstance() {

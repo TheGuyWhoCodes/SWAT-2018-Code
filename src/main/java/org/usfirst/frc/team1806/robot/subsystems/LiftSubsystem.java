@@ -44,6 +44,7 @@ public class LiftSubsystem implements LiftInterface {
 	private int mLiftWantedPosition = 0;
 	private CubeLiftStates mCubeLiftStates;
 	private CubePosition mCubePosition;
+	private boolean isInBetweenHeight = false;
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
 		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
@@ -54,7 +55,9 @@ public class LiftSubsystem implements LiftInterface {
 		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
-		cubeMaster.setSensorPhase(true);
+		cubeMaster.setSensorPhase(false);
+		cubeMaster.setInverted(true);
+		cubeSlave.setInverted(true);
 		cubeMaster.configPeakOutputReverse(-.4, 10);
  		reloadGains();
 	}
@@ -68,7 +71,8 @@ public class LiftSubsystem implements LiftInterface {
 		SmartDashboard.putNumber("Lift Encoder Position", cubeMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Lift Power Sending", cubeMaster.getMotorOutputPercent());
 		SmartDashboard.putBoolean("Bottom limit triggered", areWeAtBottomLimit());
-	}
+        SmartDashboard.putNumber("Lift Wanted Position", mLiftWantedPosition);
+    }
 
 	@Override
 	public void stop() {
@@ -389,7 +393,7 @@ public class LiftSubsystem implements LiftInterface {
 	 */
 	public synchronized void holdPosition(){
     	cubeMaster.set(ControlMode.PercentOutput, Constants.kCubeHoldPercentOutput + ( returnWantedPosition() - cubeMaster.getSelectedSensorPosition(0)) * Constants.kCubeHoldkPGain);
-    	if(getHeightInCounts() < returnWantedPosition() - Constants.kCubePositionTolerance){
+    	if(Math.abs(getHeightInCounts() - returnWantedPosition()) < Constants.kCubePositionTolerance){
     		mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
     		goToSetpoint(mLiftWantedPosition);
 		}
@@ -409,14 +413,14 @@ public class LiftSubsystem implements LiftInterface {
 	public int returnLiftHeight(){
 		return cubeMaster.getSelectedSensorPosition(0);
 	}
-	public boolean bumpSetpointUp(){
+	public synchronized boolean bumpSetpointUp(){
 		if(mCubeLiftStates == CubeLiftStates.POSITION_CONTROL || mCubeLiftStates == CubeLiftStates.HOLD_POSITION) {
 			goToSetpoint(mLiftWantedPosition + Constants.kBumpEncoderPosition);
 			return true;
 		}
 		return false;
 	}
-	public boolean bumpSetpointDown(){
+	public synchronized boolean bumpSetpointDown(){
 		if(mCubeLiftStates == CubeLiftStates.POSITION_CONTROL || mCubeLiftStates == CubeLiftStates.HOLD_POSITION ){
 			goToSetpoint(mLiftWantedPosition - Constants.kBumpEncoderPosition);
 			return true;

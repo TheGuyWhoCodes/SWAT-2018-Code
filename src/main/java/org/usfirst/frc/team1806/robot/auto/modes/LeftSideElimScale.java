@@ -39,6 +39,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 		protected void routine() throws AutoModeEndedException {
 			String gameData;
 			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
+//			gameData = "ayylmao";
 		if(gameData.equals("LL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
@@ -84,13 +85,9 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(300, 210)),
-							new LiftToNeutralScale(),
-							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, new SpitOutCube(.1))
+							new LiftToHighScale(false),
+							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
 					})));
-
-
-
-
 
 		} else if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();

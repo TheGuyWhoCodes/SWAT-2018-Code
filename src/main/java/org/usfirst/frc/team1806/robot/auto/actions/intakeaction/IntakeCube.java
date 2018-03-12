@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.actions.Action;
+import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 
@@ -30,8 +31,8 @@ public class IntakeCube implements Action {
     @Override
     public void update() {
         circularBufferTotal = 0;
-        double totalCurrent = Robot.powerDistributionPanel.getCurrent(5) + Robot.powerDistributionPanel.getCurrent(6);
-        // COMP BOT PLEASE USE CHRIS    double currentThreshold = powerDistributionPanel.getCurrent(6) + powerDistributionPanel.getCurrent(7);
+      //  double totalCurrent = Robot.powerDistributionPanel.getCurrent(5) + Robot.powerDistributionPanel.getCurrent(6);
+        double totalCurrent = powerDistributionPanel.getCurrent(6) + powerDistributionPanel.getCurrent(7);
         intakeCircularBuffer.addFirst(totalCurrent);
         for(int i=0; i < wantedSize ; i++){
             circularBufferTotal += intakeCircularBuffer.get(i);
@@ -48,7 +49,7 @@ public class IntakeCube implements Action {
             timer.stop();
             hasStopped = false;
         } else {
-            SnackManipulatorSuperStructure.getInstance().intakeCube(.85, .85);
+            SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
         }
     }
 
