@@ -1,13 +1,9 @@
 package org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team1806.robot.RobotState;
-import org.usfirst.frc.team1806.robot.auto.PathAdapter;
+import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
 import org.usfirst.frc.team1806.robot.path.Path;
-import org.usfirst.frc.team1806.robot.path.PathBuilder;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
-import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 import org.usfirst.frc.team1806.robot.util.Rotation2d;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
@@ -16,7 +12,7 @@ public class LeftSideScalePart1 implements PathContainer {
     
     @Override
     public Path buildPath() {
-        return PathAdapter.leftSidePart1();
+        return BluePathAdapter.leftSidePart1();
     }
     
     @Override

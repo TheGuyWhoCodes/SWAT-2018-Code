@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto.paths.qual.LR;
 
 import org.usfirst.frc.team1806.robot.RobotState;
-import org.usfirst.frc.team1806.robot.auto.PathAdapter;
+import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
@@ -11,7 +11,7 @@ import org.usfirst.frc.team1806.robot.util.Translation2d;
 public class CubeToScale implements PathContainer {
     @Override
     public Path buildPath() {
-        return PathAdapter.leftRightCubeToSwitch();
+        return BluePathAdapter.leftRightCubeToSwitch();
     }
 
     @Override

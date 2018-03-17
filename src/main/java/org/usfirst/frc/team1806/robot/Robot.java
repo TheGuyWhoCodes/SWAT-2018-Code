@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team1806.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,7 +17,7 @@ import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
-import org.usfirst.frc.team1806.robot.auto.PathAdapter;
+import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
 import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
@@ -77,7 +76,7 @@ public class Robot extends TimedRobot {
 		} catch (InterruptedException e){
         	System.out.println(e);
 		}
-		PathAdapter.initPaths();
+		BluePathAdapter.initPaths();
 	}
 
 
