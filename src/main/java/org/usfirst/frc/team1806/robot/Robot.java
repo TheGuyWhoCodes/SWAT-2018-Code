@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 	public static PowerDistributionPanel powerDistributionPanel;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
-			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance(), ClimberSubsystem.getInstance()));
+			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance()));
     private Looper mEnabledLooper = new Looper();
     public static boolean isCompBot = true;
     /*

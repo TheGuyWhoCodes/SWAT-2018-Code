@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.CircularBuffer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1806.robot.auto.actions.controller.VibrateControllerForTime;
-import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
@@ -30,7 +29,6 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
  */
 public class OI {
 	private DriveTrainSubsystem mDriveTrainSubsystem = DriveTrainSubsystem.getInstance();
-	private ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
     private CheesyDriveHelper mCheesyDriveHelper = new CheesyDriveHelper();
 	private XboxController dc = new XboxController(0);
 	private XboxController oc = new XboxController(1);
@@ -106,24 +104,6 @@ public class OI {
 			didWeBumpCubeDown = dc.getButtonBack() || oc.getPOVDown();
 			wereWeManual = cubeManualMode.returnStatus();
 			didWeHaveACube = mSnackManipulator.doWeGotACube();
-		}
-
-		if(oc.getButtonRB()){
-			mClimberSubsystem.liftClimberAtPower(.12, oc.getButtonY());
-			mClimberSubsystem.stopClimbing();
-		}
-		else if(oc.getRightTrigger() > .2){
-			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
-			mClimberSubsystem.stopClimbing();
-		} else{
-			mClimberSubsystem.stopLifting();
-		}
-
-		if(oc.getLeftTrigger() > .2){
-			mClimberSubsystem.climbAtPower(oc.getLeftTrigger(), oc.getButtonY());
-			mClimberSubsystem.stopLifting();
-		} else {
-			mClimberSubsystem.stopClimbing();
 		}
 	}
 

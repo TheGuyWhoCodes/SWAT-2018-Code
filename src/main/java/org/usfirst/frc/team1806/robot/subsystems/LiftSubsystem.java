@@ -50,9 +50,6 @@ public class LiftSubsystem implements LiftInterface {
 		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
 		cubeSlave.follow(cubeMaster);
 		cubeMaster.configContinuousCurrentLimit(130, 10);
-		bottomLimit = new DigitalInput(RobotMap.cubeBottomLimit);
-		topLimit = new DigitalInput(RobotMap.cubeTopLimit);
-		cubeDetector = new DigitalInput(RobotMap.cubeDetector);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
 		cubeMaster.setSensorPhase(false);
@@ -343,6 +340,10 @@ public class LiftSubsystem implements LiftInterface {
     		goToSetpoint(Constants.kTeleOpHoldHeight);
 		}
 	}
+
+	/**
+	 * probably don't use this scream
+	 */
 	public synchronized void goToExchangeHeight(){
 		mCubePosition = CubePosition.EXCHANGE_HEIGHT;
 		updatePositionControl();
@@ -374,20 +375,19 @@ public class LiftSubsystem implements LiftInterface {
 				mCubeLiftStates == CubeLiftStates.HOLD_POSITION ||
 				mCubeLiftStates == CubeLiftStates.RESET_TO_BOTTOM;
 	}
+
 	public int returnLiftPosition(){
     	return cubeMaster.getSelectedSensorPosition(0);
 	}
-	public boolean needsBothIntakes(){
-    	return returnLiftPosition() < Constants.kCubeSpitOutNeedsOuterIntake || mCubePosition == CubePosition.BOTTOM_LIMIT;
-	}
+	/**
+	 * moves lift based on motor power
+	 * @param power
+	 * wanted power
+	 */
 	public synchronized void manualMode(double power){
     	mCubeLiftStates = CubeLiftStates.MANUAL_CONTROL;
     	cubeMaster.set(ControlMode.PercentOutput, power);
 	}
-	public void setupForManualMode(){
-
-	}
-
 	/**
 	 * Used to hold the cube when it is ready to be spat out
 	 */
@@ -420,6 +420,12 @@ public class LiftSubsystem implements LiftInterface {
 		}
 		return false;
 	}
+
+	/**
+	 * This moves our wanted setpoint down a certain amount of encoder counts
+	 * @return
+	 * did we actually do it??
+	 */
 	public synchronized boolean bumpSetpointDown(){
 		if(mCubeLiftStates == CubeLiftStates.POSITION_CONTROL || mCubeLiftStates == CubeLiftStates.HOLD_POSITION ){
 			goToSetpoint(mLiftWantedPosition - Constants.kBumpEncoderPosition);

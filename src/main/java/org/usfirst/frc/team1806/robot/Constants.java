@@ -9,8 +9,8 @@ public class Constants {
     public final static double kTrackScrubFactor = .978;
 
     public final static int kDriveTrainPIDSetTimeout = 30;
-    public final static double kCountsPerInch = 323.8833166666667;
-    public final static double kDriveInchesPerCount = 0.0030875316774318;
+    public final static double kCountsPerInch = 81.489734701449277818820988101659;
+    public final static double kDriveInchesPerCount = .012271484375;
 
     ///Motion
 
@@ -71,23 +71,23 @@ public class Constants {
     public final static double kCubePositionRampRate = 0;
 
     // Encoder constants used by Cube Lift system
-    public final static int kSpitOutConstant = 500;
-    public final static int kCreepModeLiftHeight = 13000;
-    public final static int kHighScaleEncoderCount = 18050;
+    public final static int kSpitOutConstant = 2;
+    public final static int kCreepModeLiftHeight = 439;
+    public final static int kHighScaleEncoderCount = 715;
 
     public final static int kHighScaleSpitOutCount = kHighScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kNeutralScaleEncoderCount = 15500;
+    public final static int kNeutralScaleEncoderCount = 709;
 
     public final static int kNeutralScaleSpitOutCount = kNeutralScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kWinningScaleEncoderCount = 12200;
+    public final static int kWinningScaleEncoderCount = 700;
 
     public final static int kWinningScaleSpitOut = kWinningScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kTeleOpHoldHeight = 800;
-    public final static int kDropOffEncoderCount = 0;
-    public final static int kSwitchEncoderCount = 7000;
+    public final static int kTeleOpHoldHeight = 36;
+    public final static int kDropOffEncoderCount = 36;
+    public final static int kSwitchEncoderCount = 350;
 
     public final static int kSwitchEncoderSpit = kSwitchEncoderCount - kSpitOutConstant;
 
@@ -102,7 +102,7 @@ public class Constants {
     public final static int kCubeSpitOutNeedsOuterIntake = 0;
     public final static int kBottomLimitTolerance = 50;
     public final static int kBumpEncoderPosition = 1500;
-    public final static int kInBetweenEncoderHeight = 700;
+
     // Intaking Constants
     public final static double kOuterIntakeSpeed = 1;
     public final static double kInnerIntakeSpeed = 1;

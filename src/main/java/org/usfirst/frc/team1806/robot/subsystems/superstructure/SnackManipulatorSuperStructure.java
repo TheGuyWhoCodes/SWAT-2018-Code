@@ -126,7 +126,7 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     }
 
     public synchronized void spitOutCube(double power) {
-        mIntakeSubsystem.spitOutCube(mLiftSubsystem.needsBothIntakes(), (power * 12) / Robot.powerDistributionPanel.getVoltage());
+        mIntakeSubsystem.spitOutCube(true, (power * 12) / Robot.powerDistributionPanel.getVoltage());
     }
 
     public void intakeCube(double leftPower, double rightPower) {
