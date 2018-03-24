@@ -37,6 +37,7 @@ public class OI {
 	private SnackManipulatorSuperStructure mSnackManipulator = SnackManipulatorSuperStructure.getInstance();
 	private Latch shiftingLatch = new Latch();
 	private Latch cubeManualMode = new Latch();
+	private Latch teleOpHold = new Latch();
 	private Latch cubeOverride = new Latch();
 	private boolean didWeHaveACube = false;
 	private boolean wereWeManual = false;
@@ -51,13 +52,11 @@ public class OI {
 				mDriveTrainSubsystem.setOpenLoop(mCheesyDriveHelper.cheesyDrive(
 						dc.getLeftJoyY(), dc.getRightJoyX(),dc.getButtonRB() , mDriveTrainSubsystem.isHighGear()));
 			}
-//			mDriveTrainSubsystem.setHighGear(shiftingLatch.update(dc.getButtonLB()));
-
 		}
 
 		synchronized (mSnackManipulator) {
 			if ((mSnackManipulator.doWeGotACube()) && !didWeHaveACube) {
-				dc.rumble(.5, .5, 1);
+				dc.rumble(1, 1, 1);
 			}
 			if (Math.abs(dc.getLeftTrigger()) > .2) {
 				SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
@@ -111,8 +110,10 @@ public class OI {
 		if(oc.getButtonRB()){
 			mClimberSubsystem.liftClimberAtPower(.12, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
-		}
-		else if(oc.getRightTrigger() > .2){
+		} else if(oc.getButtonX()){
+			mClimberSubsystem.liftClimberAtPower(-.5, oc.getButtonY());
+			mClimberSubsystem.stopClimbing();
+		}else if(oc.getRightTrigger() > .2){
 			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		} else{

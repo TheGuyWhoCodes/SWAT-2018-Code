@@ -13,11 +13,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.sql.Driver;
 import java.util.Arrays;
 
-import org.usfirst.frc.team1806.robot.auto.AutoModeExecuter;
-import org.usfirst.frc.team1806.robot.auto.AutoModeSelector;
-import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
+import org.usfirst.frc.team1806.robot.auto.*;
 import org.usfirst.frc.team1806.robot.auto.modes.QualMode;
 import org.usfirst.frc.team1806.robot.loop.Looper;
 import org.usfirst.frc.team1806.robot.path.motion.RobotStateEstimator;
@@ -47,6 +46,7 @@ public class Robot extends TimedRobot {
 			Arrays.asList(DriveTrainSubsystem.getInstance(), SnackManipulatorSuperStructure.getInstance(), ClimberSubsystem.getInstance()));
     private Looper mEnabledLooper = new Looper();
     public static boolean isCompBot = true;
+    public static AutoModeBase selectedAuto;
     /*
      * LLL
      * RRR
@@ -76,7 +76,13 @@ public class Robot extends TimedRobot {
 		} catch (InterruptedException e){
         	System.out.println(e);
 		}
-		BluePathAdapter.initPaths();
+//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
+        	BluePathAdapter.initPaths();
+//		} else if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
+//			RedPathAdapter.initPaths();
+//		} else {
+//
+//		}
 	}
 
 
@@ -91,23 +97,23 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		allPeriodic(); AutoModeSelector.initAutoModeSelector();
+		selectedAuto = AutoModeSelector.getSelectedAutoMode();
 	}
 
 
 	@Override
 	public void autonomousInit() {
 		try {
-			zeroAllSensors();
-			CrashTracker.logAutoInit();
-            System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
-            if (mAutoModeExecuter != null) {
-                mAutoModeExecuter.stop(); 
-            }
+//			zeroAllSensors();
+//			CrashTracker.logAutoInit();
+//            System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
+//            if (mAutoModeExecuter != null) {
+//                mAutoModeExecuter.stop();
+//            }
 //            mDrive.setHighGear(true);
             mDrive.setBrakeMode();
-            
-            mEnabledLooper.start();
-			mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
+			mEnabledLooper.start();
+			mAutoModeExecuter.setAutoMode(selectedAuto);
             mAutoModeExecuter.start();
 		} catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);

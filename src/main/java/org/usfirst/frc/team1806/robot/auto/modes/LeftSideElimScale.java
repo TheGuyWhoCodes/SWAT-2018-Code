@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
 import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
@@ -38,8 +39,9 @@ public class LeftSideElimScale  extends AutoModeBase{
 		@Override
 		protected void routine() throws AutoModeEndedException {
 			String gameData;
-			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
-//			gameData = "ayylmao";
+			//gameData = Robot.gameData;
+			gameData = "ayylmao";
+			//System.out.println(gameData);
 		if(gameData.equals("LL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
@@ -131,13 +133,9 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, (new SpitOutCube(.1)))
 					}
 			)));
-			runAction(new LiftToBottom(false));
+			runAction(new LiftToBottom(true));
 			runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
-
-
-
-
 		} else if(gameData.charAt(1) == 'L'){
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
@@ -169,9 +167,15 @@ public class LeftSideElimScale  extends AutoModeBase{
 					}
 			)));
 			runAction(new LiftToBottom(true));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new IntakeCube(),
+							new DrivePathAction(new LeftSideScalePart3()),
+					})));
+			runAction(new DrivePathAction(new LeftSideScalePart4()));
 		}else {
 			PathContainer dumbMode = new DumbMode();
-			runAction(new ResetPoseFromPathAction(dumbMode));
+			//runAction(new ResetPoseFromPathAction(dumbMode));
 			runAction(new DrivePathAction(dumbMode));
 			runAction(new TurnTowardsPoint(new Translation2d(0, 0)));
 		}
