@@ -86,7 +86,7 @@ public class DriveTrainSubsystem implements Subsystem{
         return false;
     }
     //Initialize all of the drive motors
-    private TalonSRX masterLeft, masterRight, leftA, leftC, rightA, rightC;
+    private TalonSRX masterLeft, masterRight, leftA, rightC;
 //    private DoubleSolenoid shifter;
     private NavX navx;
     private PathFollower mPathFollower;
@@ -173,24 +173,19 @@ public class DriveTrainSubsystem implements Subsystem{
 		masterRight = new TalonSRX(RobotMap.masterRight);
 				
 		leftA = new TalonSRX(RobotMap.leftA);
-		leftC = new TalonSRX(RobotMap.leftC);
-		rightA = new TalonSRX(RobotMap.rightA);
 		rightC = new TalonSRX(RobotMap.rightC);
 		
 		//Follow for right side 
-		rightA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterRight);
 		rightC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterRight);
 		// Follow for left side
 		leftA.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
-		leftC.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, RobotMap.masterLeft);
-		
+
 		//Set Encoders for each side of the talon
 		masterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		
 //		//Invert the left side
-		rightA.setInverted(true);
 		masterRight.setInverted(true);
 		rightC.setInverted(true);
 
@@ -466,11 +461,9 @@ public class DriveTrainSubsystem implements Subsystem{
              mIsBrakeMode = brake;
              NeutralMode currentMode = brake?NeutralMode.Brake:NeutralMode.Coast;
              masterRight.setNeutralMode(currentMode);
-             rightA.setNeutralMode(currentMode);
              rightC.setNeutralMode(currentMode);
              masterLeft.setNeutralMode(currentMode);
              leftA.setNeutralMode(currentMode);
-             leftC.setNeutralMode(currentMode);
      }
 
 	/**
@@ -698,14 +691,9 @@ public class DriveTrainSubsystem implements Subsystem{
 		leftA.configPeakOutputReverse(-power, 10);
 		leftA.configPeakOutputForward(power,10);
 
-		leftC.configPeakOutputReverse(-power, 10);
-		leftC.configPeakOutputForward(power,10);
 
 		masterRight.configPeakOutputReverse(-power, 10);
 		masterRight.configPeakOutputForward(power,10);
-
-		rightA.configPeakOutputReverse(-power, 10);
-		rightA.configPeakOutputForward(power,10);
 
 		rightC.configPeakOutputReverse(-power, 10);
 		rightC.configPeakOutputForward(power,10);

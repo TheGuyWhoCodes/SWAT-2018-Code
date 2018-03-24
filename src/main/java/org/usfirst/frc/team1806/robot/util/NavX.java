@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.AHRSProtocol.AHRSUpdateBase;
 import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.ITimestampedDataSubscriber;
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * Driver for a NavX board. Basically a wrapper for the {@link AHRS} class
@@ -23,6 +24,7 @@ public class NavX {
                 }
                 mLastSensorTimestampMs = sensor_timestamp;
                 mYawDegrees = -update.yaw;
+//                System.out.println(-update.yaw);
             }
         }
     }
@@ -36,7 +38,8 @@ public class NavX {
     protected long mLastSensorTimestampMs;
 
     public NavX(SPI.Port spi_port_id) {
-        mAHRS = new AHRS(spi_port_id, (byte) 200);
+//        mAHRS = new AHRS(spi_port_id, (byte) 200);
+        mAHRS = new AHRS(SerialPort.Port.kUSB);
         resetState();
         mAHRS.registerCallback(new Callback(), null);
     }
