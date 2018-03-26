@@ -134,6 +134,9 @@ public class SnackManipulatorSuperStructure implements Subsystem {
         double mLeftPower = 1;//Math.abs(Math.sin(7 * Timer.getFPGATimestamp()));
         mIntakeSubsystem.intaking(leftPower * mLeftPower, rightPower * mRightPower);
     }
+    public void operaterIntaking(double leftPower, double rightPower){
+        mIntakeSubsystem.operaterIntake();
+    }
     public void goToManualMode(double power) {
         mLiftSubsystem.manualMode(power);
     }

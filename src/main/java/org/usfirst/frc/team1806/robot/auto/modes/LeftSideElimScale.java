@@ -39,10 +39,8 @@ public class LeftSideElimScale  extends AutoModeBase{
 		@Override
 		protected void routine() throws AutoModeEndedException {
 			String gameData;
-			//gameData = Robot.gameData;
-			gameData = "ayylmao";
-			//System.out.println(gameData);
-		if(gameData.equals("LL")) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
+			if(gameData.equals("LL")) {
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
@@ -113,9 +111,6 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new TurnTowardsPoint(new Translation2d(245, 65))
 					}
 			)));
-
-
-
 			runAction(new OutputTime("Spun towards cube"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
@@ -158,22 +153,38 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart1()),
 					})));
-			runAction(new DrivePathAction(new LeftSideScalePart2()));
+
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new LeftSideScalePart2()),
+							new RunActionAtX(250, new LiftToHighScale(true))
+			})));
+
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new TurnTowardsPoint(new Translation2d(280, 220)),
-							new LiftToHighScale(false),
 							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
 					}
 			)));
-			runAction(new LiftToBottom(true));
+				runAction(new LiftToBottom(true));
+				runAction(new TurnTowardsPoint(new Translation2d(223,200)));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart3()),
 					})));
-			runAction(new DrivePathAction(new LeftSideScalePart4()));
-		}else {
+				runAction(new ParallelAction(Arrays.asList(
+						new Action[]{
+								new DrivePathAction(new LeftSideScalePart4()),
+								new RunActionAtX(250, new LiftToHighScale(true))
+						})));
+				runAction(new ParallelAction(Arrays.asList(
+						new Action[]{
+								new TurnTowardsPoint(new Translation2d(310, 210)),
+								new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
+						})));
+
+			}else {
 			PathContainer dumbMode = new DumbMode();
 			//runAction(new ResetPoseFromPathAction(dumbMode));
 			runAction(new DrivePathAction(dumbMode));

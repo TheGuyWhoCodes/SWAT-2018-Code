@@ -9,8 +9,8 @@ public class Constants {
     public final static double kTrackScrubFactor = .978;
 
     public final static int kDriveTrainPIDSetTimeout = 30;
-    public final static double kCountsPerInch = 323.8833166666667;
-    public final static double kDriveInchesPerCount = 0.0030875316774318;
+    public final static double kCountsPerInch = 331.90413;
+    public final static double kDriveInchesPerCount = 0.0030129182182819;
 
     ///Motion
 
@@ -41,8 +41,8 @@ public class Constants {
     // Units: setpoint, error, and output are in counts per tenth of a second
     public final static double kDriveHighGearVelocityKp = 0.082; // 1.2/1500;
     public final static double kDriveHighGearVelocityKi = 0.00000; //0.0;
-    public final static double kDriveHighGearVelocityKd = 0.42; //0.0001; //6.0/1500;
-    public final static double kDriveHighGearVelocityKf = 0.21; //.025;
+    public final static double kDriveHighGearVelocityKd = 0.4; //0.0001; //6.0/1500;
+    public final static double kDriveHighGearVelocityKf = 0.225; //.025;
     public final static int kDriveHighGearVelocityIZone = 0;
     public final static double kDriveHighGearVelocityRampRate = .1;
     public final static double kDriveHighGearNominalOutput = 0.25;
@@ -50,7 +50,7 @@ public class Constants {
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts
-    public final static double kDriveLowGearPositionKp = .15;
+    public final static double kDriveLowGearPositionKp = .25;
     public final static double kDriveLowGearPositionKi = 0.00;
     public final static double kDriveLowGearPositionKd = 0;
     public final static double kDriveLowGearPositionKf = 0.0;
@@ -73,7 +73,7 @@ public class Constants {
     // Encoder constants used by Cube Lift system
     public final static int kSpitOutConstant = 500;
     public final static int kCreepModeLiftHeight = 13000;
-    public final static int kHighScaleEncoderCount = 18050;
+    public final static int kHighScaleEncoderCount = 18500;
 
     public final static int kHighScaleSpitOutCount = kHighScaleEncoderCount - kSpitOutConstant;
 
@@ -81,7 +81,7 @@ public class Constants {
 
     public final static int kNeutralScaleSpitOutCount = kNeutralScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kWinningScaleEncoderCount = 12200;
+    public final static int kWinningScaleEncoderCount = 11700;
 
     public final static int kWinningScaleSpitOut = kWinningScaleEncoderCount - kSpitOutConstant;
 
@@ -101,8 +101,8 @@ public class Constants {
     public final static int kCubeTopLimitSwitchPosition = 500;
     public final static int kCubeSpitOutNeedsOuterIntake = 0;
     public final static int kBottomLimitTolerance = 50;
-    public final static int kBumpEncoderPosition = 1500;
-    public final static int kInBetweenEncoderHeight = 700;
+    public final static int kBumpEncoderPosition = 750;
+
     // Intaking Constants
     public final static double kOuterIntakeSpeed = 1;
     public final static double kInnerIntakeSpeed = 1;
