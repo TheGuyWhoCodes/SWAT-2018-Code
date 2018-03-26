@@ -101,7 +101,8 @@ public class Constants {
     public final static int kCubeTopLimitSwitchPosition = 500;
     public final static int kCubeSpitOutNeedsOuterIntake = 0;
     public final static int kBottomLimitTolerance = 50;
-    public final static int kBumpEncoderPosition = 750;
+    public final static int kBumpEncoderPosition = 1500;
+    public final static int kInBetweenEncoderHeight = 700;
     // Intaking Constants
     public final static double kOuterIntakeSpeed = 1;
     public final static double kInnerIntakeSpeed = 1;
