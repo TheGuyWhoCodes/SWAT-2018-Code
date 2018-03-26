@@ -90,4 +90,5 @@ public class IntakeSubsystem implements Subsystem{
 	public void intakeLeftSide(double power){
 		leftOuterIntake.set(ControlMode.PercentOutput, power);
 	}
+
 }
