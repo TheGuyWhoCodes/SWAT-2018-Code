@@ -35,7 +35,9 @@ public class ParallelAction implements Action {
     @Override
     public void update() {
         for (Action action : mActions) {
-            action.update();
+            if(!action.isFinished()){
+                action.update();
+            }
         }
     }
 

@@ -99,5 +99,8 @@ public class CubeEaterSuperStructure implements Subsystem{
 			innerOuttake(power);
 		}
 	}
-
+	public void operaterIntake(){
+		mIntakeStates = IntakeStates.INTAKE;
+		mInnerIntake.intaking();
+	}
 }

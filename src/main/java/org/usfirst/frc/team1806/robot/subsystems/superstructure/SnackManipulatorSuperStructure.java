@@ -194,5 +194,6 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     public void setIdleMode(){
         mLiftSubsystem.setLiftIdle();
     }
+
 }
 
