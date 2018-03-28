@@ -7,7 +7,6 @@ import java.util.List;
  * Composite action, running all sub-actions at the same time All actions are started then updated until all actions
  * report being done.
  *
- * @param A
  *            List of Action objects
  */
 public class ParallelAction implements Action {
@@ -35,9 +34,7 @@ public class ParallelAction implements Action {
     @Override
     public void update() {
         for (Action action : mActions) {
-            if(!action.isFinished()){
                 action.update();
-            }
         }
     }
 

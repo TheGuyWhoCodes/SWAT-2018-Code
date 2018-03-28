@@ -38,8 +38,8 @@ public class NavX {
     protected long mLastSensorTimestampMs;
 
     public NavX(SPI.Port spi_port_id) {
-//        mAHRS = new AHRS(spi_port_id, (byte) 200);
-        mAHRS = new AHRS(SerialPort.Port.kUSB);
+        mAHRS = new AHRS(spi_port_id, (byte) 200);
+        //mAHRS = new AHRS(SerialPort.Port.kUSB);
         resetState();
         mAHRS.registerCallback(new Callback(), null);
     }

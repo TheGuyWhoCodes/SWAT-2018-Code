@@ -36,8 +36,8 @@ public class IntakeCube implements Action {
     @Override
     public void update() {
         circularBufferTotal = 0;
-        //  double totalCurrent = Robot.powerDistributionPanel.getCurrent(5) + Robot.powerDistributionPanel.getCurrent(6);
-        double totalCurrent = Robot.powerDistributionPanel.getCurrent(6) + Robot.powerDistributionPanel.getCurrent(7);
+         double totalCurrent = Robot.powerDistributionPanel.getCurrent(5) + Robot.powerDistributionPanel.getCurrent(6);
+       // double totalCurrent = Robot.powerDistributionPanel.getCurrent(6) + Robot.powerDistributionPanel.getCurrent(7);
         intakeCircularBuffer.addFirst(totalCurrent);
         for(int i=0; i < wantedSize ; i++){
             circularBufferTotal += intakeCircularBuffer.get(i);
