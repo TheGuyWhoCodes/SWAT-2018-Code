@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1806.robot.auto.paths;
 
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
+import org.usfirst.frc.team1806.robot.auto.RedPathAdapter;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
@@ -11,12 +13,22 @@ public class LeftSideCrossScale implements PathContainer {
     
     @Override
     public Path buildPath() {
-        return BluePathAdapter.getElimCrossRightSide();
+        if(Robot.isBlue){
+            return BluePathAdapter.getElimCrossRightSide();
+        } else {
+            return RedPathAdapter.getElimCrossRightSide();
+        }
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(16, 270), Rotation2d.fromDegrees(0.0));
+        if(Robot.isBlue){
+            /// ---- BLUE ---- ///
+            return new RigidTransform2d(new Translation2d(16, 270), Rotation2d.fromDegrees(0.0));
+        } else {
+            /// ---- RED ---- ///
+            return new RigidTransform2d(new Translation2d(16, 270), Rotation2d.fromDegrees(0.0));
+        }
     }
 
     @Override

@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
     private Looper mEnabledLooper = new Looper();
     public static boolean isCompBot = true;
     public static AutoModeBase selectedAuto;
+    public static boolean isBlue;
+    public boolean arePathsInit = false;
     /*
      * LLL
      * RRR
@@ -76,13 +78,8 @@ public class Robot extends TimedRobot {
 		} catch (InterruptedException e){
         	System.out.println(e);
 		}
-//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
-        	BluePathAdapter.initPaths();
-//		} else if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
-//			RedPathAdapter.initPaths();
-//		} else {
-//
-//		}
+		BluePathAdapter.initPaths();
+        RedPathAdapter.initPaths();
 	}
 
 
@@ -96,6 +93,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		if(DriverStation.getInstance().isDSAttached() ){
+			if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
+				isBlue = true;
+			} else if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
+				isBlue = false;
+			}
+		}
 		allPeriodic(); AutoModeSelector.initAutoModeSelector();
 		selectedAuto = AutoModeSelector.getSelectedAutoMode();
 	}

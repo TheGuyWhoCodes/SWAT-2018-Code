@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.auto.paths;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
@@ -21,13 +22,18 @@ public class RightSideScale implements PathContainer {
         sWaypoints.add(new Waypoint(200,60,20,80));
         sWaypoints.add(new Waypoint(235,70,10,90));
         sWaypoints.add(new Waypoint(290,75,0,90));
-
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0.0)); 
+        if(Robot.isBlue){
+            /// ---- BLUE ---- ///
+            return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0.0));
+        } else {
+            /// ---- RED ---- ///
+            return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0.0));
+        }
     }
 
     @Override

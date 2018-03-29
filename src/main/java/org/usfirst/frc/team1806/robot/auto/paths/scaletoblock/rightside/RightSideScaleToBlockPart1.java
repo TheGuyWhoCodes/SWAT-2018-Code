@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside;
 
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
 import org.usfirst.frc.team1806.robot.RobotState;
+import org.usfirst.frc.team1806.robot.auto.RedPathAdapter;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
@@ -12,12 +14,22 @@ public class RightSideScaleToBlockPart1 implements PathContainer {
     
     @Override
     public Path buildPath() {
-        return BluePathAdapter.rightSidePart1();
+        if(Robot.isBlue){
+            return BluePathAdapter.rightSidePart1();
+        } else {
+            return RedPathAdapter.rightSidePart1();
+        }
     }
     
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(270, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        if(Robot.isBlue){
+            /// ---- BLUE ---- ///
+            return new RigidTransform2d(new Translation2d(270, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        } else {
+            /// ---- RED ---- ///
+            return new RigidTransform2d(new Translation2d(270, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        }
     }
 
     @Override

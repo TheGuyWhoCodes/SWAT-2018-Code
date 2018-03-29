@@ -172,7 +172,7 @@ public class DriveTrainSubsystem implements Subsystem{
 		masterLeft = new TalonSRX(RobotMap.masterLeft);
 		masterRight = new TalonSRX(RobotMap.masterRight);
 				
-		leftA = new TalonSRX(RobotMap.leftA);
+		leftA = new TalonSRX(RobotMap.leftC);
 		rightC = new TalonSRX(RobotMap.rightC);
 		
 		//Follow for right side 
