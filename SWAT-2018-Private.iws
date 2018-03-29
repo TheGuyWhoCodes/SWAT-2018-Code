@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java" description="for(int i = 0; i &lt; mActions.size(); i++)" line="28" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="47635913-7149-4a8a-9b4c-d62f13545d63" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/SWAT-2018-Private.iws" afterPath="$PROJECT_DIR$/SWAT-2018-Private.iws" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeCube.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeCube.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/util/NavX.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/util/NavX.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -84,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParallelAction.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ParallelAction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+            <state relative-caret-position="315">
+              <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,7 +109,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="252">
@@ -670,9 +670,9 @@
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/BroncoCoOp.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeNoCheck.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/BluePathAdapter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/util/NavX.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java" />
       </list>
     </option>
   </component>
@@ -686,7 +686,7 @@
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="952" />
     <option name="width" value="976" />
     <option name="height" value="1038" />
@@ -995,15 +995,15 @@
       <workItem from="1520637422781" duration="22469000" />
       <workItem from="1521163961077" duration="11677000" />
       <workItem from="1521562558212" duration="8614000" />
-      <workItem from="1522191592611" duration="1027000" />
+      <workItem from="1522191592611" duration="3271000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="475781000" />
+    <option name="totallyTimeSpent" value="478025000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="952" y="0" width="976" height="1038" extended-state="0" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1373,21 +1373,21 @@
         <state relative-caret-position="561">
           <caret line="94" column="45" lean-forward="true" selection-start-line="94" selection-start-column="45" selection-end-line="94" selection-end-column="45" />
           <folding>
-            <element signature="e#3963#3973#0" expanded="true" />
-            <element signature="e#4447#4457#0" expanded="true" />
-            <element signature="e#4874#4884#0" expanded="true" />
-            <element signature="e#5413#5423#0" expanded="true" />
-            <element signature="e#5867#5877#0" expanded="true" />
-            <element signature="e#6297#6307#0" expanded="true" />
-            <element signature="e#6746#6756#0" expanded="true" />
-            <element signature="e#7264#7274#0" expanded="true" />
-            <element signature="e#7806#7816#0" expanded="true" />
-            <element signature="e#8461#8471#0" expanded="true" />
-            <element signature="e#9059#9069#0" expanded="true" />
-            <element signature="e#9748#9758#0" expanded="true" />
-            <element signature="e#10383#10393#0" expanded="true" />
-            <element signature="e#11298#11308#0" expanded="true" />
-            <element signature="e#11881#11891#0" expanded="true" />
+            <element signature="e#3963#3973#0" expanded="false" />
+            <element signature="e#4447#4457#0" expanded="false" />
+            <element signature="e#4874#4884#0" expanded="false" />
+            <element signature="e#5413#5423#0" expanded="false" />
+            <element signature="e#5867#5877#0" expanded="false" />
+            <element signature="e#6297#6307#0" expanded="false" />
+            <element signature="e#6746#6756#0" expanded="false" />
+            <element signature="e#7264#7274#0" expanded="false" />
+            <element signature="e#7806#7816#0" expanded="false" />
+            <element signature="e#8461#8471#0" expanded="false" />
+            <element signature="e#9059#9069#0" expanded="false" />
+            <element signature="e#9748#9758#0" expanded="false" />
+            <element signature="e#10383#10393#0" expanded="false" />
+            <element signature="e#11298#11308#0" expanded="false" />
+            <element signature="e#11881#11891#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1435,7 +1435,7 @@
         <state relative-caret-position="460">
           <caret line="106" column="74" lean-forward="true" selection-start-line="106" selection-start-column="74" selection-end-line="106" selection-end-column="74" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1470,16 +1470,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/util/NavX.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1504,6 +1494,16 @@
         <state relative-caret-position="252">
           <caret line="48" column="61" lean-forward="true" selection-start-line="48" selection-start-column="61" selection-end-line="48" selection-end-column="61" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/ParallelAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

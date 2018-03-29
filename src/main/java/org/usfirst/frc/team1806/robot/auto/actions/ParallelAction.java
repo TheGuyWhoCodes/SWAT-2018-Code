@@ -7,24 +7,28 @@ import java.util.List;
  * Composite action, running all sub-actions at the same time All actions are started then updated until all actions
  * report being done.
  *
+ * @param A
  *            List of Action objects
  */
 public class ParallelAction implements Action {
-
+    private boolean[] finishedActions;
     private final ArrayList<Action> mActions;
+    private ArrayList<Boolean> mActionStates;
 
     public ParallelAction(List<Action> actions) {
         mActions = new ArrayList<>(actions.size());
         for (Action action : actions) {
             mActions.add(action);
+            mActionStates.add(false);
         }
     }
 
     @Override
     public boolean isFinished() {
         boolean all_finished = true;
-        for (Action action : mActions) {
-            if (!action.isFinished()) {
+        for(int i = 0; i < mActions.size(); i++)
+        {
+            if(!mActionStates.get(i) && !mActions.get(i).isFinished()){
                 all_finished = false;
             }
         }
@@ -33,15 +37,32 @@ public class ParallelAction implements Action {
 
     @Override
     public void update() {
-        for (Action action : mActions) {
-                action.update();
+
+        for(int i = 0; i < mActions.size(); i++)
+        {
+
+            if(mActionStates.get(i) == false){
+                Action currentAction = mActions.get(i);
+                if(currentAction.isFinished()){
+                    currentAction.done();
+                    mActionStates.set(i, true);
+                }
+                else{
+                    currentAction.update();
+                }
+            }
+
         }
     }
 
     @Override
     public void done() {
-        for (Action action : mActions) {
-            action.done();
+        for(int i = 0; i < mActions.size(); i++)
+        {
+            if(mActionStates.get(i) == false){
+                Action currentAction = mActions.get(i);
+                currentAction.done();
+            }
         }
     }
 
