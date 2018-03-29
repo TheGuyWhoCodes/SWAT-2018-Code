@@ -101,9 +101,6 @@ public class Robot extends TimedRobot {
 			zeroAllSensors();
 			CrashTracker.logAutoInit();
             System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
-            if (mAutoModeExecuter != null) {
-                mAutoModeExecuter.stop(); 
-            }
 //            mDrive.setHighGear(true);
             mDrive.setBrakeMode();
             
