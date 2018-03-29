@@ -36,7 +36,7 @@ public class LiftSubsystem implements LiftInterface {
 		WINNING_SCALE,
 		EXCHANGE_HEIGHT
 	}
-	private TalonSRX cubeMaster, cubeSlave; //gotta have the power
+	private TalonSRX cubeMaster;// cubeSlave; //gotta have the power
 	public DigitalInput bottomLimit, topLimit, cubeDetector;
 	private boolean isBrakeMode = false;
 	private boolean mIsOnTarget = false;
@@ -47,14 +47,14 @@ public class LiftSubsystem implements LiftInterface {
 	private boolean isInBetweenHeight = false;
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
-		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
-		cubeSlave.follow(cubeMaster);
+		//cubeSlave = new TalonSRX(RobotMap.cubeSlave);
+		//cubeSlave.follow(cubeMaster);
 		cubeMaster.configContinuousCurrentLimit(130, 10);
 		mCubeLiftStates = CubeLiftStates.IDLE;
 		mCubePosition = CubePosition.BOTTOM_LIMIT;
 		cubeMaster.setSensorPhase(false);
 		cubeMaster.setInverted(true);
-		cubeSlave.setInverted(true);
+		//cubeSlave.setInverted(true);
 		cubeMaster.configPeakOutputReverse(-.4, 10);
  		reloadGains();
 	}
@@ -213,13 +213,13 @@ public class LiftSubsystem implements LiftInterface {
 	}
 	public void setBrakeMode(){
 		cubeMaster.setNeutralMode(NeutralMode.Brake);
-		cubeSlave.setNeutralMode(NeutralMode.Brake);
+		//cubeSlave.setNeutralMode(NeutralMode.Brake);
 		isBrakeMode = true;
 		
 	}
 	public void setCoastMode() {
 		cubeMaster.setNeutralMode(NeutralMode.Coast);
-		cubeSlave.setNeutralMode(NeutralMode.Coast);
+		//cubeSlave.setNeutralMode(NeutralMode.Coast);
 	}
 	public boolean isInBrakeMode() {
 		return isBrakeMode;
