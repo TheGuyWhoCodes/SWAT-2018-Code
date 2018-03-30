@@ -73,7 +73,7 @@ public class Constants {
     // Encoder constants used by Cube Lift system
     public final static int kSpitOutConstant = 500;
     public final static int kCreepModeLiftHeight = 13000;
-    public final static int kHighScaleEncoderCount = 18050;
+    public final static int kHighScaleEncoderCount = 17750;
 
     public final static int kHighScaleSpitOutCount = kHighScaleEncoderCount - kSpitOutConstant;
 
@@ -81,7 +81,7 @@ public class Constants {
 
     public final static int kNeutralScaleSpitOutCount = kNeutralScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kWinningScaleEncoderCount = 12200;
+    public final static int kWinningScaleEncoderCount = 12500;
 
     public final static int kWinningScaleSpitOut = kWinningScaleEncoderCount - kSpitOutConstant;
 

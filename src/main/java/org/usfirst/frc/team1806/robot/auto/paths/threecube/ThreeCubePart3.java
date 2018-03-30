@@ -24,10 +24,10 @@ public class ThreeCubePart3 implements PathContainer{
     public RigidTransform2d getStartPose() {
         if(Robot.isBlue){
             /// ---- BLUE ---- ///
-            return new RigidTransform2d(new Translation2d(215, 188), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(215, 195), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         } else {
             /// ---- RED ---- ///
-            return new RigidTransform2d(new Translation2d(215, 188), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(215, 195), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         }
     }
 

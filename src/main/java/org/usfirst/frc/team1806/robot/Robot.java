@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1806.robot;
 
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -49,6 +51,8 @@ public class Robot extends TimedRobot {
     public static AutoModeBase selectedAuto;
     public static boolean isBlue;
     public boolean arePathsInit = false;
+    public UsbCamera camera;
+    public MjpegServer cameraServer;
     /*
      * LLL
      * RRR
@@ -62,6 +66,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		camera = new UsbCamera("cam0", 0);
+		camera.getPath();
+		cameraServer = new MjpegServer("camera",  5806);
+		cameraServer.setSource(camera);
 		zeroAllSensors();
         mEnabledLooper.register(RobotStateEstimator.getInstance());
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);

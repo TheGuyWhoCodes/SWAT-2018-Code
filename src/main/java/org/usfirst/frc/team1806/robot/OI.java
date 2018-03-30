@@ -57,11 +57,12 @@ public class OI {
 		synchronized (mSnackManipulator) {
 			if ((mSnackManipulator.doWeGotACube()) && !didWeHaveACube) {
 				dc.rumble(1, 1, 1);
+				oc.rumble(1, 1, 1);
 			}
 			if (Math.abs(dc.getLeftTrigger()) > .2) {
 				SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
 			} else if (oc.getButtonLB()) {
-				SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
+				SnackManipulatorSuperStructure.getInstance().operaterIntake(1, 1);
 			} else if (dc.getButtonRB()) {
 				SnackManipulatorSuperStructure.getInstance().spitOutCube(.67);
 			} else if (dc.getPOVUp()) {
@@ -114,7 +115,7 @@ public class OI {
 			mClimberSubsystem.liftClimberAtPower(-.5, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		}else if(oc.getRightTrigger() > .2){
-			mClimberSubsystem.liftClimberAtPower(oc.getRightTrigger(), oc.getButtonY());
+			mClimberSubsystem.liftClimberAtPower(.6, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		} else{
 			mClimberSubsystem.stopLifting();

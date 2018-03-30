@@ -23,7 +23,7 @@ public class IntakeSubsystem implements Subsystem{
 	CircularBuffer intakeCircularBuffer;
 	double circularBufferTotal = 0;
 	int wantedSize = 30;
-	double currentThreshold = 10;
+	double currentThreshold = 50;
 	double baseLine = 3;
 	double totalCurrent;
 	private Loop mLooper = new Loop() {

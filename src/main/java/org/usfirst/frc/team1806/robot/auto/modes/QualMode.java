@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
 import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1806.robot.auto.AutoModeEndedException;
 import org.usfirst.frc.team1806.robot.auto.actions.*;
@@ -147,43 +148,6 @@ public class QualMode extends AutoModeBase {
 			runAction(new LiftToHighScale(false));
 			runAction(new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1)));
 		} else if(gameData.equals("RL")) {
-//			PathContainer safeSide = new LeftSideSafe();
-//			runAction(new ResetPoseFromPathAction(safeSide));
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new SeriesAction(Arrays.asList(
-//									new LiftToTeleopHold(),
-//									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
-//							)),
-//							new DrivePathAction(safeSide),
-//							new RunActionAtX(100, new LiftToHighScale(false)),
-//					}
-//			)));
-//			runAction(new OutputTime("Finished Left Side"));
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new TurnTowardsPoint(new Translation2d(190,210)),
-//							new RunActionAtAngleRange(-180,-15,new LiftToBottom(true))
-//					}
-//			)));
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new DrivePathAction(new ScaleToSwitch()),
-//							new RunActionAtY(130, new LiftToBottom(true))
-//					}
-//			)));
-//			runAction(new TurnTowardsPoint(new Translation2d(200,70)));
-//
-//			runAction(new ParallelAction(Arrays.asList(
-//					new Action[]{
-//							new DrivePathAction(new UpOneFootRR(237,75,-15,false)),
-//							new IntakeCube()
-//					}
-//			)));
-//			runAction(new LiftToSwitch());
-//			runAction(new SpitOutCube(.1));
-//			runAction(new LiftToBottom(true));
-
 			PathContainer safeSide = new LeftSideSafe();
 			runAction(new ResetPoseFromPathAction(safeSide));
 			runAction(new ParallelAction(Arrays.asList(
@@ -197,23 +161,68 @@ public class QualMode extends AutoModeBase {
 					}
 			)));
 			runAction(new OutputTime("Finished Left Side"));
-			runAction(new LiftToBottom(true));
-			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
-			runAction(new OutputTime("Finished Turn"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new IntakeCube(),
-							new DrivePathAction(new LeftSideScalePart1()),
-					})));
-			runAction(new DrivePathAction(new LeftSideScalePart2()));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(280, 220)),
-							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
+							new TurnTowardsPoint(new Translation2d(190,210)),
+							new RunActionAtAngleRange(-180,-13,new LiftToBottom(true))
 					}
 			)));
+			runAction(new ParallelAction(Arrays.asList(
+					new Action[]{
+							new DrivePathAction(new ScaleToSwitch()),
+							new RunActionAtY(130, new LiftToBottom(true))
+					}
+			)));
+			runAction(new TurnTowardsPoint(new Translation2d(200,73)));
+			if(Robot.isBlue){
+				runAction(new ParallelAction(Arrays.asList(
+						new Action[]{
+								new DrivePathAction(new UpOneFootRR(237,78,-19,false)),
+								new IntakeCube()
+						}
+				)));
+			}else {
+				runAction(new ParallelAction(Arrays.asList(
+						new Action[]{
+								new DrivePathAction(new UpOneFootRR(239,78,-19,false)),
+								new IntakeCube()
+						}
+				)));
+			}
+			runAction(new LiftToSwitch());
+			runAction(new SpitOutCube(.1));
 			runAction(new LiftToBottom(true));
+
+//			PathContainer safeSide = new LeftSideSafe();
+//			runAction(new ResetPoseFromPathAction(safeSide));
+//			runAction(new ParallelAction(Arrays.asList(
+//					new Action[]{
+//							new SeriesAction(Arrays.asList(
+//									new LiftToTeleopHold(),
+//									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+//							)),
+//							new DrivePathAction(safeSide),
+//							new RunActionAtX(100, new LiftToHighScale(false)),
+//					}
+//			)));
+//			runAction(new OutputTime("Finished Left Side"));
+//			runAction(new LiftToBottom(true));
+//			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
+//			runAction(new OutputTime("Finished Turn"));
+//			runAction(new ParallelAction(Arrays.asList(
+//					new Action[]{
+//							new IntakeCube(),
+//							new DrivePathAction(new LeftSideScalePart1()),
+//					})));
+//			runAction(new DrivePathAction(new LeftSideScalePart2()));
+//			runAction(new ParallelAction(Arrays.asList(
+//					new Action[]{
+//							new TurnTowardsPoint(new Translation2d(280, 220)),
+//							new LiftToHighScale(false),
+//							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
+//					}
+//			)));
+//			runAction(new LiftToBottom(true));
 
 		} else {
 			runAction(new DrivePathAction(new DumbMode()));

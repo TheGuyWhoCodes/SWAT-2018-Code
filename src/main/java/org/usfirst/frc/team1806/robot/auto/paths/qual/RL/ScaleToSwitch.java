@@ -25,10 +25,10 @@ public class ScaleToSwitch implements PathContainer {
     public RigidTransform2d getStartPose() {
         if(Robot.isBlue){
             /// ---- BLUE ---- ///
-            return new RigidTransform2d(new Translation2d(275, 242), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(260, 250), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         } else {
             /// ---- RED ---- ///
-            return new RigidTransform2d(new Translation2d(275, 242), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(260, 250), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         }
     }
 
