@@ -106,4 +106,9 @@ public class Constants {
     // Intaking Constants
     public final static double kOuterIntakeSpeed = 1;
     public final static double kInnerIntakeSpeed = 1;
+
+    //Climber constants
+
+    public final static int climberPDPCutOff = 50; // Amps
+    public final static int climberPDPPort = 4;
 }

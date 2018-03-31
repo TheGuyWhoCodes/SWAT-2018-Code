@@ -2,6 +2,8 @@ package org.usfirst.frc.team1806.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -127,6 +129,8 @@ public class ClimberSubsystem implements Subsystem {
 		}
 		//right is in follower
 	}
+
+
 	/**
 	 * Used to move the climber up to start climbing
 	 * @param power
@@ -136,7 +140,9 @@ public class ClimberSubsystem implements Subsystem {
 		if(mClimberStates != ClimberStates.MOVING_UP){
 			mClimberStates = ClimberStates.MOVING_UP;
 		}
-		if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45) {
+		if(Robot.powerDistributionPanel.getCurrent(Constants.climberPDPPort) >= Constants.climberPDPCutOff){
+			upMotor.set(ControlMode.PercentOutput, 0);
+		} else if(mDriverStation.isOperatorControl() && mDriverStation.getMatchTime() < 45) {
 			upMotor.set(ControlMode.PercentOutput, power);
 		} else if(overrideTime){
 			upMotor.set(ControlMode.PercentOutput, power);
