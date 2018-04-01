@@ -28,7 +28,7 @@ public class RightSideScaleToBlockPart1 implements PathContainer {
             return new RigidTransform2d(new Translation2d(272, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         } else {
             /// ---- RED ---- ///
-            return new RigidTransform2d(new Translation2d(272, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(276, 55), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         }
     }
 
