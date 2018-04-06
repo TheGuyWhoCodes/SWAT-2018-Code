@@ -40,56 +40,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 	protected void routine() throws AutoModeEndedException {
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
-		if(gameData.equals("LL")) {
-			PathContainer safeSide = new LeftSideSafe();
-			runAction(new ResetPoseFromPathAction(safeSide));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new SeriesAction(Arrays.asList(
-									new LiftToTeleopHold(),
-									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
-							)),
-							new DrivePathAction(safeSide),
-							new RunActionAtX(100, new LiftToHighScale(false)),
-					}
-			)));
-			runAction(new OutputTime("Finished Left Side"));
-			runAction(new LiftToBottom(true));
-			runAction(new TurnTowardsPoint(new Translation2d(223,220)));
-			runAction(new OutputTime("Finished Turn"));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new IntakeCube(),
-							new DrivePathAction(new LeftSideScalePart1()),
-					})));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new LiftToSwitch(),
-							new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, new SpitOutCube(.1))
-					}
-			)));
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new DrivePathAction(new ThreeCubePart1()),
-							new LiftToBottom(true)
-					}
-			)));
-
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new IntakeCube(),
-							new DrivePathAction(new ThreeCubePart2())
-					})));
-			runAction(new DrivePathAction(new ThreeCubePart3()));
-
-			runAction(new ParallelAction(Arrays.asList(
-					new Action[]{
-							new TurnTowardsPoint(new Translation2d(300, 210)),
-							new LiftToHighScale(false),
-							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
-					})));
-
-		} else if(gameData.charAt(1) == 'R') {
+		 if(gameData.charAt(1) == 'R') {
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
 			runAction(new ParallelAction(Arrays.asList(
@@ -153,7 +104,6 @@ public class LeftSideElimScale  extends AutoModeBase{
 							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart1()),
 					})));
-
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new DrivePathAction(new LeftSideScalePart2()),

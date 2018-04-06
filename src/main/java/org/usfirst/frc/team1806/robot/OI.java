@@ -109,13 +109,14 @@ public class OI {
 		}
 
 		if(oc.getButtonRB()){
-			mClimberSubsystem.liftClimberAtPower(.12, oc.getButtonY());
+			System.out.println("holding climber");
+			mClimberSubsystem.liftClimberAtPower(.1, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		} else if(oc.getButtonX()){
 			mClimberSubsystem.liftClimberAtPower(-.5, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		}else if(oc.getRightTrigger() > .2){
-			mClimberSubsystem.liftClimberAtPower(.6, oc.getButtonY());
+			mClimberSubsystem.liftClimberAtPower(.8, oc.getButtonY());
 			mClimberSubsystem.stopClimbing();
 		} else{
 			mClimberSubsystem.stopLifting();
