@@ -298,6 +298,33 @@ public class RedPathAdapter {
     }
 
 
+    // CENTER AUTOS
+    private static Path centerCubeToRightScale;
+    public static Path centerCubeToRightScale(){
+        if(centerCubeToRightScale == null){
+            ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
+            sWaypoints.add(new Waypoint(100,160,0,0));
+            sWaypoints.add(new Waypoint(60,160,20,80));
+            sWaypoints.add(new Waypoint(60,100,0,80));
+            sWaypoints.add(new Waypoint(60,40,20,80));
+            sWaypoints.add(new Waypoint(290,40,0,120));
+            centerCubeToRightScale = PathBuilder.buildPathFromWaypoints(sWaypoints);
+        }
+        return centerCubeToRightScale;
+    }
+    private static Path centerCubeToLeftScale;
+    public static Path centerCubeToLeftScale(){
+        if(centerCubeToLeftScale == null){
+            ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
+            sWaypoints.add(new Waypoint(100,160,0,0));
+            sWaypoints.add(new Waypoint(60,160,20,80));
+            sWaypoints.add(new Waypoint(60,100,0,80));
+            sWaypoints.add(new Waypoint(60,40,20,80));
+            sWaypoints.add(new Waypoint(290,40,0,120));
+            centerCubeToLeftScale = PathBuilder.buildPathFromWaypoints(sWaypoints);
+        }
+        return centerCubeToLeftScale;
+    }
     public static void initPaths(){
         getElimLeftSide();
         rightLeftScaleToSwitch();
