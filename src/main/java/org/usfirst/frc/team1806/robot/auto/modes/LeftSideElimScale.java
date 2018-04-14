@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1806.robot.auto.modes;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.Constants;
 import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.auto.AutoModeBase;
@@ -39,8 +40,13 @@ public class LeftSideElimScale  extends AutoModeBase{
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
+		if(Constants.enableAutoInTeleOp){
+			gameData = SmartDashboard.getString("testingFieldValue", "").toUpperCase().substring(0,2);
+		} else {
+			gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase().substring(0, 2);
+		}
 		 if(gameData.charAt(1) == 'R') {
+		 	runAction(new SwitchToHighPID());
 			PathContainer rightScalePath = new LeftSideCrossScale();
 			runAction(new ResetPoseFromPathAction(rightScalePath));
 			runAction(new ParallelAction(Arrays.asList(
@@ -89,8 +95,9 @@ public class LeftSideElimScale  extends AutoModeBase{
 					new Action[]{
 							new SeriesAction(Arrays.asList(
 									new LiftToTeleopHold(),
-									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+									new RunActionAtX(258, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
 							)),
+							new SwitchToLowPID(),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),
 					}
@@ -112,7 +119,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(280, 220)),
+							new TurnTowardsPoint(new Translation2d(280, 222)),
 							new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, new SpitOutCube(.1))
 					}
 			)));
@@ -136,7 +143,7 @@ public class LeftSideElimScale  extends AutoModeBase{
 
 		}else {
 			PathContainer dumbMode = new DumbMode();
-			//runAction(new ResetPoseFromPathAction(dumbMode));
+			runAction(new ResetPoseFromPathAction(dumbMode));
 			runAction(new DrivePathAction(dumbMode));
 			runAction(new TurnTowardsPoint(new Translation2d(0, 0)));
 		}

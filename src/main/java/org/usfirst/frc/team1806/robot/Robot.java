@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.sql.Driver;
 import java.util.Arrays;
 
 import org.usfirst.frc.team1806.robot.auto.*;
@@ -53,6 +52,12 @@ public class Robot extends TimedRobot {
     public boolean arePathsInit = false;
     public UsbCamera camera;
     public MjpegServer cameraServer;
+    public enum AutoInTeleOp{
+    	AUTO_DISABLED,
+		AUTO_INIT,
+		AUTO_PERIODIC
+	}
+	AutoInTeleOp autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
     /*
      * LLL
      * RRR
@@ -88,6 +93,7 @@ public class Robot extends TimedRobot {
 		}
 		BluePathAdapter.initPaths();
         RedPathAdapter.initPaths();
+        SmartDashboard.putString("testingFieldValue", "LLR");
 	}
 
 
@@ -97,6 +103,8 @@ public class Robot extends TimedRobot {
         if(mAutoModeExecuter != null) {
             mAutoModeExecuter.stop();
         }
+		autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
+        m_oi.resetAutoLatch();
 	}
 
 	@Override
@@ -110,6 +118,8 @@ public class Robot extends TimedRobot {
 		}
 		allPeriodic(); AutoModeSelector.initAutoModeSelector();
 		selectedAuto = AutoModeSelector.getSelectedAutoMode();
+		autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
+
 	}
 
 
@@ -148,17 +158,59 @@ public class Robot extends TimedRobot {
         mEnabledLooper.start();
         if(mAutoModeExecuter != null) {
             mAutoModeExecuter.stop();
+            mAutoModeExecuter = null;
+            mAutoModeExecuter = new AutoModeExecuter();
         }
         mDrive.setOpenLoop(DriveSignal.NEUTRAL);
         mDrive.setNeutralMode(false);
+        autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
 	}
 
 
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		m_oi.runCommands();
-		allPeriodic();
+		if(Constants.enableAutoInTeleOp){
+			switch(autoInteleOpState){
+				case AUTO_DISABLED:
+					if(m_oi.autoInTeleOpOn()){
+						autoInteleOpState = AutoInTeleOp.AUTO_INIT;
+					} else {
+						runTeleOp();
+					}
+					break;
+				case AUTO_INIT:
+					selectedAuto = AutoModeSelector.getSelectedAutoMode();
+					if(m_oi.autoInTeleOpOn()){
+						zeroAllSensors();
+						if (mAutoModeExecuter != null) {
+							mAutoModeExecuter.stop();
+
+						}
+						autonomousInit();
+						m_oi.autoRunCommands();
+						autoInteleOpState = AutoInTeleOp.AUTO_PERIODIC;
+					} else {
+						autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
+						teleopInit();
+					}
+					break;
+				case AUTO_PERIODIC:
+					if(m_oi.autoInTeleOpOn()){
+						autonomousPeriodic();
+						m_oi.autoRunCommands();
+					} else {
+						autoInteleOpState = AutoInTeleOp.AUTO_DISABLED;
+						teleopInit();
+					}
+					break;
+				default:
+					runTeleOp();
+					break;
+			}
+
+		} else {
+			runTeleOp();
+		}
 	}
 
 	@Override
@@ -177,5 +229,10 @@ public class Robot extends TimedRobot {
 		mEnabledLooper.outputToSmartDashboard();
 		SmartDashboard.putString("Auto We Are Running", AutoModeSelector.returnNameOfSelectedAuto());
 		SmartDashboard.putNumber("PDP Total", powerDistributionPanel.getTotalCurrent());
+	}
+	private void runTeleOp(){
+		Scheduler.getInstance().run();
+		m_oi.runCommands();
+		allPeriodic();
 	}
 }

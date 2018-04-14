@@ -94,8 +94,6 @@ public class DriveTrainSubsystem implements Subsystem{
     private boolean mIsOnTarget = false;
     //TODO:Remove these
     private int leftLowGearMaxVel = 0;
-    
-    
 	private int rightLowGearMaxVel = 0;
 	private int leftLastVel = 0;
 	private int rightLastVel = 0;
@@ -107,11 +105,10 @@ public class DriveTrainSubsystem implements Subsystem{
 	private double lastTimeStamp;
 	// State Control
 	private DriveStates mDriveStates;
-	
 	private RobotState mRobotState = RobotState.getInstance();
 	private Path mCurrentPath = null;
 	private boolean mIsHighGear = false;
-	
+	public static boolean isWantedLowPID = false;
 	private boolean mIsBrakeMode = false;
 	
 	private Loop mLoop = new Loop() {
@@ -358,10 +355,24 @@ public class DriveTrainSubsystem implements Subsystem{
 		motorController.config_IntegralZone(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityIZone, Constants.kDriveTrainPIDSetTimeout);
 		motorController.configClosedloopRamp(Constants.kDriveHighGearVelocityRampRate, Constants.kDriveTrainPIDSetTimeout);
     }
-
+	public synchronized void reloadHighGearPositionGainsForControllerLowPID(BaseMotorController motorController){
+		motorController.config_kP(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityLowKp, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kI(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityLowKi, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kD(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityLowKd, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_kF(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityLowKf, Constants.kDriveTrainPIDSetTimeout);
+		motorController.config_IntegralZone(kHighGearVelocityControlSlot, Constants.kDriveHighGearVelocityLowIZone, Constants.kDriveTrainPIDSetTimeout);
+		motorController.configClosedloopRamp(Constants.kDriveHighGearVelocityLowRampRate, Constants.kDriveTrainPIDSetTimeout);
+	}
     public synchronized void reloadHighGearVelocityGains() {
-    	reloadHighGearPositionGainsForController(masterLeft);
-    	reloadHighGearPositionGainsForController(masterRight);
+		if(isWantedLowPID){
+			System.out.println("low PID");
+			reloadHighGearPositionGainsForControllerLowPID(masterLeft);
+			reloadHighGearPositionGainsForControllerLowPID(masterRight);
+		} else {
+			System.out.println("high PID");
+			reloadHighGearPositionGainsForController(masterLeft);
+			reloadHighGearPositionGainsForController(masterRight);
+		}
     }
     public synchronized void reloadLowGearPositionGains() {
     	reloadLowGearPositionGainsForController(masterLeft);
@@ -502,6 +513,7 @@ public class DriveTrainSubsystem implements Subsystem{
 	 * If the robot is reversed or not
 	 */
     public synchronized void setWantDrivePath(Path path, boolean reversed) {
+		reloadHighGearVelocityGains();
         if (mCurrentPath != path || mDriveStates != DriveStates.PATH_FOLLOWING) {
         	System.out.println("Setting Path_Following");
             configureTalonsForSpeedControl();

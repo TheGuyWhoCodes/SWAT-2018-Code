@@ -207,11 +207,11 @@ public class BluePathAdapter {
     public static Path leftSideSwitch(){
         if(leftSideSwitch == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(16,165,0,0));
-            sWaypoints.add(new Waypoint(40,165,0,60));
-            sWaypoints.add(new Waypoint(70,200,0,60));
-            sWaypoints.add(new Waypoint(90,220,0,60));
-            sWaypoints.add(new Waypoint(120,220,0,60));
+            sWaypoints.add(new Waypoint(16,157,0,0));
+            sWaypoints.add(new Waypoint(40,157,0,80));
+            sWaypoints.add(new Waypoint(70,200,0,80));
+            sWaypoints.add(new Waypoint(90,200,0,80));
+            sWaypoints.add(new Waypoint(120,200,0,80));
             leftSideSwitch = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return leftSideSwitch;
@@ -220,7 +220,7 @@ public class BluePathAdapter {
     public static Path rightSideSwitch(){
         if(rightSideSwitch == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(16,165,0,0));
+            sWaypoints.add(new Waypoint(16,157,0,0));
             sWaypoints.add(new Waypoint(25,165,5,60));
             sWaypoints.add(new Waypoint(75,115,0,60));
             sWaypoints.add(new Waypoint(120,115,0,60));

@@ -39,6 +39,7 @@ public class OI {
 	private Latch cubeManualMode = new Latch();
 	private Latch teleOpHold = new Latch();
 	private Latch cubeOverride = new Latch();
+	private Latch autoInTeleOp = new Latch();
 	private boolean didWeHaveACube = false;
 	private boolean wereWeManual = false;
 	private boolean didWeBumpCubeUp = false;
@@ -128,6 +129,18 @@ public class OI {
 		} else {
 			mClimberSubsystem.stopClimbing();
 		}
-	}
+		if(Constants.enableAutoInTeleOp){
+			autoInTeleOp.update(oc.getButtonBack());
+		}
 
+	}
+	public void resetAutoLatch(){
+	    autoInTeleOp.resetLatch();
+    }
+	public void autoRunCommands(){
+		autoInTeleOp.update(oc.getButtonBack());
+	}
+	public boolean autoInTeleOpOn(){
+		return autoInTeleOp.returnStatus();
+	}
 }

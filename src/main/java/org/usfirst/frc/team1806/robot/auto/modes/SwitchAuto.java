@@ -12,6 +12,7 @@ import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideScale;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideSwitch;
+import org.usfirst.frc.team1806.robot.auto.paths.centerautos.switchtocube.LeftSwitchToBackwards;
 import org.usfirst.frc.team1806.robot.path.PathContainer;
 
 import java.util.Arrays;
@@ -38,6 +39,7 @@ public class SwitchAuto extends AutoModeBase {
 					}
 			)));
 			runAction(new LiftToBottom(true));
+			runAction(new DrivePathAction(new LeftSwitchToBackwards()));
 			runAction(new WaitAction(15));
 		} else if (gameData.charAt(1) == 'R') {
 			PathContainer rightSwitch = new RightSideSwitch();

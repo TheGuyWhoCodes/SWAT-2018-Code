@@ -23,6 +23,11 @@ public class Latch {
 			}
 		return mTheThingToRun;
     }
+    public void resetLatch(){
+    	mTheThingToRun = false;
+    	mToggle = false;
+    	mLastVal = false;
+	}
     public boolean returnStatus(){
     	return mTheThingToRun;
     }

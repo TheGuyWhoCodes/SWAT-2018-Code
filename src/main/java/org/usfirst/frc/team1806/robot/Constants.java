@@ -3,6 +3,7 @@ package org.usfirst.frc.team1806.robot;
 import org.usfirst.frc.team1806.robot.util.Translation2d;
 
 public class Constants {
+    public final static boolean enableAutoInTeleOp = false;
     public final static double kLooperDt = 0.005;
     public final static double kDriveWheelDiameterInches = 4;
     public final static double kTrackWidthInches = 27.5;
@@ -24,9 +25,9 @@ public class Constants {
     public final static double kInertiaSteeringGain = 0.0; // angular velocity command is multiplied by this gain *
     // our speed
     // in inches per sec
-    public final static double kSegmentCompletionTolerance = 0.5; // inches
-    public final static double kPathFollowingMaxAccel = 120.0; // inches per second^2
-    public final static double kPathFollowingMaxVel = 120.0; // inches per second
+    public final static double kSegmentCompletionTolerance = 0.75; // inches
+    public final static double kPathFollowingMaxAccel = 144; // inches per second^2
+    public final static double kPathFollowingMaxVel = 144; // inches per second
     public final static double kPathFollowingProfileKp = 1.15;
     public final static double kPathFollowingProfileKi = 0.05;
     public final static double kPathFollowingProfileKv = 0.00002;
@@ -39,14 +40,25 @@ public class Constants {
     //
     // PID gains for drive velocity loop (HIGH GEAR)
     // Units: setpoint, error, and output are in counts per tenth of a second
-    public final static double kDriveHighGearVelocityKp = 0.082; // 1.2/1500;
-    public final static double kDriveHighGearVelocityKi = 0.00000; //0.0;
-    public final static double kDriveHighGearVelocityKd = 0.42; //0.0001; //6.0/1500;
+    public final static double kDriveHighGearVelocityKp = 1.01; // 1.2/1500;
+    public final static double kDriveHighGearVelocityKi = 0.0000000; //0.0;
+    public final static double kDriveHighGearVelocityKd =  7.8; //0.0001; //6.0/1500;
     public final static double kDriveHighGearVelocityKf = 0.21; //.025;
     public final static int kDriveHighGearVelocityIZone = 0;
     public final static double kDriveHighGearVelocityRampRate = .1;
     public final static double kDriveHighGearNominalOutput = 0.25;
-    public final static double kDriveHighGearMaxSetpoint = 10.5 * 12; //FPS
+    public final static double kDriveHighGearMaxSetpoint = 12 * 12; //FPS
+
+    // PID gains for drive velocity loop (HIGH GEAR)
+    // Units: setpoint, error, and output are in counts per tenth of a second
+    public final static double kDriveHighGearVelocityLowKp = .082; // 1.2/1500;
+    public final static double kDriveHighGearVelocityLowKi = 0.0000000; //0.0;
+    public final static double kDriveHighGearVelocityLowKd = .42; //0.0001; //6.0/1500;
+    public final static double kDriveHighGearVelocityLowKf = 0.21; //.025;
+    public final static int kDriveHighGearVelocityLowIZone = 0;
+    public final static double kDriveHighGearVelocityLowRampRate = .1;
+    public final static double kDriveHighGearLowNominalOutput = 0.25;
+    public final static double kDriveHighGearLowMaxSetpoint = 10.5 * 12; //FPS
 
     // PID gains for drive velocity loop (LOW GEAR)
     // Units: setpoint, error, and output are in counts

@@ -24,10 +24,10 @@ public class LeftSideSwitch implements PathContainer {
     public RigidTransform2d getStartPose() {
         if(Robot.isBlue){
             /// ---- BLUE ---- ///
-            return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0));
+            return new RigidTransform2d(new Translation2d(16, 157), Rotation2d.fromDegrees(0));
         } else {
             /// ---- RED ---- ///
-            return new RigidTransform2d(new Translation2d(16, 165), Rotation2d.fromDegrees(0));
+            return new RigidTransform2d(new Translation2d(16, 157), Rotation2d.fromDegrees(0));
         }
     }
 
