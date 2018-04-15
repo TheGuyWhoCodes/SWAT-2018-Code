@@ -61,7 +61,7 @@ public class OI {
 				oc.rumble(1, 1, 1);
 			}
 			if (Math.abs(dc.getLeftTrigger()) > .2) {
-				SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
+				SnackManipulatorSuperStructure.getInstance().spitOutCube(dc.getLeftTrigger() * .3);
 			} else if (oc.getButtonLB()) {
 				SnackManipulatorSuperStructure.getInstance().operaterIntake(1, 1);
 			} else if (dc.getButtonRB()) {

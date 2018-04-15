@@ -27,7 +27,7 @@ public class UpOneFootRR implements PathContainer{
 	public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
         sWaypoints.add(new Waypoint(startX,startY,0,120));
-        sWaypoints.add(new Waypoint(startX + distanceDriven,startY,0,120));
+        sWaypoints.add(new Waypoint(startX + distanceDriven,startY,0,80));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
 	}
 

@@ -16,7 +16,8 @@ public class LeftSwitchToBackwardsToCube implements PathContainer {
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
         sWaypoints.add(new Waypoint(55,165,0,0));
-        sWaypoints.add(new Waypoint(81.5,162,0,70));
+        sWaypoints.add(new Waypoint(84,165,0,80));
+        sWaypoints.add(new Waypoint(84,165,0,40));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }

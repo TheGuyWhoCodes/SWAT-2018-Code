@@ -15,7 +15,8 @@ public class RightSwitchToBackwardsToCube implements PathContainer {
     public Path buildPath() {
         ArrayList<PathBuilder.Waypoint> sWaypoints = new ArrayList<PathBuilder.Waypoint>();
         sWaypoints.add(new PathBuilder.Waypoint(55,165,0,0));
-        sWaypoints.add(new PathBuilder.Waypoint(84,165,0,70));
+        sWaypoints.add(new PathBuilder.Waypoint(75,165,0,80));
+        sWaypoints.add(new PathBuilder.Waypoint(84,165,0,40));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }

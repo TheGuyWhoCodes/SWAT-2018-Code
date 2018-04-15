@@ -17,20 +17,20 @@ public class RightScale implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(81,165,0,0));
-        sWaypoints.add(new Waypoint(91,130,5,100));
-        sWaypoints.add(new Waypoint(103,100,5,100));
-        sWaypoints.add(new Waypoint(123,60,5,100));
-        sWaypoints.add(new Waypoint(143,45,0,100));
-        sWaypoints.add(new Waypoint(160,35,0,100));
-        sWaypoints.add(new Waypoint(310,25,0,100));
-        sWaypoints.add(new Waypoint(320,35,0,100));
+        sWaypoints.add(new Waypoint(84,165,0,0));
+        sWaypoints.add(new Waypoint(91,130,5,120));
+        sWaypoints.add(new Waypoint(103,100,5,120));
+        sWaypoints.add(new Waypoint(123,60,5,120));
+        sWaypoints.add(new Waypoint(143,45,0,120));
+        sWaypoints.add(new Waypoint(160,25,0,120));
+        sWaypoints.add(new Waypoint(325,25,0,120));
+        sWaypoints.add(new Waypoint(341,25,0,120));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(81, 165), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(84, 165), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override

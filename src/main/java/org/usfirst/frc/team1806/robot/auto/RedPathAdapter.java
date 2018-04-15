@@ -143,8 +143,8 @@ public class RedPathAdapter {
         if(rightSidePart1 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(276,55,0,0));
-            sWaypoints.add(new Waypoint(240,66,0,69));
-            sWaypoints.add(new Waypoint(220,70,0,69));
+            sWaypoints.add(new Waypoint(240,66,0,30));
+            sWaypoints.add(new Waypoint(226,70,0,30));
             rightSidePart1 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
         return rightSidePart1;
@@ -153,7 +153,7 @@ public class RedPathAdapter {
     public static Path rightSidePart2(){
         if(rightSidePart2 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(220,70,0,0));
+            sWaypoints.add(new Waypoint(226,70,0,0));
             sWaypoints.add(new Waypoint(272,55,20,69));
             rightSidePart2 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }

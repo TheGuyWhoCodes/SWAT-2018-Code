@@ -16,20 +16,19 @@ public class LeftScale implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(81,165,0,0));
-        sWaypoints.add(new Waypoint(91,195,0,100));
-        sWaypoints.add(new Waypoint(103,230,0,100));
-        sWaypoints.add(new Waypoint(123,270,0,100));
-        sWaypoints.add(new Waypoint(143,285,0,100));
-        sWaypoints.add(new Waypoint(310,305,0,100));
-        sWaypoints.add(new Waypoint(320,287,0,100));
-
+        sWaypoints.add(new Waypoint(84,165,0,0));
+        sWaypoints.add(new Waypoint(91,195,0,120));
+        sWaypoints.add(new Waypoint(103,230,0,120));
+        sWaypoints.add(new Waypoint(123,270,0,120));
+        sWaypoints.add(new Waypoint(143,290,0,120));
+        sWaypoints.add(new Waypoint(250,290,0,120));
+        sWaypoints.add(new Waypoint(341,288,0,120));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(81, 165),  Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(84, 165),  Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override
