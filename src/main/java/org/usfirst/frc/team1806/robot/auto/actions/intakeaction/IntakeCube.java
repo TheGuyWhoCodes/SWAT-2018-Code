@@ -30,7 +30,8 @@ public class IntakeCube implements Action {
     }
     @Override
     public boolean isFinished() {
-        return SnackManipulatorSuperStructure.getInstance().doWeGotACube();
+        System.out.println(SnackManipulatorSuperStructure.getInstance().getOverrideCubeDetector());
+        return SnackManipulatorSuperStructure.getInstance().doWeGotACube() || SnackManipulatorSuperStructure.getInstance().getOverrideCubeDetector();
     }
 
     @Override
@@ -68,6 +69,7 @@ public class IntakeCube implements Action {
     public void done() {
         SnackManipulatorSuperStructure.getInstance().stopIntakeMotors();
         System.out.println("stopping intake");
+        SnackManipulatorSuperStructure.getInstance().stopOverrideCubeDetector();
     }
 
     @Override

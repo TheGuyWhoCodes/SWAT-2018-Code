@@ -40,11 +40,12 @@ public class LiftSubsystem implements LiftInterface {
 	public DigitalInput bottomLimit, topLimit, cubeDetector;
 	private boolean isBrakeMode = false;
 	private boolean mIsOnTarget = false;
-	private boolean mHaveCube = false;
+	private static boolean mHaveCube = false;
 	private int mLiftWantedPosition = 0;
 	private CubeLiftStates mCubeLiftStates;
 	private CubePosition mCubePosition;
 	private boolean isInBetweenHeight = false;
+	private static boolean mCubeOverride = false;
 	public LiftSubsystem() {
 		cubeMaster = new TalonSRX(RobotMap.cubeMaster);
 		cubeSlave = new TalonSRX(RobotMap.cubeSlave);
@@ -426,5 +427,14 @@ public class LiftSubsystem implements LiftInterface {
 			return true;
 		}
 		return false;
+	}
+	public synchronized static boolean getCubeOverride(){
+		return mCubeOverride;
+	}
+	public synchronized static void cubeOverride(){
+		mCubeOverride = true;
+	}
+	public synchronized static void stopCubeOverride(){
+		mCubeOverride = false;
 	}
 }

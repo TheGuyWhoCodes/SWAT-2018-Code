@@ -92,18 +92,18 @@ public class CenterAuto extends AutoModeBase {
             )));
             runAction(new TurnTowardsPoint(new Translation2d(91,195)));
             runAction(new DrivePathAction(new LeftScale()));
+            runAction(new LiftToHighScale(true));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new RunActionAtAngleRange(-30,-90,new LiftToHighScale(true)),
                             new TurnTowardsPoint(new Translation2d(345,200))
                     }
             )));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
                             new DrivePathAction(new UpOneFootY(341, 288, -12, false)),
-                            new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1)))
                     }
             )));
+            runAction(new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))));
         } else if(gameData.equals("LR")){
             PathContainer leftSwitch = new LeftSideSwitch();
             runAction(new ResetPoseFromPathAction(leftSwitch));
@@ -125,7 +125,8 @@ public class CenterAuto extends AutoModeBase {
                 )));
                 runAction(new TurnTowardsPoint(new Translation2d(91,130)));
                 runAction(new DrivePathAction(new RightScale()));
-                runAction(new ParallelAction(Arrays.asList(
+            runAction(new TurnTowardsPoint(new Translation2d(345,200)));
+            runAction(new ParallelAction(Arrays.asList(
                 new Action[]{
                 new LiftToHighScale(true),
                 new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1)))
@@ -152,9 +153,9 @@ public class CenterAuto extends AutoModeBase {
             )));
             runAction(new TurnTowardsPoint(new Translation2d(91,195)));
             runAction(new DrivePathAction(new LeftScale()));
+            runAction(new LiftToHighScale(true));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new RunActionAtAngleRange(-30,-90,new LiftToHighScale(true)),
                             new TurnTowardsPoint(new Translation2d(345,200))
                     }
             )));

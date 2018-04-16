@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1806.robot.auto.actions.controller.VibrateControllerForTime;
 import org.usfirst.frc.team1806.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team1806.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team1806.robot.subsystems.SubsystemManager;
 import org.usfirst.frc.team1806.robot.subsystems.superstructure.SnackManipulatorSuperStructure;
 import org.usfirst.frc.team1806.robot.util.CheesyDriveHelper;
@@ -61,7 +62,7 @@ public class OI {
 				oc.rumble(1, 1, 1);
 			}
 			if (Math.abs(dc.getLeftTrigger()) > .2) {
-				SnackManipulatorSuperStructure.getInstance().spitOutCube(dc.getLeftTrigger() * .3);
+				SnackManipulatorSuperStructure.getInstance().intakeCube(Constants.kInnerIntakeSpeed, Constants.kInnerIntakeSpeed);
 			} else if (oc.getButtonLB()) {
 				SnackManipulatorSuperStructure.getInstance().operaterIntake(1, 1);
 			} else if (dc.getButtonRB()) {
@@ -139,6 +140,9 @@ public class OI {
     }
 	public void autoRunCommands(){
 		autoInTeleOp.update(oc.getButtonBack());
+		if(oc.getButtonStart()){
+			SnackManipulatorSuperStructure.getInstance().overrideCubeDetector();
+		}
 	}
 	public boolean autoInTeleOpOn(){
 		return autoInTeleOp.returnStatus();

@@ -19,6 +19,7 @@ import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideS
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.leftside.LeftSideScalePart4;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart1;
 import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart2;
+import org.usfirst.frc.team1806.robot.auto.paths.scaletoblock.rightside.RightSideScaleToBlockPart3;
 import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart1;
 import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart2;
 import org.usfirst.frc.team1806.robot.auto.paths.threecube.ThreeCubePart3;
@@ -80,13 +81,20 @@ public class LeftSideElimScale  extends AutoModeBase{
 			runAction(new OutputTime("Drove to Scale!"));
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
-							new TurnTowardsPoint(new Translation2d(300, 75)),
+							new TurnTowardsPoint(new Translation2d(300, 65)),
 							new RunActionAtAngleRange(-120,120, new LiftToNeutralScale()),
 							new RunActionAtLiftHeight(Constants.kNeutralScaleSpitOutCount, (new SpitOutCube(.1)))
 					}
 			)));
 			runAction(new LiftToBottom(true));
-			runAction(new OutputTime("Done with Auto!"));
+			runAction(new TurnTowardsPoint(new Translation2d(226, 90)));
+			runAction(new ParallelAction(Arrays.asList(
+					 new Action[]{
+							 new IntakeCube(),
+							 new DrivePathAction(new RightSideScaleToBlockPart3())
+					 })));
+
+			 runAction(new OutputTime("Done with Auto!"));
 			runAction(new WaitAction(15));
 		} else if(gameData.charAt(1) == 'L'){
 			PathContainer safeSide = new LeftSideSafe();

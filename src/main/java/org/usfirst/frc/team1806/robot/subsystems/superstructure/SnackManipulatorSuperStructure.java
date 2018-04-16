@@ -197,6 +197,14 @@ public class SnackManipulatorSuperStructure implements Subsystem {
     public void setIdleMode(){
         mLiftSubsystem.setLiftIdle();
     }
-
+    public synchronized boolean getOverrideCubeDetector(){
+        return LiftSubsystem.getCubeOverride();
+    }
+    public synchronized void overrideCubeDetector(){
+        LiftSubsystem.cubeOverride();
+    }
+    public synchronized void stopOverrideCubeDetector(){
+        LiftSubsystem.stopCubeOverride();
+    }
 }
 
