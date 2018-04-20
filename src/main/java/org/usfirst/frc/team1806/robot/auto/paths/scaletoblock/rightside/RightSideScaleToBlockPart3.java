@@ -17,7 +17,7 @@ public class RightSideScaleToBlockPart3 implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(286,45,0,0));
+        sWaypoints.add(new Waypoint(276.5,45,0,0));
         sWaypoints.add(new Waypoint(226,90,0,80));
 
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
@@ -25,7 +25,7 @@ public class RightSideScaleToBlockPart3 implements PathContainer {
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(286, 45), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(276.5, 45), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override

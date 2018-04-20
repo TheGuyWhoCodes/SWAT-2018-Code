@@ -10,9 +10,15 @@ public class SpitOutCube implements Action{
     Timer timer = new Timer();
     double startTime;
     double wantedTime;
+    double power;
     PowerDistributionPanel powerDistributionPanel;
     public SpitOutCube(double time){
         wantedTime = time;
+        power = .75;
+    }
+    public SpitOutCube(double time, double power){
+        wantedTime = time;
+        this.power = power;
     }
     @Override
     public boolean isFinished() {
@@ -21,7 +27,7 @@ public class SpitOutCube implements Action{
 
     @Override
     public void update() {
-        SnackManipulatorSuperStructure.getInstance().spitOutCube(.85);
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(power);
     }
 
     @Override
@@ -35,6 +41,6 @@ public class SpitOutCube implements Action{
         timer.start();
         System.out.println("We are spitting!");
         startTime = timer.getFPGATimestamp();
-        SnackManipulatorSuperStructure.getInstance().spitOutCube(.85);
+        SnackManipulatorSuperStructure.getInstance().spitOutCube(power);
         }
         }

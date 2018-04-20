@@ -13,10 +13,12 @@ import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToBottom;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToHighScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToNeutralScale;
 import org.usfirst.frc.team1806.robot.auto.actions.liftactions.LiftToSwitch;
+import org.usfirst.frc.team1806.robot.auto.paths.DumbMode;
 import org.usfirst.frc.team1806.robot.auto.paths.LeftSideSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.RightSideSwitch;
 import org.usfirst.frc.team1806.robot.auto.paths.UpOneFootY;
 import org.usfirst.frc.team1806.robot.auto.paths.centerautos.LR.*;
+import org.usfirst.frc.team1806.robot.auto.paths.centerautos.cubetoscale.LeftRightScale;
 import org.usfirst.frc.team1806.robot.auto.paths.centerautos.cubetoscale.LeftScale;
 import org.usfirst.frc.team1806.robot.auto.paths.centerautos.cubetoscale.RightScale;
 import org.usfirst.frc.team1806.robot.auto.paths.centerautos.switchtocube.LeftSwitchToBackwards;
@@ -44,7 +46,7 @@ public class CenterAuto extends AutoModeBase {
             runAction(new ResetPoseFromPathAction(rightSwitch));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new RunActionAtX(105, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
+                            new RunActionAtX(115, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
                             new DrivePathAction(rightSwitch),
                             new RunActionAtX(40, new LiftToSwitch())
                     }
@@ -55,7 +57,7 @@ public class CenterAuto extends AutoModeBase {
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
                             new DrivePathAction(new RightSwitchToBackwardsToCube()),
-                            new IntakeWithTimer(3)
+                            new IntakeCube(),
                     }
             )));
             runAction(new ParallelAction(Arrays.asList(
@@ -68,7 +70,7 @@ public class CenterAuto extends AutoModeBase {
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
                             new LiftToHighScale(true),
-                            new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1)))
+                            new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1,1)))
                     }
             )));
         } else if(gameData.equals("LL")){
@@ -76,7 +78,7 @@ public class CenterAuto extends AutoModeBase {
             runAction(new ResetPoseFromPathAction(leftSwitch));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new RunActionAtX(105, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
+                            new RunActionAtX(115, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
                             new DrivePathAction(leftSwitch),
                             new RunActionAtX(40, new LiftToSwitch())
                     }
@@ -98,18 +100,18 @@ public class CenterAuto extends AutoModeBase {
                             new TurnTowardsPoint(new Translation2d(345,200))
                     }
             )));
-            runAction(new ParallelAction(Arrays.asList(
-                    new Action[]{
-                            new DrivePathAction(new UpOneFootY(341, 288, -12, false)),
-                    }
-            )));
-            runAction(new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))));
+//            runAction(new ParallelAction(Arrays.asList(
+//                    new Action[]{
+//                            new DrivePathAction(new UpOneFootY(341, 288, -12, false)),
+//                    }
+//            )));
+            runAction(new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1,1))));
         } else if(gameData.equals("LR")){
             PathContainer leftSwitch = new LeftSideSwitch();
             runAction(new ResetPoseFromPathAction(leftSwitch));
                 runAction(new ParallelAction(Arrays.asList(
                 new Action[]{
-                new RunActionAtX(105, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
+                new RunActionAtX(115, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
                 new DrivePathAction(leftSwitch),
                 new RunActionAtX(40, new LiftToSwitch())
                 }
@@ -124,12 +126,12 @@ public class CenterAuto extends AutoModeBase {
                 }
                 )));
                 runAction(new TurnTowardsPoint(new Translation2d(91,130)));
-                runAction(new DrivePathAction(new RightScale()));
+                runAction(new DrivePathAction(new LeftRightScale()));
             runAction(new TurnTowardsPoint(new Translation2d(345,200)));
             runAction(new ParallelAction(Arrays.asList(
                 new Action[]{
                 new LiftToHighScale(true),
-                new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1)))
+                new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1,1)))
                 }
                 )));
         } else if(gameData.equals("RL")){
@@ -137,7 +139,7 @@ public class CenterAuto extends AutoModeBase {
             runAction(new ResetPoseFromPathAction(rightSwitch));
             runAction(new ParallelAction(Arrays.asList(
                             new Action[]{
-                                    new RunActionAtX(105, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
+                                    new RunActionAtX(115, new RunActionAtLiftHeight(Constants.kSwitchEncoderSpit, (new SpitOutCube(.1)))),
                                     new DrivePathAction(rightSwitch),
                                     new RunActionAtX(40, new LiftToSwitch())
                             }
@@ -161,12 +163,14 @@ public class CenterAuto extends AutoModeBase {
             )));
             runAction(new ParallelAction(Arrays.asList(
                     new Action[]{
-                            new DrivePathAction(new UpOneFootY(341, 288, -12, false)),
-                            new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1)))
+//                            new DrivePathAction(new UpOneFootY(341, 288, -12, false)),
+                            new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1,1)))
                     }
             )));
         } else {
-
+            PathContainer dumbMode = new DumbMode();
+            runAction(new ResetPoseFromPathAction(dumbMode));
+            runAction(new DrivePathAction(dumbMode));
         }
 
     }

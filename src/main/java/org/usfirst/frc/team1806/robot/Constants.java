@@ -10,9 +10,10 @@ public class Constants {
     public final static double kTrackScrubFactor = .978;
 
     public final static int kDriveTrainPIDSetTimeout = 30;
-    public final static double kCountsPerInch = 323.8833166666667;
+//    public final static double kCountsPerInch = 323.8833166666667;
+//    public final static double kDriveInchesPerCount = 0.0030875316774318;
+public final static double kCountsPerInch = 323.8833166666667;
     public final static double kDriveInchesPerCount = 0.0030875316774318;
-
     ///Motion
 
     public final static double kMinLookAhead = 9; // inches
@@ -97,7 +98,7 @@ public class Constants {
 
     public final static int kWinningScaleSpitOut = kWinningScaleEncoderCount - kSpitOutConstant;
 
-    public final static int kTeleOpHoldHeight = 800;
+    public final static int kTeleOpHoldHeight = 1100;
     public final static int kDropOffEncoderCount = 0;
     public final static int kSwitchEncoderCount = 7000;
 

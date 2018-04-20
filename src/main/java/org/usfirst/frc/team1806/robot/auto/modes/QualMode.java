@@ -76,8 +76,10 @@ public class QualMode extends AutoModeBase {
 					new Action[]{
 							new SeriesAction(Arrays.asList(
 									new LiftToTeleopHold(),
-									new RunActionAtX(260, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1))))
+//									new IntakeWithTimer(.1),
+									new RunActionAtX(258, new RunActionAtLiftHeight(Constants.kHighScaleSpitOutCount, (new SpitOutCube(.1, .85))))
 							)),
+							new SwitchToLowPID(),
 							new DrivePathAction(safeSide),
 							new RunActionAtX(100, new LiftToHighScale(false)),
 					}
@@ -91,6 +93,7 @@ public class QualMode extends AutoModeBase {
 							new IntakeCube(),
 							new DrivePathAction(new LeftSideScalePart1()),
 					})));
+
 			runAction(new ParallelAction(Arrays.asList(
 					new Action[]{
 							new LiftToSwitch(),

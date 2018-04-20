@@ -35,6 +35,7 @@ public class OI {
     private CheesyDriveHelper mCheesyDriveHelper = new CheesyDriveHelper();
 	private XboxController dc = new XboxController(0);
 	private XboxController oc = new XboxController(1);
+	private XboxController autoController = new XboxController(2);
 	private SnackManipulatorSuperStructure mSnackManipulator = SnackManipulatorSuperStructure.getInstance();
 	private Latch shiftingLatch = new Latch();
 	private Latch cubeManualMode = new Latch();
@@ -131,7 +132,7 @@ public class OI {
 			mClimberSubsystem.stopClimbing();
 		}
 		if(Constants.enableAutoInTeleOp){
-			autoInTeleOp.update(oc.getButtonBack());
+			autoInTeleOp.update(autoController.getButtonStart());
 		}
 
 	}
@@ -139,8 +140,8 @@ public class OI {
 	    autoInTeleOp.resetLatch();
     }
 	public void autoRunCommands(){
-		autoInTeleOp.update(oc.getButtonBack());
-		if(oc.getButtonStart()){
+		autoInTeleOp.update(autoController.getButtonBack());
+		if(autoController.getButtonA()){
 			SnackManipulatorSuperStructure.getInstance().overrideCubeDetector();
 		}
 	}

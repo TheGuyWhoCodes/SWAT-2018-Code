@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1806.robot.auto.paths.centerautos.switchtocube;
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.RobotState;
+import org.usfirst.frc.team1806.robot.auto.BluePathAdapter;
+import org.usfirst.frc.team1806.robot.auto.RedPathAdapter;
 import org.usfirst.frc.team1806.robot.path.PathBuilder.Waypoint;
 import org.usfirst.frc.team1806.robot.path.Path;
 import org.usfirst.frc.team1806.robot.util.RigidTransform2d;
@@ -14,17 +17,22 @@ public class LeftSwitchToBackwardsToCube implements PathContainer {
 
     @Override
     public Path buildPath() {
-        ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(55,165,0,0));
-        sWaypoints.add(new Waypoint(84,165,0,80));
-        sWaypoints.add(new Waypoint(84,165,0,40));
-
-        return PathBuilder.buildPathFromWaypoints(sWaypoints);
+        if(Robot.isBlue){
+            return BluePathAdapter.centerAutoLeftSwitchToBackwardsToCube();
+        } else {
+            return RedPathAdapter.centerAutoLeftSwitchToBackwardsToCube();
+        }
     }
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(55, 165), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        if(Robot.isBlue){
+            /// ---- BLUE ---- ///
+            return new RigidTransform2d(new Translation2d(55, 165), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        } else {
+            /// ---- RED ---- ///
+            return new RigidTransform2d(new Translation2d(55, 165), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        }
     }
 
     @Override

@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		camera = new UsbCamera("cam0", 0);
+		camera.setFPS(30);
 		camera.getPath();
 		cameraServer = new MjpegServer("camera",  5806);
 		cameraServer.setSource(camera);

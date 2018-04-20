@@ -16,7 +16,7 @@ public class LeftScale implements PathContainer {
     @Override
     public Path buildPath() {
         ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-        sWaypoints.add(new Waypoint(84,165,0,0));
+        sWaypoints.add(new Waypoint(86.5,165,0,0));
         sWaypoints.add(new Waypoint(91,195,0,120));
         sWaypoints.add(new Waypoint(103,230,0,120));
         sWaypoints.add(new Waypoint(123,270,0,120));
@@ -28,7 +28,7 @@ public class LeftScale implements PathContainer {
 
     @Override
     public RigidTransform2d getStartPose() {
-        return new RigidTransform2d(new Translation2d(84, 165),  Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+        return new RigidTransform2d(new Translation2d(85, 165),  Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
     }
 
     @Override

@@ -41,6 +41,7 @@ public class DrivePathAction implements Action {
 
     @Override
     public void start() {
+        DriveTrainSubsystem.getInstance().reloadHighGearVelocityGains();
         mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
 //        mDrive.setHighGear(true);
     }

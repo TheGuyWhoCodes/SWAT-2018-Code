@@ -19,7 +19,7 @@ public class IntakeCube implements Action {
     CircularBuffer intakeCircularBuffer;
     double circularBufferTotal = 0;
     int wantedSize = 35;
-    double currentThreshold = 80;
+    double currentThreshold = 100;
     double baseLine = 3;
     double totalCurrent;
     public IntakeCube(){

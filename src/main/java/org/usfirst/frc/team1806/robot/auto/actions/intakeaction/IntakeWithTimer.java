@@ -33,38 +33,12 @@ public class IntakeWithTimer implements Action {
     }
     @Override
     public boolean isFinished() {
-        return SnackManipulatorSuperStructure.getInstance().doWeGotACube() || timer.get() > overrideTime;
+        return timer.get() > overrideTime;
     }
 
     @Override
     public void update() {
-        circularBufferTotal = 0;
-        //double totalCurrent = Robot.powerDistributionPanel.getCurrent(5) + Robot.powerDistributionPanel.getCurrent(6);
-        double totalCurrent = Robot.powerDistributionPanel.getCurrent(6) + Robot.powerDistributionPanel.getCurrent(7);
-        intakeCircularBuffer.addFirst(totalCurrent);
-        for(int i=0; i < wantedSize ; i++){
-            circularBufferTotal += intakeCircularBuffer.get(i);
-        }
-        if(circularBufferTotal / wantedSize >= currentThreshold && !hasStopped){
-            hasStopped = true;
-            timer.reset();
-            timer.start();
-        }
-        if(hasStopped && (timer.get() < stopTime)){
-            System.out.println("stop time is doing it!");
-            SnackManipulatorSuperStructure.getInstance().intakeCube(0, 0);
-        } else if(stopperTimer.get() % 1.1 > 1.0){
-            SnackManipulatorSuperStructure.getInstance().intakeCube(0, 0);
-        } else if(hasStopped && timer.get() > stopTime) {
-            timer.reset();
-            timer.stop();
-            hasStopped = false;
-        } else{
             SnackManipulatorSuperStructure.getInstance().intakeCube(1, 1);
-        }
-        SmartDashboard.putNumber("Total Intake Current", totalCurrent);
-        SmartDashboard.putNumber("Average Intake Current", circularBufferTotal / wantedSize);
-        SmartDashboard.putBoolean("Are we over Intake Threshold", circularBufferTotal / wantedSize >= currentThreshold);
     }
 
     @Override
