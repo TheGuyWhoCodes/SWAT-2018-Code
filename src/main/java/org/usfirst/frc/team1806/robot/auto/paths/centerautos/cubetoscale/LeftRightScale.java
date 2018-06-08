@@ -21,8 +21,8 @@ public class LeftRightScale implements PathContainer {
         sWaypoints.add(new PathBuilder.Waypoint(123,60,0,120));
         sWaypoints.add(new PathBuilder.Waypoint(143,45,0,120));
         sWaypoints.add(new PathBuilder.Waypoint(160,40,0,120));
-        sWaypoints.add(new PathBuilder.Waypoint(325,36,0,120));
-        sWaypoints.add(new PathBuilder.Waypoint(330,36,0,120));
+        sWaypoints.add(new PathBuilder.Waypoint(325,34,0,120));
+        sWaypoints.add(new PathBuilder.Waypoint(330,34,0,120));
         return PathBuilder.buildPathFromWaypoints(sWaypoints);
     }
 

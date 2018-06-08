@@ -2,6 +2,7 @@ package org.usfirst.frc.team1806.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1806.robot.Constants;
+import org.usfirst.frc.team1806.robot.Robot;
 import org.usfirst.frc.team1806.robot.RobotMap;
 import org.usfirst.frc.team1806.robot.loop.Loop;
 import org.usfirst.frc.team1806.robot.loop.Looper;
@@ -106,7 +107,11 @@ public class LiftSubsystem implements LiftInterface {
 
             @Override
             public void onStart(double timestamp) {
-				setLiftIdle();
+				if(Robot.needToPositionControlInTele){
+					setLiftHoldPosition();
+				} else {
+					setLiftIdle();
+				}
             }
 
             @Override
@@ -299,7 +304,12 @@ public class LiftSubsystem implements LiftInterface {
         }
         cubeMaster.set(ControlMode.PercentOutput, 0);
     }
-
+	public synchronized  void setLiftHoldPosition(){
+		if(mCubeLiftStates != CubeLiftStates.POSITION_CONTROL){
+			mCubeLiftStates = CubeLiftStates.POSITION_CONTROL;
+		}
+		goToSetpoint(returnLiftPosition());
+	}
     /**
      * Sets up the robot to accept position setpoints
      */

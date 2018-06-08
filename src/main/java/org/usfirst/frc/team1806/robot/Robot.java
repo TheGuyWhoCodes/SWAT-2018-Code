@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
     public boolean arePathsInit = false;
     public UsbCamera camera;
     public MjpegServer cameraServer;
+    public static boolean needToPositionControlInTele = false;
     public enum AutoInTeleOp{
     	AUTO_DISABLED,
 		AUTO_INIT,
@@ -87,7 +88,8 @@ public class Robot extends TimedRobot {
         mAutoModeExecuter.setAutoMode(new QualMode());
         mDrive.setCoastMode();
         AutoModeSelector.initAutoModeSelector();
-        try {
+		needToPositionControlInTele = false;
+		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e){
         	System.out.println(e);
@@ -134,7 +136,8 @@ public class Robot extends TimedRobot {
 //                mAutoModeExecuter.stop();
 //            }
 //            mDrive.setHighGear(true);
-            mDrive.setBrakeMode();
+			needToPositionControlInTele = false;
+			mDrive.setBrakeMode();
 			mEnabledLooper.start();
 			mAutoModeExecuter.setAutoMode(selectedAuto);
             mAutoModeExecuter.start();
