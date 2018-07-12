@@ -27,7 +27,7 @@ public class LeftSideScalePart3 implements PathContainer {
             return new RigidTransform2d(new Translation2d(263, 238), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         } else {
             /// ---- RED ---- ///
-            return new RigidTransform2d(new Translation2d(263, 238), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
+            return new RigidTransform2d(new Translation2d(265, 238), Rotation2d.fromDegrees(RobotState.getInstance().getLatestFieldToVehicle().getValue().getRotation().getDegrees()));
         }
     }
 

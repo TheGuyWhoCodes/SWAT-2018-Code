@@ -98,7 +98,7 @@ public class RedPathAdapter {
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
             sWaypoints.add(new Waypoint(260,248,0,0));
             sWaypoints.add(new Waypoint(245,225,0,140));
-            sWaypoints.add(new Waypoint(224,224,0,30));
+            sWaypoints.add(new Waypoint(225,224,0,30));
 
             leftSidePart1 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -109,8 +109,8 @@ public class RedPathAdapter {
     public static Path leftSidePart2(){
         if(leftSidePart2 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(224,224,0,0));
-            sWaypoints.add(new Waypoint(263,238,0,69));
+            sWaypoints.add(new Waypoint(225,224,0,0));
+            sWaypoints.add(new Waypoint(265,238,0,69));
 
             leftSidePart2 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -120,9 +120,9 @@ public class RedPathAdapter {
     public static Path leftSidePart3(){
         if(leftSidePart3 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new Waypoint(263,238,0,0));
-            sWaypoints.add(new Waypoint(240,210,0,70));
-            sWaypoints.add(new Waypoint(221,208,0,40));
+            sWaypoints.add(new Waypoint(265,238,0,0));
+            sWaypoints.add(new Waypoint(240,211,0,70));
+            sWaypoints.add(new Waypoint(221,209,0,40));
 
             leftSidePart3 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }
@@ -132,7 +132,7 @@ public class RedPathAdapter {
     public static Path leftSidePart4(){
         if(leftSidePart4 == null){
             ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-            sWaypoints.add(new PathBuilder.Waypoint(221,208,0,0));
+            sWaypoints.add(new PathBuilder.Waypoint(221,209,0,0));
             sWaypoints.add(new PathBuilder.Waypoint(272,230,0,100));
             leftSidePart4 = PathBuilder.buildPathFromWaypoints(sWaypoints);
         }

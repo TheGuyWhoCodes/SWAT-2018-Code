@@ -69,7 +69,7 @@ public class OI {
 			} else if (dc.getButtonRB()) {
 				SnackManipulatorSuperStructure.getInstance().spitOutCube(.67);
 			} else if (dc.getPOVUp()) {
-				mSnackManipulator.spitOutCube(.9); 
+				mSnackManipulator.spitOutCube(.9);
 			} else if (dc.getPOVDown() || oc.getPOVLeft()) {
 				mSnackManipulator.spitOutCube(.3);
 			} else if (dc.getPOVRight() || oc.getPOVRight()) {

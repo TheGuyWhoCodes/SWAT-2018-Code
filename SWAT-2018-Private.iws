@@ -7,10 +7,12 @@
     <list default="true" id="47635913-7149-4a8a-9b4c-d62f13545d63" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/SWAT-2018-Private.iws" afterPath="$PROJECT_DIR$/SWAT-2018-Private.iws" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/OI.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/OI.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CenterAuto.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CenterAuto.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/LeftRightScale.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/LeftRightScale.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -89,11 +91,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RedPathAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java">
+      <file leaf-file-name="LeftSideScalePart4.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7875">
-              <caret line="379" column="16" lean-forward="false" selection-start-line="379" selection-start-column="16" selection-end-line="379" selection-end-column="16" />
+            <state relative-caret-position="231">
+              <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -102,81 +104,68 @@
       <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+            <state relative-caret-position="105">
+              <caret line="5" column="58" lean-forward="false" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CenterAuto.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CenterAuto.java">
+      <file leaf-file-name="SwitchAuto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/SwitchAuto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="819">
-              <caret line="69" column="49" lean-forward="false" selection-start-line="69" selection-start-column="49" selection-end-line="69" selection-end-column="49" />
+            <state relative-caret-position="588">
+              <caret line="43" column="47" lean-forward="false" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LeftRightScale.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/LeftRightScale.java">
+      <file leaf-file-name="LeftSideElimScale.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
-              <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+              <caret line="145" column="65" lean-forward="false" selection-start-line="145" selection-start-column="65" selection-end-line="145" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OI.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/OI.java">
+      <file leaf-file-name="LeftSideCrossScale.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideCrossScale.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="71" column="51" lean-forward="false" selection-start-line="71" selection-start-column="51" selection-end-line="71" selection-end-column="51" />
+            <state relative-caret-position="84">
+              <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="651">
-              <caret line="54" column="18" lean-forward="false" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LiftSubsystem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2058">
-              <caret line="116" column="21" lean-forward="false" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
-              <folding>
-                <element signature="e#2937#2938#0" expanded="true" />
-                <element signature="e#2963#2964#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RightSwitchToBackwardsToCube.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/switchtocube/RightSwitchToBackwardsToCube.java">
+      <file leaf-file-name="LeftSideScalePart3.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="21" column="57" lean-forward="false" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
+              <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RightScale.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/RightScale.java">
+      <file leaf-file-name="LeftSideScalePart2.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="231">
+              <caret line="19" column="41" lean-forward="false" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeftSideScalePart1.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart1.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -194,7 +183,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rightSide</find>
       <find>rightSidePar</find>
       <find>rightSidePart1</find>
       <find>&quot;ll&quot;</find>
@@ -222,8 +210,9 @@
       <find>setLi</find>
       <find>oc.get</find>
       <find>getButtonRB</find>
-      <find>oc.</find>
       <find>getPOVR</find>
+      <find>oc.</find>
+      <find>ctre</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -665,7 +654,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/threecube/ThreeCubePart1.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/RightSideSwitch.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/cubetoscale/LeftScale.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/SwitchAuto.java" />
@@ -690,32 +678,33 @@
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/switchtocube/LeftSwitchToBackwardsToCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart1.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/SpitOutCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart2.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeWithTimer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/switchtocube/RightSwitchToBackwards.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/switchtocube/LeftSwitchToBackwards.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/RightScale.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/LeftScale.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/QualMode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/TatorMode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/qual/LR/SwitchToCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/DrivePathAction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/BluePathAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CoOpTators.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart1.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CenterAuto.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/centerautos/cubetoscale/LeftRightScale.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/OI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/DumbMode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java" />
       </list>
     </option>
   </component>
@@ -758,10 +747,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -900,6 +885,18 @@
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="paths" type="462c0819:PsiDirectoryNode" />
               <item name="scaletoblock" type="462c0819:PsiDirectoryNode" />
+              <item name="leftside" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SWAT-2018-Private" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SWAT-2018-Private" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="auto" type="462c0819:PsiDirectoryNode" />
+              <item name="paths" type="462c0819:PsiDirectoryNode" />
+              <item name="scaletoblock" type="462c0819:PsiDirectoryNode" />
               <item name="rightside" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -933,6 +930,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1124,12 +1125,13 @@
       <workItem from="1523908788009" duration="14251000" />
       <workItem from="1524026680907" duration="50209000" />
       <workItem from="1524315098380" duration="4328000" />
-      <workItem from="1528044350016" duration="2645000" />
+      <workItem from="1528044350016" duration="11587000" />
+      <workItem from="1528575216548" duration="143000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="659216000" />
+    <option name="totallyTimeSpent" value="668301000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -1185,45 +1187,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideScale.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideSafe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="18" column="39" lean-forward="true" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideSwitch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/actions/intakeaction/IntakeCube.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
           <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/DumbMode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="18" column="50" lean-forward="false" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -1238,6 +1205,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
           <caret line="34" column="13" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1255,13 +1223,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/util/CheesyDriveHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
@@ -1273,6 +1234,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="31" column="61" lean-forward="false" selection-start-line="31" selection-start-column="61" selection-end-line="31" selection-end-column="61" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1280,6 +1242,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
           <caret line="32" column="61" lean-forward="false" selection-start-line="32" selection-start-column="61" selection-end-line="32" selection-end-column="61" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1287,6 +1250,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="22" column="48" lean-forward="false" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1297,24 +1261,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/QualMode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="254">
           <caret line="144" column="31" lean-forward="true" selection-start-line="144" selection-start-column="31" selection-end-line="144" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1322,6 +1273,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1329,13 +1281,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="227">
           <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="17" column="39" lean-forward="false" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -1364,10 +1309,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
           <caret line="160" column="33" lean-forward="true" selection-start-line="160" selection-start-column="33" selection-end-line="160" selection-end-column="33" />
-          <folding>
-            <element signature="e#4884#4885#0" expanded="false" />
-            <element signature="e#4942#4943#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1375,6 +1316,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1382,6 +1324,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="17" column="41" lean-forward="false" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1389,6 +1332,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="25" column="25" lean-forward="false" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1403,6 +1347,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
           <caret line="245" column="47" lean-forward="false" selection-start-line="245" selection-start-column="47" selection-end-line="245" selection-end-column="47" />
+          <folding>
+            <element signature="e#9733#9743#0" expanded="false" />
+            <element signature="e#10424#10434#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1413,24 +1361,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="51" column="57" lean-forward="false" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideCrossScale.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="18" column="48" lean-forward="false" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart1.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
           <caret line="30" column="61" lean-forward="false" selection-start-line="30" selection-start-column="61" selection-end-line="30" selection-end-column="61" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1459,6 +1394,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="168" column="38" lean-forward="false" selection-start-line="168" selection-start-column="38" selection-end-line="168" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1466,6 +1402,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="18" column="36" lean-forward="false" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1484,46 +1421,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7875">
-          <caret line="379" column="16" lean-forward="false" selection-start-line="379" selection-start-column="16" selection-end-line="379" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/CenterAuto.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="819">
           <caret line="69" column="49" lean-forward="false" selection-start-line="69" selection-start-column="49" selection-end-line="69" selection-end-column="49" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="54" column="18" lean-forward="false" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2058">
-          <caret line="116" column="21" lean-forward="false" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
-          <folding>
-            <element signature="e#2937#2938#0" expanded="true" />
-            <element signature="e#2963#2964#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1539,7 +1441,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1547,14 +1448,138 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/subsystems/LiftSubsystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="116" column="21" lean-forward="false" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+          <folding>
+            <element signature="e#2937#2938#0" expanded="false" />
+            <element signature="e#2963#2964#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="54" column="18" lean-forward="false" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/DummyMode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="25" column="41" lean-forward="false" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/DumbMode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="21" column="39" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/OI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="71" column="51" lean-forward="false" selection-start-line="71" selection-start-column="51" selection-end-line="71" selection-end-column="51" />
+        <state relative-caret-position="483">
+          <caret line="98" column="42" lean-forward="false" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="37" column="36" lean-forward="false" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/rightside/RightSideScaleToBlockPart3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="37" column="1" lean-forward="true" selection-start-line="37" selection-start-column="1" selection-end-line="37" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="19" column="41" lean-forward="false" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/LeftSideCrossScale.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="58" lean-forward="false" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/SwitchAuto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="43" column="47" lean-forward="false" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/modes/LeftSideElimScale.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="145" column="65" lean-forward="false" selection-start-line="145" selection-start-column="65" selection-end-line="145" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/RedPathAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="144" column="53" lean-forward="false" selection-start-line="135" selection-start-column="65" selection-end-line="144" selection-end-column="53" />
+          <folding>
+            <element signature="e#5806#5816#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1806/robot/auto/paths/scaletoblock/leftside/LeftSideScalePart4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
           <folding />
         </state>
       </provider>
