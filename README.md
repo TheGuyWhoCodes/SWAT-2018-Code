@@ -1,6 +1,19 @@
 # SWAT-2018
-The code for our 2018 Robot - T.B.A
+The code for our 2018 Robot - "Caniac"
 
-This repo willl be filled at the end of worlds with all the goodies we have been working on 
-
-Check back after our reveal video when we add a list of what the code does
+# Accomplishments:
+ - 2018 Heartland Regional Finalists
+ - 2018 Oklahoma City Regional Winners (4 years in a row)
+ - 2018 Oklahoma City Regional Innovation in Control Winners
+ - 2018 Turing Semi-Finalists
+ - 2018 Missouri State Championship Winners
+ - 2018 Missouri State Championship Innovation Winners
+ 
+# Features
+ - 200hz looping
+ - Adaptive Pure Pursuit with Trapezoidal Motion Profiling
+ - Web interface with knockout.js and .jar restarter for our coprocessor
+ - #3CubeAutoLyfe
+ - Auto in TeleOp for testing in practice matches
+# Thanks
+  Thanks to all of our sponsors and mentors for S.W.A.T.'s 2018 season.
