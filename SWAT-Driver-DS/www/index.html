@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<body onload="updateImage();">
+
+<!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+<script src="/networktables/networktables.js"></script>
+<link rel = "stylesheet" href = "css/style.css">
+<link rel = "stylesheet" href = "css/bootstrap.css">
+<!-- Obviously, you will want to copy this file locally in a real
+     dashboard, as the Driver Station won't have internet access -->
+<script src="js/jquery-3.2.1.min.js"></script>
+
+<!-- uncomment this is you want to use included utility functions that
+     implement common functionality that you might find useful. Requires
+     that d3.js and jQuery are included first -->
+<!-- <script src="/networktables/utils.js"></script> -->
+<div class = "container">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+  <a href = "index.html" class="main-logo">S.W.A.T.</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="path-plan/index.html">Path Planning</a>
+			</li>
+			<li class="nav-item">
+        <a class="nav-link" href="graph.html">Graph Visualizer</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+	<div class = "checkBox">
+		Program Running: <span id="connectstate">Unknown state</span><div class = "network-box"></div><br/>
+		Robot: <span id="robotstate">Unknown state</span> <div class = "robot-box"></div><br/>
+		IP: <span id="robotAddress">disconnected</span><div class = "ip-box"></div> <br/>
+		AutoMode: <span id="autoCheck">boi what</span><div class = "ip-box auto-check"></div> <br/>		
+		Current Auto being Ran: <span id = "selectAuto">there is none you probably jacked up chris</span>
+		<!-- <button onclick=sendCmd("/start-jar")>Start JAR</button>
+		<button onclick=sendCmd("/restart-jar")>Restart JAR</button> -->
+		<button onclick=sortTable()>Sort</button>		
+		<div class="select-container">
+			<select id="auto-select">
+					<option>No auto modes found</option>
+					<!-- This gets populated by JS -->
+			</select>
+	</div>
+	</div>
+	<div class = "video-wrapper">
+		<img id = "img" class = "video_flip" src = "http://10.18.6.2:5806/stream.mjpg"></img>
+	</div>
+	<table id="nt" border=1>
+		<tbody></tbody>
+	</table>
+</div>
+<script>
+function refresh(node)
+{
+   var times = 3000; // gap in Milli Seconds;
+   (function startRefresh(){
+      var address;
+      if(node.src.indexOf('?')>-1)
+       address = node.src.split('?')[0];
+      else 
+       address = node.src;
+      node.src = address+"?time="+new Date().getTime();
+
+      setTimeout(startRefresh,times);
+   })();
+}
+window.onload = function(){
+  var node = document.getElementById('img');
+  refresh(node);
+  // you can refresh as many images you want just repeat above steps
+}
+</script>
+<script src = "js/ui.js"></script>
+</body>
+</html>
